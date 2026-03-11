@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { signIn, signUp } from "@/lib/auth-client";
+import { PokeButton, PokeCard, PokeInput, TypewriterText } from "./ui";
 
 export default function AuthForm() {
   const [mode, setMode] = useState<"login" | "signup">("login");
@@ -15,7 +16,6 @@ export default function AuthForm() {
     e.preventDefault();
     setError("");
     setLoading(true);
-
     try {
       if (mode === "signup") {
         const result = await signUp.email({
@@ -23,19 +23,12 @@ export default function AuthForm() {
           password,
           name: name || email.split("@")[0],
         });
-        if (result.error) {
-          setError(result.error.message || "Sign up failed");
-        }
+        if (result.error) setError(result.error.message || "Sign up failed");
       } else {
-        const result = await signIn.email({
-          email,
-          password,
-        });
-        if (result.error) {
-          setError(result.error.message || "Sign in failed");
-        }
+        const result = await signIn.email({ email, password });
+        if (result.error) setError(result.error.message || "Sign in failed");
       }
-    } catch (err) {
+    } catch {
       setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
@@ -43,109 +36,107 @@ export default function AuthForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-900 px-4">
-      <div className="w-full max-w-md">
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <div className="text-6xl mb-3">🏀</div>
-          <h1 className="text-3xl font-black tracking-tight">
-            Pokémon <span className="text-amber-400">Hoops</span>
-          </h1>
-          <p className="text-slate-400 text-sm mt-1">
-            Build rosters. Enter tournaments. Be the very best.
-          </p>
+    <div
+      className="min-h-screen flex items-center justify-center px-4"
+      style={{ backgroundColor: "var(--color-bg)" }}
+    >
+      <div className="w-full max-w-sm flex flex-col gap-4">
+        {/* Professor Oak speech bubble */}
+        <div className="relative">
+          <div className="font-pixel text-[6px] text-[var(--color-text-muted)] mb-2 uppercase tracking-widest">
+            PROFESSOR OAK SAYS:
+          </div>
+          <PokeCard className="p-4">
+            <div
+              className="absolute -top-2 left-6 w-0 h-0"
+              style={{
+                borderLeft: "8px solid transparent",
+                borderRight: "8px solid transparent",
+                borderBottom: "8px solid var(--color-border)",
+              }}
+            />
+            <TypewriterText
+              text={["Welcome, Trainer!", "Build your dream Pokemon roster."]}
+              speed={45}
+              className="text-[8px] leading-loose text-[var(--color-text)]"
+            />
+          </PokeCard>
         </div>
 
-        {/* Form Card */}
-        <div className="bg-slate-800/80 border border-slate-700/50 rounded-2xl p-6 shadow-2xl">
-          {/* Mode Tabs */}
-          <div className="flex rounded-lg bg-slate-900/60 p-1 mb-6">
-            <button
+        {/* Login card */}
+        <PokeCard className="p-5 flex flex-col gap-4">
+          {/* Mode toggle */}
+          <div className="flex gap-2">
+            <PokeButton
+              variant={mode === "login" ? "primary" : "ghost"}
+              size="md"
+              className="flex-1"
               onClick={() => { setMode("login"); setError(""); }}
-              className={`flex-1 py-2 text-sm font-semibold rounded-md transition-all cursor-pointer ${
-                mode === "login"
-                  ? "bg-amber-400 text-slate-900"
-                  : "text-slate-400 hover:text-slate-200"
-              }`}
             >
-              Sign In
-            </button>
-            <button
+              SIGN IN
+            </PokeButton>
+            <PokeButton
+              variant={mode === "signup" ? "primary" : "ghost"}
+              size="md"
+              className="flex-1"
               onClick={() => { setMode("signup"); setError(""); }}
-              className={`flex-1 py-2 text-sm font-semibold rounded-md transition-all cursor-pointer ${
-                mode === "signup"
-                  ? "bg-amber-400 text-slate-900"
-                  : "text-slate-400 hover:text-slate-200"
-              }`}
             >
-              Sign Up
-            </button>
+              SIGN UP
+            </PokeButton>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-3">
             {mode === "signup" && (
-              <div>
-                <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
-                  Trainer Name
-                </label>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Ash Ketchum"
-                  className="w-full bg-slate-900/60 border border-slate-600 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/30 placeholder-slate-500"
-                />
-              </div>
+              <PokeInput
+                label="TRAINER NAME"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Ash Ketchum"
+              />
             )}
-
-            <div>
-              <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
-                Email
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="trainer@pokemon.com"
-                required
-                className="w-full bg-slate-900/60 border border-slate-600 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/30 placeholder-slate-500"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
-                Password
-              </label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                required
-                minLength={8}
-                className="w-full bg-slate-900/60 border border-slate-600 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/30 placeholder-slate-500"
-              />
-            </div>
+            <PokeInput
+              label="EMAIL"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="ash@pallet.town"
+              required
+            />
+            <PokeInput
+              label="PASSWORD"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              required
+              minLength={8}
+            />
 
             {error && (
-              <div className="p-3 rounded-lg bg-red-400/10 border border-red-400/30 text-red-400 text-sm">
+              <div
+                className="font-pixel text-[6px] leading-loose p-2 border-2"
+                style={{
+                  borderColor: "var(--color-danger)",
+                  color: "var(--color-danger)",
+                  backgroundColor: "var(--color-surface-alt)",
+                }}
+              >
                 {error}
               </div>
             )}
 
-            <button
+            <PokeButton
               type="submit"
+              variant="primary"
+              size="md"
               disabled={loading}
-              className="w-full bg-amber-400 hover:bg-amber-300 text-slate-900 font-bold py-2.5 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              className="w-full mt-1 py-3 text-[8px]"
             >
-              {loading
-                ? "Loading..."
-                : mode === "login"
-                  ? "Sign In"
-                  : "Create Account"}
-            </button>
+              {loading ? "LOADING..." : mode === "login" ? "▶ SIGN IN" : "▶ CREATE ACCOUNT"}
+            </PokeButton>
           </form>
-        </div>
+        </PokeCard>
       </div>
     </div>
   );
