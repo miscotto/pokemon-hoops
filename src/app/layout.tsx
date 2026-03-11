@@ -1,21 +1,18 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Press_Start_2P } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const pixelFont = Press_Start_2P({
+  weight: "400",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: "--font-pixel",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Pokémon Basketball Team Builder",
+  title: "Pokémon Hoops",
   description:
-    "Build your starting 5 + 1 reserve basketball team from every Pokémon!",
+    "Build rosters. Enter tournaments. Be the very best.",
 };
 
 export const viewport = {
@@ -25,18 +22,33 @@ export const viewport = {
   userScalable: false,
 };
 
+// Inline script that runs before React hydration to set the correct theme
+// and prevent flash of wrong theme on load.
+const themeScript = `
+(function() {
+  try {
+    var stored = localStorage.getItem('poke-theme');
+    if (stored === 'dark' || stored === 'light') {
+      document.documentElement.setAttribute('data-theme', stored);
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  } catch (e) {}
+})();
+`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+    <html lang="en" className={pixelFont.variable}>
+      <head>
+        {/* Flash-prevention: runs synchronously before paint */}
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }
