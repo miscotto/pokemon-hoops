@@ -1,0 +1,62 @@
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+  .cursor { display:inline-block; width:10px; height:14px; background:#222; vertical-align:middle; animation:blink 1s infinite; margin-left:2px; }
+  .poke-box { border:3px solid #3b4cca; background:#fff; padding:14px; box-shadow:4px 4px 0 #3b4cca; margin-bottom:10px; }
+  .poke-label { font-family:'Press Start 2P',monospace; font-size:7px; color:#3b4cca; letter-spacing:1px; margin-bottom:8px; text-transform:uppercase; }
+  .poke-text { font-family:'Press Start 2P',monospace; font-size:8px; color:#222; line-height:2; }
+  .poke-btn { font-family:'Press Start 2P',monospace; font-size:7px; background:#3b4cca; color:#ffde00; border:2px solid #222; padding:6px 10px; box-shadow:2px 2px 0 #222; display:inline-block; margin-top:8px; }
+  .dim { opacity:0.35; }
+  .section-wrap { padding:14px; background:#f8f8ff; border:2px solid #ddd; margin-bottom:12px; }
+</style>
+
+<h2>Where should the typewriter effect live?</h2>
+<p class="subtitle">Select all that apply — you can pick multiple</p>
+
+<div class="options" data-multiselect>
+  <div class="option" data-choice="dialogue" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Pokemon Dialogue Boxes</h3>
+      <p>Like the actual games — a dialog box at the bottom of the screen when key things happen. "Wild CHARIZARD appeared!" "PIKACHU used CROSSOVER!"</p>
+      <div class="poke-box" style="margin-top:10px; border-color:#222; box-shadow:3px 3px 0 #222;">
+        <div class="poke-text">CHARIZARD used<br>SLAM DUNK!<span class="cursor"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="tournament" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Tournament Play-by-Play</h3>
+      <p>Commentary and highlight events in the tournament view type out letter by letter. Creates drama during match results.</p>
+      <div class="poke-box" style="margin-top:10px;">
+        <div class="poke-label">Q3 Highlights</div>
+        <div class="poke-text">BLASTOISE hits a<br>clutch 3-pointer!<span class="cursor"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="headings" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Page Headings / Titles</h3>
+      <p>Section titles type out when they first appear — "ROSTER BUILDER", "YOUR TEAM", "TOURNAMENT". Subtle but adds polish.</p>
+      <div class="section-wrap" style="margin-top:10px;">
+        <div style="font-family:'Press Start 2P',monospace; font-size:11px; color:#3b4cca;">ROSTER BUILDER<span class="cursor"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="auth" onclick="toggleSelect(this)">
+    <div class="letter">D</div>
+    <div class="content">
+      <h3>Login / Welcome Screen</h3>
+      <p>The first thing users see — a typewriter effect on the welcome message before the login form. Sets the tone immediately.</p>
+      <div class="poke-box" style="margin-top:10px; border-color:#ffde00; box-shadow:4px 4px 0 #3b4cca;">
+        <div class="poke-text" style="color:#3b4cca;">Welcome, Trainer!<span class="cursor"></span></div>
+        <div class="dim poke-text" style="font-size:7px; margin-top:8px;">Build your dream<br>Pokemon roster...</div>
+      </div>
+    </div>
+  </div>
+</div>

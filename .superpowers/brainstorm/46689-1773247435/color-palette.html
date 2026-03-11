@@ -1,0 +1,79 @@
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  .swatch-row { display:flex; gap:8px; margin:8px 0; }
+  .swatch { width:32px; height:32px; border:2px solid #222; flex-shrink:0; }
+  .pf { font-family:'Press Start 2P',monospace; }
+  .card-mock { border:3px solid; padding:10px; margin-top:10px; }
+  .tag { display:inline-block; font-family:'Press Start 2P',monospace; font-size:6px; padding:3px 6px; border:1px solid; margin:2px; }
+</style>
+
+<h2>Which color palette?</h2>
+<p class="subtitle">White background is set. This is the accent + UI color system.</p>
+
+<div class="cards">
+  <div class="card" data-choice="classic-rb" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fff; padding:16px;">
+      <div class="swatch-row">
+        <div class="swatch" style="background:#3b4cca;" title="Primary Blue"></div>
+        <div class="swatch" style="background:#ffde00;" title="Pokemon Yellow"></div>
+        <div class="swatch" style="background:#cc0000;" title="Red"></div>
+        <div class="swatch" style="background:#222;" title="Black"></div>
+        <div class="swatch" style="background:#f0f0ff;" title="Off-white bg"></div>
+      </div>
+      <div class="card-mock pf" style="border-color:#3b4cca; box-shadow:3px 3px 0 #3b4cca; font-size:7px; color:#222; line-height:2;">
+        <div style="background:#3b4cca; color:#ffde00; padding:4px 8px; margin:-10px -10px 8px; font-size:7px;">⚡ PIKACHU — LV.45</div>
+        PPG: 28.3 &nbsp; RPG: 7.1<br>
+        <span class="tag" style="background:#ffde00; color:#222; border-color:#222;">ELECTRIC</span>
+        <div style="background:#cc0000; color:#fff; font-size:7px; padding:4px 8px; margin-top:8px; display:inline-block; border:2px solid #222; box-shadow:2px 2px 0 #222;">▶ DRAFT</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Classic R/B/Y</h3>
+      <p>Pokemon Blue primary, Yellow highlight, Red for actions/danger. The OG trilogy palette.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="red-fire" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fff; padding:16px;">
+      <div class="swatch-row">
+        <div class="swatch" style="background:#cc0000;" title="Pokemon Red"></div>
+        <div class="swatch" style="background:#ffde00;" title="Yellow"></div>
+        <div class="swatch" style="background:#1a1a2e;" title="Dark navy"></div>
+        <div class="swatch" style="background:#ff6b35;" title="Fire orange"></div>
+        <div class="swatch" style="background:#fff8f0;" title="Warm white"></div>
+      </div>
+      <div class="card-mock pf" style="border-color:#cc0000; box-shadow:3px 3px 0 #cc0000; font-size:7px; color:#222; line-height:2;">
+        <div style="background:#cc0000; color:#ffde00; padding:4px 8px; margin:-10px -10px 8px; font-size:7px;">🔥 CHARIZARD — LV.50</div>
+        PPG: 31.7 &nbsp; BPG: 2.8<br>
+        <span class="tag" style="background:#ff6b35; color:#fff; border-color:#cc0000;">FIRE</span>
+        <div style="background:#cc0000; color:#fff; font-size:7px; padding:4px 8px; margin-top:8px; display:inline-block; border:2px solid #222; box-shadow:2px 2px 0 #222;">▶ DRAFT</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Pokemon Red / Fire</h3>
+      <p>Red as the hero color, warm orange accents, yellow highlights. More energetic and sports-forward.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="gold-silver" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fff; padding:16px;">
+      <div class="swatch-row">
+        <div class="swatch" style="background:#c8a000;" title="Gold"></div>
+        <div class="swatch" style="background:#a0a0a0;" title="Silver"></div>
+        <div class="swatch" style="background:#2d2d2d;" title="Charcoal"></div>
+        <div class="swatch" style="background:#3b4cca;" title="Accent Blue"></div>
+        <div class="swatch" style="background:#fffef8;" title="Cream white"></div>
+      </div>
+      <div class="card-mock pf" style="border-color:#c8a000; box-shadow:3px 3px 0 #c8a000; font-size:7px; color:#222; line-height:2;">
+        <div style="background:#c8a000; color:#fff; padding:4px 8px; margin:-10px -10px 8px; font-size:7px;">★ MEWTWO — LV.70</div>
+        PPG: 38.2 &nbsp; SPG: 4.1<br>
+        <span class="tag" style="background:#a0a0a0; color:#fff; border-color:#2d2d2d;">PSYCHIC</span>
+        <div style="background:#c8a000; color:#fff; font-size:7px; padding:4px 8px; margin-top:8px; display:inline-block; border:2px solid #222; box-shadow:2px 2px 0 #222;">▶ DRAFT</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Gold &amp; Silver</h3>
+      <p>Gold as primary, silver as secondary. Premium feel — fits the basketball trophy/championship vibe.</p>
+    </div>
+  </div>
+</div>

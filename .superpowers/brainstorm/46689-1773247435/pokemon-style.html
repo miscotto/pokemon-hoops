@@ -1,0 +1,73 @@
+<h2>Which Pokemon UI era feels right?</h2>
+<p class="subtitle">This sets the overall visual direction — color palette, border style, and interaction patterns</p>
+
+<div class="cards">
+  <div class="card" data-choice="gameboy" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8f8f0; padding:16px; font-family:'Courier New',monospace; border:none;">
+      <div style="background:#b8c060; border:4px solid #384038; border-radius:0; padding:12px; max-width:240px; margin:0 auto;">
+        <div style="border:3px solid #384038; background:#b8c060; padding:8px; text-align:center; font-size:11px; font-weight:bold; letter-spacing:2px; color:#102018;">
+          ▶ POKEMON HOOPS
+        </div>
+        <div style="border:3px solid #384038; background:#98a848; margin-top:6px; padding:6px; font-size:9px; color:#102018; line-height:1.6;">
+          <div>BULBASAUR — LV.45</div>
+          <div>HP  ████████░░</div>
+          <div>PPG: 22.4 | RPG: 8.1</div>
+        </div>
+        <div style="display:flex; gap:4px; margin-top:6px;">
+          <div style="flex:1; background:#384038; color:#b8c060; font-size:8px; padding:4px; text-align:center; border:2px solid #102018;">DRAFT</div>
+          <div style="flex:1; background:#384038; color:#b8c060; font-size:8px; padding:4px; text-align:center; border:2px solid #102018;">TEAM</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Classic Game Boy</h3>
+      <p>Monochrome green palette, chunky pixel borders, no curves. Authentic 1990s feel.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="modern-pixel" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fff; padding:16px; font-family:'Courier New',monospace; border:none;">
+      <div style="border:4px solid #3b4cca; background:#fff; border-radius:0; padding:12px; max-width:240px; margin:0 auto; box-shadow: 4px 4px 0 #3b4cca;">
+        <div style="background:#3b4cca; color:#ffde00; padding:8px; text-align:center; font-size:11px; font-weight:bold; letter-spacing:1px;">
+          ⚡ POKEMON HOOPS
+        </div>
+        <div style="border:3px solid #3b4cca; margin-top:6px; padding:8px; font-size:10px; color:#1a1a1a; line-height:1.7; background:#f8f8ff;">
+          <div style="color:#3b4cca; font-weight:bold;">PIKACHU — LV.45</div>
+          <div style="color:#cc0000;">HP ████████░░</div>
+          <div>PPG: 28.3  APG: 11.2</div>
+        </div>
+        <div style="display:flex; gap:6px; margin-top:8px;">
+          <div style="flex:1; background:#ffde00; color:#1a1a1a; font-size:9px; padding:5px; text-align:center; border:2px solid #3b4cca; font-weight:bold;">DRAFT</div>
+          <div style="flex:1; background:#cc0000; color:#fff; font-size:9px; padding:5px; text-align:center; border:2px solid #3b4cca; font-weight:bold;">BATTLE</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Modern Pixel (Pokemon R/B Palette)</h3>
+      <p>White bg, Pokemon blue/yellow/red palette, pixel borders with hard shadows. Clean but themed.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="ds-era" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fff; padding:16px; font-family:'Courier New',monospace; border:none;">
+      <div style="border:3px solid #222; background:#fff; border-radius:8px; padding:12px; max-width:240px; margin:0 auto; box-shadow: 0 4px 0 #222;">
+        <div style="background:linear-gradient(135deg, #3b4cca, #cc0000); color:#ffde00; padding:8px; text-align:center; font-size:11px; font-weight:bold; border-radius:4px; letter-spacing:1px;">
+          POKEMON HOOPS
+        </div>
+        <div style="border:2px solid #ddd; margin-top:8px; padding:8px; font-size:10px; color:#333; line-height:1.7; border-radius:4px; background:#fafafa;">
+          <div style="color:#3b4cca; font-weight:bold;">CHARIZARD — LV.50</div>
+          <div><span style="color:#cc0000;">HP</span> ████████░░</div>
+          <div>PPG: 31.7  BPG: 2.8</div>
+        </div>
+        <div style="display:flex; gap:6px; margin-top:8px;">
+          <div style="flex:1; background:#3b4cca; color:#fff; font-size:9px; padding:5px; text-align:center; border-radius:4px; font-weight:bold;">DRAFT</div>
+          <div style="flex:1; background:#cc0000; color:#fff; font-size:9px; padding:5px; text-align:center; border-radius:4px; font-weight:bold;">BATTLE</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>DS Era (Gen 4/5 style)</h3>
+      <p>White bg, slight rounded corners, gradient accents, polished pixel font. Modern-feeling but still Pokemon.</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,127 @@
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  .pf { font-family: 'Press Start 2P', monospace; }
+  .mock-card-light {
+    border: 3px solid #3b4cca; background: #fff; padding: 10px;
+    box-shadow: 4px 4px 0 #3b4cca; max-width: 160px;
+  }
+  .mock-card-dark {
+    border: 3px solid #ffde00; background: #1a1a2e; padding: 10px;
+    box-shadow: 4px 4px 0 #ffde00; max-width: 160px;
+  }
+  .toggle-demo {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 2px solid #222; padding: 4px 8px; background: #222;
+    border-radius: 0;
+  }
+  .toggle-btn { font-family: 'Press Start 2P', monospace; font-size: 6px; padding: 4px 8px; border: 2px solid; cursor: pointer; }
+</style>
+
+<h2>Dark mode — which approach?</h2>
+<p class="subtitle">Toggle between light and dark — same pixel style, different palette</p>
+
+<div class="split">
+  <div class="mockup">
+    <div class="mockup-header">Light Mode (default)</div>
+    <div class="mockup-body" style="background:#f0f0ff; padding:16px; display:flex; flex-direction:column; gap:12px;">
+
+      <!-- Header -->
+      <div style="background:#3b4cca; color:#ffde00; padding:10px 14px; border:3px solid #222; box-shadow:3px 3px 0 #222; display:flex; justify-content:space-between; align-items:center;">
+        <span class="pf" style="font-size:8px;">⚡ POKEMON HOOPS</span>
+        <span class="pf" style="font-size:6px; background:#ffde00; color:#222; padding:3px 6px; border:1px solid #222;">☀ LIGHT</span>
+      </div>
+
+      <!-- Card -->
+      <div class="mock-card-light">
+        <div class="pf" style="font-size:6px; color:#888;">#006</div>
+        <div style="background:#f0f0ff; height:52px; display:flex; align-items:center; justify-content:center; border:1px solid #ddd; margin:4px 0;">
+          <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png" style="image-rendering:pixelated; height:44px;" />
+        </div>
+        <div class="pf" style="font-size:7px; color:#222; margin:4px 0;">CHARIZARD</div>
+        <div style="display:flex; gap:3px; margin:4px 0;">
+          <span class="pf" style="font-size:5px; padding:2px 5px; background:#f08030; color:#fff; border:1px solid #222;">FIRE</span>
+        </div>
+        <div class="pf" style="font-size:6px; color:#555; line-height:2;">PPG 31.7</div>
+        <button class="pf" style="font-size:6px; background:#3b4cca; color:#ffde00; border:2px solid #222; padding:5px 8px; box-shadow:2px 2px 0 #222; width:100%; margin-top:6px;">+ DRAFT</button>
+      </div>
+
+      <!-- Dialog -->
+      <div style="border:3px solid #222; background:#fff; padding:10px; box-shadow:3px 3px 0 #222;">
+        <div class="pf" style="font-size:7px; color:#222; line-height:2.2;">CHARIZARD used<br>SLAM DUNK!</div>
+        <div class="pf" style="font-size:6px; color:#3b4cca; text-align:right; margin-top:4px;">▼</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mockup">
+    <div class="mockup-header">Dark Mode</div>
+    <div class="mockup-body" style="background:#0d0d1a; padding:16px; display:flex; flex-direction:column; gap:12px;">
+
+      <!-- Header -->
+      <div style="background:#0d0d1a; color:#ffde00; padding:10px 14px; border:3px solid #ffde00; box-shadow:3px 3px 0 #ffde00; display:flex; justify-content:space-between; align-items:center;">
+        <span class="pf" style="font-size:8px;">⚡ POKEMON HOOPS</span>
+        <span class="pf" style="font-size:6px; background:#3b4cca; color:#ffde00; padding:3px 6px; border:1px solid #ffde00;">☾ DARK</span>
+      </div>
+
+      <!-- Card -->
+      <div class="mock-card-dark">
+        <div class="pf" style="font-size:6px; color:#666;">#006</div>
+        <div style="background:#16213e; height:52px; display:flex; align-items:center; justify-content:center; border:1px solid #3b4cca; margin:4px 0;">
+          <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png" style="image-rendering:pixelated; height:44px;" />
+        </div>
+        <div class="pf" style="font-size:7px; color:#fff; margin:4px 0;">CHARIZARD</div>
+        <div style="display:flex; gap:3px; margin:4px 0;">
+          <span class="pf" style="font-size:5px; padding:2px 5px; background:#f08030; color:#fff; border:1px solid #ffde00;">FIRE</span>
+        </div>
+        <div class="pf" style="font-size:6px; color:#aaa; line-height:2;">PPG 31.7</div>
+        <button class="pf" style="font-size:6px; background:#ffde00; color:#222; border:2px solid #ffde00; padding:5px 8px; box-shadow:2px 2px 0 #ffde00; width:100%; margin-top:6px;">+ DRAFT</button>
+      </div>
+
+      <!-- Dialog -->
+      <div style="border:3px solid #ffde00; background:#1a1a2e; padding:10px; box-shadow:3px 3px 0 #ffde00;">
+        <div class="pf" style="font-size:7px; color:#fff; line-height:2.2;">CHARIZARD used<br>SLAM DUNK!</div>
+        <div class="pf" style="font-size:6px; color:#ffde00; text-align:right; margin-top:4px;">▼</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top:20px;">
+  <h3 style="font-family:'Press Start 2P',monospace; font-size:9px; color:#3b4cca; margin-bottom:12px;">DARK MODE PALETTE</h3>
+  <div style="display:flex; flex-wrap:wrap; gap:10px;">
+    <div style="display:flex;flex-direction:column;gap:4px;align-items:center;">
+      <div style="width:40px;height:40px;background:#0d0d1a;border:2px solid #444;"></div>
+      <div style="font-family:'Press Start 2P',monospace;font-size:5px;color:#666;text-align:center;">bg<br>#0d0d1a</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:4px;align-items:center;">
+      <div style="width:40px;height:40px;background:#1a1a2e;border:2px solid #444;"></div>
+      <div style="font-family:'Press Start 2P',monospace;font-size:5px;color:#666;text-align:center;">surface<br>#1a1a2e</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:4px;align-items:center;">
+      <div style="width:40px;height:40px;background:#16213e;border:2px solid #444;"></div>
+      <div style="font-family:'Press Start 2P',monospace;font-size:5px;color:#666;text-align:center;">card<br>#16213e</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:4px;align-items:center;">
+      <div style="width:40px;height:40px;background:#ffde00;border:2px solid #444;"></div>
+      <div style="font-family:'Press Start 2P',monospace;font-size:5px;color:#666;text-align:center;">primary<br>#ffde00</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:4px;align-items:center;">
+      <div style="width:40px;height:40px;background:#3b4cca;border:2px solid #444;"></div>
+      <div style="font-family:'Press Start 2P',monospace;font-size:5px;color:#666;text-align:center;">accent<br>#3b4cca</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:4px;align-items:center;">
+      <div style="width:40px;height:40px;background:#cc0000;border:2px solid #444;"></div>
+      <div style="font-family:'Press Start 2P',monospace;font-size:5px;color:#666;text-align:center;">danger<br>#cc0000</div>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top:20px; border:3px solid #3b4cca; padding:14px; background:#f8f8ff; box-shadow:4px 4px 0 #3b4cca;">
+  <div style="font-family:'Press Start 2P',monospace; font-size:8px; color:#3b4cca; margin-bottom:8px;">HOW IT WORKS</div>
+  <div style="font-family:'Press Start 2P',monospace; font-size:7px; color:#444; line-height:2.2;">
+    • CSS variables swap on <code style="background:#e8e8ff; padding:1px 4px;">[data-theme="dark"]</code><br>
+    • Toggle button in the nav header<br>
+    • Preference saved to localStorage<br>
+    • Respects system prefers-color-scheme by default
+  </div>
+</div>

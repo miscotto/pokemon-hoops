@@ -1,0 +1,589 @@
+# Pokémon NBA-Style Tournament Formula
+
+This document defines a weighted formula for simulating an NBA-style basketball tournament between two Pokémon teams under a **salary cap of 160M**.
+
+It includes team quality, matchup effects, allies and enemies/rivals, abilities, types, size and athleticism, foul-outs, injuries, bench depth, fatigue, and clutch.
+
+---
+
+## 1) Team Base Score
+
+This is how strong a team is before considering a specific opponent.
+
+```text
+TeamBase =
+0.22*Talent
++ 0.15*Offense
++ 0.15*Defense
++ 0.10*Size
++ 0.08*Athleticism
++ 0.08*RoleFit
++ 0.07*Depth
++ 0.06*AbilityValue
++ 0.05*InternalChemistry
++ 0.04*CapEfficiency
+```
+
+### Talent
+
+```text
+Talent =
+0.45*PER_norm
++ 0.20*Scoring_norm
++ 0.15*Playmaking_norm
++ 0.10*DefenseBox_norm
++ 0.10*Rebounding_norm
+```
+
+Use:
+
+- `PER` from `bball.per`
+- scoring from `ppg`
+- playmaking from `apg`
+- defense box from `spg` and `bpg`
+- rebounding from `rpg`
+
+### Offense
+
+```text
+Offense =
+0.32*team_ppg
++ 0.20*team_apg
++ 0.14*creator_quality
++ 0.12*offensive_ability_score
++ 0.12*playstyle_fit
++ 0.10*transition_pressure
+```
+
+### Defense
+
+```text
+Defense =
+0.24*team_spg
++ 0.22*team_bpg
++ 0.16*sizeAndReach_avg
++ 0.14*strength_avg
++ 0.10*balance_avg
++ 0.08*defensive_ability_score
++ 0.06*stamina_avg
+```
+
+### Size
+
+```text
+Size =
+0.45*sizeAndReach_avg
++ 0.30*strength_avg
++ 0.15*height_proxy
++ 0.10*weight_proxy
+```
+
+### Athleticism
+
+```text
+Athleticism =
+0.30*speedAndAgility_avg
++ 0.20*jumpingAbility_avg
++ 0.20*coordination_avg
++ 0.15*stamina_avg
++ 0.15*balance_avg
+```
+
+### RoleFit
+
+Reward teams that have enough:
+
+- ball handlers
+- scorers
+- support/glue
+- rebounders / big bodies
+- defenders / disruptors
+
+Penalize teams with too many overlapping high-usage players or missing key roles.
+
+### Depth
+
+Use players 6–8:
+
+```text
+Depth = average(bench player impact) - starter_to_bench_dropoff_penalty
+```
+
+### AbilityValue
+
+Abilities should be worth more if they affect the whole team or directly debuff enemies.
+
+```text
+AbilityValue =
+1.00*(sum self buff values)
++ 1.25*(sum team buff values)
++ 1.20*(sum enemy debuff values)
++ 1.35*(sum enemy team debuff values)
+```
+
+### InternalChemistry
+
+```text
+InternalChemistry =
++3*(ally pairs in rotation)
+-4*(rival/enemy pairs on same team)
++2*(good playstyle complements)
+-2*(duplicate usage-heavy overlap pairs)
+```
+
+### CapEfficiency
+
+Under a 160M cap, value matters.
+
+```text
+CapEfficiency = TeamImpact / TotalSalary
+```
+
+---
+
+## 2) Head-to-Head Matchup Score
+
+This measures how Team A matches up specifically against Team B.
+
+```text
+Matchup(A vs B) =
+0.26*TypeMatchup
++ 0.18*SizeMatchup
++ 0.14*SpeedMatchup
++ 0.10*AbilityMatchup
++ 0.10*PlaystyleMatchup
++ 0.10*CrossTeamEnemyEffects
++ 0.06*CrossTeamAllyEffects
++ 0.06*DepthMatchup
+```
+
+### TypeMatchup
+
+Use both traditional type advantage and basketball identity:
+
+- electric: pace and transition
+- steel/rock: physical resistance
+- flying: vertical play
+- psychic: reads and passing
+- fighting: downhill pressure
+- water: flow and movement
+
+### SizeMatchup
+
+Compare:
+
+- frontcourt size/reach
+- strength
+- rebounding edge
+- paint deterrence
+
+### SpeedMatchup
+
+Compare:
+
+- speed/agility
+- handle pressure
+- transition edge
+- containment
+
+### AbilityMatchup
+
+Examples:
+
+- abilities that slow opponents help against speed teams
+- trapping or pressure abilities help against star creators
+- enemy team debuffs matter more against thin rotations
+
+### PlaystyleMatchup
+
+Examples:
+
+- offensive hub vs weak point-of-attack defense
+- big bruising team vs undersized lineup
+- transition team vs slow team
+- switch-heavy defense vs iso-heavy team
+
+### CrossTeamEnemyEffects
+
+Enemy/rival links across the two teams should matter.
+
+```text
+CrossTeamEnemyEffects =
++3*(enemy links from A to B)
++2*(star enemy links)
+-1*(volatility links)
+```
+
+Where:
+
+- **enemy link** = a Team A Pokémon has a rival/enemy on Team B
+- **star enemy link** = one of the two is a top-5 rotation player
+- **volatility link** = rivalry likely causes reckless play
+
+### CrossTeamAllyEffects
+
+Recommended treatment:
+
+- slight comfort/hesitation penalty on direct aggression
+- slight scouting bonus from familiarity
+
+```text
+CrossTeamAllyEffects =
+-1*(sentimental hesitation links)
++1*(tendency recognition links)
+```
+
+### DepthMatchup
+
+Which bench holds up better when the starters sit?
+
+---
+
+## 3) Availability and Rotation Swing
+
+This captures what happens if a teammate fouls out or gets injured.
+
+```text
+AvailabilitySwing =
+0.38*Resilience
++ 0.22*FoulDiscipline
++ 0.20*InjuryResistance
++ 0.20*RoleRedundancy
+```
+
+### Resilience
+
+```text
+Resilience =
+0.40*BenchDepth
++ 0.25*BackupQuality
++ 0.20*Stamina
++ 0.15*Composure
+```
+
+### FoulDiscipline
+
+```text
+FoulDiscipline =
+0.45*balance_avg
++ 0.30*stamina_avg
++ 0.25*discipline_proxy
+```
+
+If there is no explicit discipline stat, estimate it from:
+
+- higher balance
+- higher stamina
+- lower reckless playstyle tendencies
+- steadiness/composure-themed abilities
+
+### InjuryResistance
+
+```text
+InjuryResistance =
+0.35*stamina_avg
++ 0.30*balance_avg
++ 0.20*strength_avg
++ 0.15*depth
+```
+
+### RoleRedundancy
+
+Check whether the team has backups for key roles:
+
+- another ball handler
+- another scorer
+- another rim protector
+- another rebounder
+- another defender
+
+```text
+RoleRedundancy =
++3 if backup creator exists
++3 if backup big exists
++2 if backup stopper exists
++2 if backup scorer exists
+-4 for each single point of failure
+```
+
+---
+
+## 4) In-Game Event Penalties
+
+Apply these live when a player fouls out or gets injured.
+
+### Foul-Out Penalty
+
+```text
+FoulOutPenalty =
+0.70*PlayerImpact
++ 0.20*RoleScarcity
++ 0.10*ChemistryLoss
+- 0.40*BackupQuality
+```
+
+### Injury Penalty
+
+```text
+InjuryPenalty =
+0.80*PlayerImpact
++ 0.25*RoleScarcity
++ 0.15*MoraleShock
+- 0.40*BackupQuality
+```
+
+### PlayerImpact
+
+```text
+PlayerImpact =
+0.40*PER_norm
++ 0.20*usage_proxy
++ 0.15*minutes_share
++ 0.15*role_importance
++ 0.10*ability_importance
+```
+
+### RoleScarcity
+
+```text
+RoleScarcity =
+5 if no backup at that role
+3 if weak backup
+1 if solid backup exists
+```
+
+### ChemistryLoss
+
+Increase this if the lost player:
+
+- has many ally links
+- is a glue player
+- anchors the defense
+- is the only organizer on offense
+
+### MoraleShock
+
+Increase this if:
+
+- a star goes down
+- the team is already thin
+- the player has a team-buff ability
+- the player is central to an ally cluster
+
+---
+
+## 5) Foul-Out and Injury Chance
+
+These should be matchup-dependent.
+
+### Foul Risk
+
+```text
+FoulRisk(player vs opponent) =
+BaseFoulRisk
++ 0.20*MatchupPhysicality
++ 0.15*EnemyRivalryIntensity
++ 0.15*DefensiveBurden
+- 0.20*Balance
+- 0.15*Stamina
+- 0.15*SteadinessAbilityBonus
+```
+
+Rivalries should increase foul risk slightly because enemy matchups can cause over-aggression.
+
+### Injury Risk
+
+Keep this lower than foul risk.
+
+```text
+InjuryRisk(player vs opponent) =
+BaseInjuryRisk
++ 0.22*MinuteLoad
++ 0.18*ContactLevel
++ 0.12*SizeMismatchStress
+- 0.18*Stamina
+- 0.15*Balance
+- 0.10*Strength
+```
+
+### Practical Defaults
+
+- bench player foul-out chance: low
+- star in heavy rivalry matchup: moderate
+- injury chance: rare, but not zero
+
+---
+
+## 6) Clutch and Fatigue
+
+### Clutch
+
+```text
+Clutch =
+0.45*Top2StarPower
++ 0.20*late_game_ability_score
++ 0.20*ball_security
++ 0.15*stamina
+```
+
+### Fatigue
+
+For a tournament:
+
+```text
+FatiguePenalty =
+0.08*previous_game_minutes_load
+- 0.03*recovery_ability_bonus
+- 0.03*depth_bonus
+```
+
+---
+
+## 7) Final Pregame Rating
+
+Use this before simulating possessions.
+
+```text
+FinalRating(A vs B) =
+0.56*TeamBase(A)
++ 0.24*Matchup(A vs B)
++ 0.10*AvailabilitySwing(A)
++ 0.05*Clutch(A)
+- 0.05*FatiguePenalty(A)
+```
+
+Do the same for Team B.
+
+Then convert to win probability:
+
+```text
+WinProb(A) =
+1 / (1 + e^(-(FinalRating(A)-FinalRating(B))/8))
+```
+
+---
+
+## 8) Live Game Adjustment Formula
+
+During the simulated game, update the current team power if someone is lost.
+
+```text
+LiveRating =
+PregameRating
+- FoulOutPenalty
+- InjuryPenalty
+- FatigueAccumulation
++ MomentumBonus
+```
+
+You can also adjust by quarter:
+
+- Q1/Q2: depth matters more
+- Q4: stars, clutch, and enemy rivalries matter more
+
+---
+
+## 9) Recommended Hard Rules
+
+### Single Point of Failure Penalty
+
+```text
+-2 to -6 team rating
+```
+
+Apply if a team has only one:
+
+- real ball handler
+- real center / rim protector
+- real creator
+- real star scorer
+
+### Rivalry Cap
+
+Cap total cross-team rivalry bonus:
+
+```text
+max +8 per team
+```
+
+### Injury Cap
+
+Injuries should be dramatic but rare:
+
+- injuries should not dominate every game
+- foul trouble should be more common than injuries
+
+### Bench Minimum Relevance
+
+If a team spends almost all 160M on 5 players, penalize fragility.
+
+---
+
+## 10) Simplified Version
+
+If you want the most usable version without too much complexity, use this:
+
+```text
+TeamBase =
+0.22*Talent
++ 0.15*Offense
++ 0.15*Defense
++ 0.10*Size
++ 0.08*Athleticism
++ 0.08*RoleFit
++ 0.07*Depth
++ 0.06*AbilityValue
++ 0.05*InternalChemistry
++ 0.04*CapEfficiency
+
+Matchup(A vs B) =
+0.26*TypeMatchup
++ 0.18*SizeMatchup
++ 0.14*SpeedMatchup
++ 0.10*AbilityMatchup
++ 0.10*PlaystyleMatchup
++ 0.10*CrossTeamEnemyEffects
++ 0.06*CrossTeamAllyEffects
++ 0.06*DepthMatchup
+
+AvailabilitySwing =
+0.38*Resilience
++ 0.22*FoulDiscipline
++ 0.20*InjuryResistance
++ 0.20*RoleRedundancy
+
+FinalRating(A vs B) =
+0.56*TeamBase
++ 0.24*Matchup
++ 0.10*AvailabilitySwing
++ 0.05*Clutch
+- 0.05*FatiguePenalty
+```
+
+Then:
+
+```text
+WinProb(A) =
+1 / (1 + e^(-(FinalRating(A)-FinalRating(B))/8))
+```
+
+And during the game:
+
+```text
+LiveRating =
+FinalRating
+- LostPlayerPenalty
++ Momentum
+```
+
+---
+
+## 11) Strongest Recommendations
+
+If you only add **three** things beyond raw team strength, make them:
+
+1. **Cross-team enemy/rival effects**
+2. **Single-point-of-failure / role redundancy**
+3. **Foul-out and injury replacement penalty**
+
+These three will make your tournament feel much more like real basketball instead of just “higher rating wins.”

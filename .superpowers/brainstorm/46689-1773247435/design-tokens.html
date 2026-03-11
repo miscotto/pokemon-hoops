@@ -1,0 +1,126 @@
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  .pf { font-family: 'Press Start 2P', monospace; }
+  .swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, 120px); gap: 12px; margin: 12px 0; }
+  .swatch-item { display: flex; flex-direction: column; gap: 6px; }
+  .swatch-box { height: 48px; border: 2px solid #222; }
+  .swatch-label { font-family: 'Press Start 2P', monospace; font-size: 6px; color: #444; line-height: 1.6; }
+  .shadow-demo { background: #fff; border: 3px solid #222; padding: 10px 16px; display: inline-block; font-family: 'Press Start 2P', monospace; font-size: 8px; margin: 6px; }
+  .section { margin-bottom: 28px; }
+  h3.pf { font-size: 10px; color: #3b4cca; margin: 0 0 12px; border-bottom: 3px solid #3b4cca; padding-bottom: 8px; }
+</style>
+
+<h2>Design Section 1: Tokens & Components</h2>
+<p class="subtitle">Does this system look right before we wire it up to the app?</p>
+
+<div class="section">
+  <h3 class="pf">COLOR TOKENS</h3>
+  <div class="swatch-grid">
+    <div class="swatch-item">
+      <div class="swatch-box" style="background:#3b4cca;"></div>
+      <div class="swatch-label">poke-blue<br>#3b4cca<br>Primary / Nav / Borders</div>
+    </div>
+    <div class="swatch-item">
+      <div class="swatch-box" style="background:#ffde00;"></div>
+      <div class="swatch-label">poke-yellow<br>#ffde00<br>Highlight / Active / Stars</div>
+    </div>
+    <div class="swatch-item">
+      <div class="swatch-box" style="background:#cc0000;"></div>
+      <div class="swatch-label">poke-red<br>#cc0000<br>Danger / Live / HP</div>
+    </div>
+    <div class="swatch-item">
+      <div class="swatch-box" style="background:#222222;"></div>
+      <div class="swatch-label">poke-black<br>#222222<br>Text / Pixel borders</div>
+    </div>
+    <div class="swatch-item">
+      <div class="swatch-box" style="background:#ffffff; border:2px solid #ccc;"></div>
+      <div class="swatch-label">poke-white<br>#ffffff<br>Card bg / Page bg</div>
+    </div>
+    <div class="swatch-item">
+      <div class="swatch-box" style="background:#f0f0ff;"></div>
+      <div class="swatch-label">poke-surface<br>#f0f0ff<br>Subtle bg / inputs</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3 class="pf">SHADOW SCALE (pixel hard shadows)</h3>
+  <div style="display:flex; flex-wrap:wrap; align-items:flex-end; gap:16px; padding:12px 0;">
+    <div class="shadow-demo" style="box-shadow:2px 2px 0 #222;">shadow-sm</div>
+    <div class="shadow-demo" style="box-shadow:4px 4px 0 #3b4cca; border-color:#3b4cca;">shadow-blue</div>
+    <div class="shadow-demo" style="box-shadow:4px 4px 0 #cc0000; border-color:#cc0000;">shadow-red</div>
+    <div class="shadow-demo" style="box-shadow:4px 4px 0 #ffde00; border-color:#222;">shadow-yellow</div>
+  </div>
+</div>
+
+<div class="section">
+  <h3 class="pf">COMPONENT LIBRARY</h3>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+
+    <!-- Buttons -->
+    <div style="border:2px solid #ddd; padding:14px; background:#fafafa;">
+      <div class="pf" style="font-size:7px; color:#888; margin-bottom:10px;">PokeButton</div>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+        <button class="pf" style="font-size:7px; background:#3b4cca; color:#ffde00; border:2px solid #222; padding:8px 12px; box-shadow:3px 3px 0 #222; cursor:pointer;">▶ PRIMARY</button>
+        <button class="pf" style="font-size:7px; background:#cc0000; color:#fff; border:2px solid #222; padding:8px 12px; box-shadow:3px 3px 0 #222; cursor:pointer;">✕ DANGER</button>
+        <button class="pf" style="font-size:7px; background:#fff; color:#3b4cca; border:2px solid #3b4cca; padding:8px 12px; box-shadow:3px 3px 0 #3b4cca; cursor:pointer;">◇ GHOST</button>
+      </div>
+    </div>
+
+    <!-- Type Badge -->
+    <div style="border:2px solid #ddd; padding:14px; background:#fafafa;">
+      <div class="pf" style="font-size:7px; color:#888; margin-bottom:10px;">TypeBadge</div>
+      <div style="display:flex; flex-wrap:wrap; gap:4px;">
+        <span class="pf" style="font-size:5px; padding:3px 6px; background:#f08030; color:#fff; border:1px solid #222;">FIRE</span>
+        <span class="pf" style="font-size:5px; padding:3px 6px; background:#6890f0; color:#fff; border:1px solid #222;">WATER</span>
+        <span class="pf" style="font-size:5px; padding:3px 6px; background:#78c850; color:#fff; border:1px solid #222;">GRASS</span>
+        <span class="pf" style="font-size:5px; padding:3px 6px; background:#f8d030; color:#222; border:1px solid #222;">ELECTRIC</span>
+        <span class="pf" style="font-size:5px; padding:3px 6px; background:#f85888; color:#fff; border:1px solid #222;">PSYCHIC</span>
+        <span class="pf" style="font-size:5px; padding:3px 6px; background:#705898; color:#fff; border:1px solid #222;">DRAGON</span>
+      </div>
+    </div>
+
+    <!-- PokeCard -->
+    <div style="border:2px solid #ddd; padding:14px; background:#fafafa;">
+      <div class="pf" style="font-size:7px; color:#888; margin-bottom:10px;">PokeCard</div>
+      <div style="border:3px solid #3b4cca; background:#fff; padding:10px; box-shadow:4px 4px 0 #3b4cca; max-width:160px;">
+        <div class="pf" style="font-size:6px; color:#888;">#006</div>
+        <div style="background:#f0f0ff; height:60px; display:flex; align-items:center; justify-content:center; border:1px solid #ddd; margin:4px 0;">
+          <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png" style="image-rendering:pixelated; height:50px;" />
+        </div>
+        <div class="pf" style="font-size:7px; color:#222; margin:4px 0;">CHARIZARD</div>
+        <div style="display:flex; gap:3px; margin:4px 0;">
+          <span class="pf" style="font-size:5px; padding:2px 5px; background:#f08030; color:#fff; border:1px solid #222;">FIRE</span>
+          <span class="pf" style="font-size:5px; padding:2px 5px; background:#98d8d8; color:#222; border:1px solid #222;">FLYING</span>
+        </div>
+        <div class="pf" style="font-size:6px; color:#555; line-height:2;">PPG 31.7 BPG 2.8</div>
+        <button class="pf" style="font-size:6px; background:#3b4cca; color:#ffde00; border:2px solid #222; padding:5px 8px; box-shadow:2px 2px 0 #222; width:100%; margin-top:6px; cursor:pointer;">+ DRAFT</button>
+      </div>
+    </div>
+
+    <!-- PokeDialog -->
+    <div style="border:2px solid #ddd; padding:14px; background:#fafafa;">
+      <div class="pf" style="font-size:7px; color:#888; margin-bottom:10px;">PokeDialog (typewriter)</div>
+      <div style="border:3px solid #222; background:#fff; padding:12px; box-shadow:4px 4px 0 #222; position:relative;">
+        <div style="position:absolute; top:-10px; left:12px; background:#3b4cca; color:#ffde00; font-family:'Press Start 2P',monospace; font-size:6px; padding:3px 8px; border:2px solid #222;">BATTLE</div>
+        <div class="pf" style="font-size:7px; color:#222; line-height:2.2; margin-top:4px;">
+          CHARIZARD used<br>SLAM DUNK!<span style="display:inline-block; width:8px; height:12px; background:#222; vertical-align:middle; animation:none; margin-left:2px;"></span>
+        </div>
+        <div class="pf" style="font-size:6px; color:#3b4cca; margin-top:6px; text-align:right;">▼</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top:20px;">
+  <h3 class="pf">TYPOGRAPHY SCALE</h3>
+  <div style="display:flex; flex-direction:column; gap:10px; padding:8px 0;">
+    <div class="pf" style="font-size:14px; color:#3b4cca;">POKEMON HOOPS — H1</div>
+    <div class="pf" style="font-size:11px; color:#222;">ROSTER BUILDER — H2</div>
+    <div class="pf" style="font-size:9px; color:#222;">YOUR TEAM — H3</div>
+    <div class="pf" style="font-size:8px; color:#555;">Charizard — LV.50 — Body</div>
+    <div class="pf" style="font-size:7px; color:#888;">PPG: 31.7 · RPG: 8.2 — Small</div>
+    <div class="pf" style="font-size:6px; color:#aaa;">#006 · $38M · FIRE/FLYING — XS</div>
+  </div>
+</div>

@@ -1,0 +1,136 @@
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  .pf { font-family: 'Press Start 2P', monospace; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+  .cursor { display:inline-block; width:8px; height:12px; background:#3b4cca; vertical-align:middle; animation:blink 1s infinite; margin-left:2px; }
+  .cursor-w { display:inline-block; width:8px; height:12px; background:#ffde00; vertical-align:middle; animation:blink 1s infinite; margin-left:2px; }
+  .poke-btn-primary { font-family:'Press Start 2P',monospace; font-size:7px; background:#3b4cca; color:#ffde00; border:2px solid #222; padding:8px 14px; box-shadow:3px 3px 0 #222; cursor:pointer; }
+  .poke-btn-danger { font-family:'Press Start 2P',monospace; font-size:7px; background:#cc0000; color:#fff; border:2px solid #222; padding:8px 14px; box-shadow:3px 3px 0 #222; cursor:pointer; }
+  .poke-btn-ghost { font-family:'Press Start 2P',monospace; font-size:7px; background:#fff; color:#3b4cca; border:2px solid #3b4cca; padding:8px 14px; box-shadow:3px 3px 0 #3b4cca; cursor:pointer; }
+  .poke-input { font-family:'Press Start 2P',monospace; font-size:7px; border:3px solid #3b4cca; padding:8px 10px; background:#f0f0ff; color:#222; width:100%; box-shadow:2px 2px 0 #222; outline:none; }
+  .screen { border:3px solid #222; overflow:hidden; border-radius:0; }
+  .screen-label { font-family:'Press Start 2P',monospace; font-size:7px; background:#222; color:#ffde00; padding:6px 10px; }
+</style>
+
+<h2>Page Designs</h2>
+<p class="subtitle">How each screen looks with the new Pokemon theme</p>
+
+<!-- Auth Screen -->
+<div class="section">
+  <h3 style="font-family:'Press Start 2P',monospace; font-size:9px; color:#3b4cca; margin-bottom:12px; border-bottom:3px solid #3b4cca; padding-bottom:8px;">AUTH SCREEN</h3>
+  <div class="screen" style="max-width:380px;">
+    <div class="screen-label">Login · Pokemon Hoops</div>
+    <div style="background:#f0f0ff; padding:32px 24px; display:flex; flex-direction:column; align-items:center; gap:16px;">
+      <div style="font-family:'Press Start 2P',monospace; font-size:7px; color:#888; letter-spacing:1px;">PROFESSOR OAK SAYS:</div>
+      <div style="border:3px solid #222; background:#fff; padding:14px 18px; box-shadow:4px 4px 0 #222; width:100%; min-height:52px; position:relative;">
+        <div style="position:absolute; top:-2px; left:12px; width:0; height:0; border-left:8px solid transparent; border-right:8px solid transparent; border-bottom:8px solid #222;"></div>
+        <div style="font-family:'Press Start 2P',monospace; font-size:8px; color:#222; line-height:2;">
+          Welcome, Trainer!<br>
+          <span style="font-size:7px; color:#555;">Build your dream<br>Pokemon roster.<span class="cursor"></span></span>
+        </div>
+      </div>
+      <div style="width:100%; display:flex; flex-direction:column; gap:10px; margin-top:8px;">
+        <div>
+          <div style="font-family:'Press Start 2P',monospace; font-size:6px; color:#888; margin-bottom:6px;">TRAINER EMAIL</div>
+          <input class="poke-input" placeholder="ash@pallet.town" />
+        </div>
+        <div>
+          <div style="font-family:'Press Start 2P',monospace; font-size:6px; color:#888; margin-bottom:6px;">PASSWORD</div>
+          <input class="poke-input" type="password" placeholder="••••••••" />
+        </div>
+        <button class="poke-btn-primary" style="width:100%; margin-top:4px; font-size:8px; padding:12px;">▶ SIGN IN</button>
+        <button class="poke-btn-ghost" style="width:100%; font-size:7px;">NEW TRAINER? SIGN UP</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Dashboard -->
+<div class="section" style="margin-top:28px;">
+  <h3 style="font-family:'Press Start 2P',monospace; font-size:9px; color:#3b4cca; margin-bottom:12px; border-bottom:3px solid #3b4cca; padding-bottom:8px;">DASHBOARD</h3>
+  <div class="screen" style="max-width:600px;">
+    <div class="screen-label">Your Rosters</div>
+    <div style="background:#f0f0ff; padding:0;">
+      <!-- Nav -->
+      <div style="background:#3b4cca; padding:10px 14px; display:flex; justify-content:space-between; align-items:center; border-bottom:3px solid #222;">
+        <span style="font-family:'Press Start 2P',monospace; font-size:9px; color:#ffde00;">⚡ POKEMON HOOPS</span>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <span style="font-family:'Press Start 2P',monospace; font-size:6px; color:#ffde00; background:#1a1a2e; padding:3px 6px; border:1px solid #ffde00;">☀</span>
+          <span style="font-family:'Press Start 2P',monospace; font-size:6px; color:#ffde00;">ASH</span>
+          <button class="poke-btn-ghost" style="font-size:5px; padding:4px 8px; background:transparent; color:#ffde00; border-color:#ffde00; box-shadow:none;">SIGN OUT</button>
+        </div>
+      </div>
+      <div style="padding:16px;">
+        <!-- Tournament banner -->
+        <div style="border:3px solid #ffde00; background:#fff; padding:12px 14px; box-shadow:4px 4px 0 #ffde00; margin-bottom:14px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-family:'Press Start 2P',monospace; font-size:6px; color:#ffde00; background:#cc0000; padding:2px 6px; display:inline-block; margin-bottom:6px;">★ TOURNAMENT ROSTER</div>
+            <div style="font-family:'Press Start 2P',monospace; font-size:8px; color:#222;">TEAM KANTO</div>
+          </div>
+          <div style="display:flex; gap:6px;">
+            <button class="poke-btn-primary" style="font-size:6px; padding:6px 10px;">BATTLE AI</button>
+            <button class="poke-btn-danger" style="font-size:6px; padding:6px 10px;">LIVE</button>
+          </div>
+        </div>
+        <!-- Roster grid -->
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;">
+          <!-- Roster card -->
+          <div style="border:3px solid #3b4cca; background:#fff; padding:10px; box-shadow:3px 3px 0 #3b4cca;">
+            <div style="font-family:'Press Start 2P',monospace; font-size:7px; color:#222; margin-bottom:6px;">TEAM KANTO</div>
+            <div style="background:#f0f0ff; height:4px; border:1px solid #ddd; margin-bottom:6px;">
+              <div style="background:#3b4cca; height:100%; width:100%;"></div>
+            </div>
+            <div style="font-family:'Press Start 2P',monospace; font-size:6px; color:#888; margin-bottom:8px;">6/6 POKEMON</div>
+            <div style="display:flex; gap:4px; flex-wrap:wrap;">
+              <button class="poke-btn-ghost" style="font-size:5px; padding:4px 6px;">EDIT</button>
+              <button class="poke-btn-danger" style="font-size:5px; padding:4px 6px;">✕</button>
+            </div>
+          </div>
+          <div style="border:3px solid #3b4cca; background:#fff; padding:10px; box-shadow:3px 3px 0 #3b4cca;">
+            <div style="font-family:'Press Start 2P',monospace; font-size:7px; color:#222; margin-bottom:6px;">TEAM JOHTO</div>
+            <div style="background:#f0f0ff; height:4px; border:1px solid #ddd; margin-bottom:6px;">
+              <div style="background:#ffde00; height:100%; width:66%;"></div>
+            </div>
+            <div style="font-family:'Press Start 2P',monospace; font-size:6px; color:#888; margin-bottom:8px;">4/6 POKEMON</div>
+            <div style="display:flex; gap:4px; flex-wrap:wrap;">
+              <button class="poke-btn-ghost" style="font-size:5px; padding:4px 6px;">EDIT</button>
+              <button class="poke-btn-danger" style="font-size:5px; padding:4px 6px;">✕</button>
+            </div>
+          </div>
+          <!-- New roster card -->
+          <div style="border:3px dashed #3b4cca; background:#f8f8ff; padding:10px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; min-height:90px; cursor:pointer;">
+            <div style="font-family:'Press Start 2P',monospace; font-size:18px; color:#3b4cca;">+</div>
+            <div style="font-family:'Press Start 2P',monospace; font-size:6px; color:#3b4cca;">NEW ROSTER</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Tournament play-by-play -->
+<div class="section" style="margin-top:28px;">
+  <h3 style="font-family:'Press Start 2P',monospace; font-size:9px; color:#3b4cca; margin-bottom:12px; border-bottom:3px solid #3b4cca; padding-bottom:8px;">TOURNAMENT — PLAY BY PLAY</h3>
+  <div class="screen" style="max-width:420px;">
+    <div class="screen-label">Q3 · TEAM KANTO 67 vs 61 TEAM HOENN</div>
+    <div style="background:#fff; padding:14px; display:flex; flex-direction:column; gap:10px;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-family:'Press Start 2P',monospace; font-size:9px; color:#3b4cca;">67</span>
+        <span style="font-family:'Press Start 2P',monospace; font-size:6px; color:#888;">Q3 · 4:22</span>
+        <span style="font-family:'Press Start 2P',monospace; font-size:9px; color:#cc0000;">61</span>
+      </div>
+      <!-- Event log -->
+      <div style="border:3px solid #222; background:#f0f0ff; padding:10px; max-height:110px; overflow:hidden; display:flex; flex-direction:column; gap:6px;">
+        <div style="font-family:'Press Start 2P',monospace; font-size:6px; color:#888; line-height:1.8; opacity:0.5;">CHARIZARD hits a 3-pointer!</div>
+        <div style="font-family:'Press Start 2P',monospace; font-size:6px; color:#888; line-height:1.8; opacity:0.7;">BLASTOISE with the block!</div>
+        <div style="border-top:1px solid #ddd; padding-top:6px;">
+          <div style="font-family:'Press Start 2P',monospace; font-size:7px; color:#222; line-height:2;">PIKACHU hits a<br>clutch midrange!<span class="cursor"></span></div>
+        </div>
+      </div>
+      <div style="display:flex; gap:6px; justify-content:flex-end;">
+        <button class="poke-btn-primary" style="font-size:6px; padding:6px 10px;">▶ NEXT</button>
+      </div>
+    </div>
+  </div>
+</div>

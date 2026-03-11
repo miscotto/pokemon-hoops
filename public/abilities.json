@@ -1,0 +1,962 @@
+{
+  "Pressure": {
+    "affect target": "enemy team",
+    "edge type": "enemy team debuff",
+    "effect trigger": "Starts each defensive possession active",
+    "effect desc": "wears the other team down: opponents suffer -16% to help rotations and -13% stamina efficiency late in possessions."
+  },
+  "Multitype": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "When the matchup changes",
+    "effect desc": "can pivot styles seamlessly, gaining +16% to versatility and +13% to matchup exploitation."
+  },
+  "Libero": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "Once per possession as needed",
+    "effect desc": "can become whatever the play needs, gaining +16% to matchup flexibility and +13% to decisive reads."
+  },
+  "Volt Absorb": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "After physical or chaotic sequences",
+    "effect desc": "recovers faster than most, restoring stamina and keeping +13% more execution quality."
+  },
+  "Hadron Engine": {
+    "affect target": "team",
+    "edge type": "team buff",
+    "effect trigger": "When this player is on the floor",
+    "effect desc": "raises the team’s tempo ceiling with +16% to burst creation and +13% to spacing-driven offense."
+  },
+  "Inner Focus": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "Against traps, crowds, and late-clock pressure",
+    "effect desc": "stays composed: +16% to ball security and +13% to downhill scoring."
+  },
+  "Multiscale": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "On the first defensive stand after checking in",
+    "effect desc": "gets a premium stop chance, with +16% to containment and +13% to contest stability."
+  },
+  "Air Lock": {
+    "affect target": "enemy team",
+    "edge type": "enemy team debuff",
+    "effect trigger": "While on the floor",
+    "effect desc": "cancels momentum-based bonuses and knocks the other team down -13% on rhythm effects."
+  },
+  "Teravolt": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "Against disciplined defenders",
+    "effect desc": "overpowers their counters for +16% to breaking contain and +13% to decisive drives."
+  },
+  "Dark Aura": {
+    "affect target": "team",
+    "edge type": "team buff",
+    "effect trigger": "While on the floor",
+    "effect desc": "feeds aggressive creation, giving the team +16% to downhill confidence and +13% to paint pressure."
+  },
+  "Full Metal Body": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "Against physical play or mind games",
+    "effect desc": "cannot be softened up easily, keeping +16% to strength and +13% to core stability."
+  },
+  "Technician": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "On quick actions, floaters, and short-window passes",
+    "effect desc": "excels at the details, gaining +16% to downhill scoring and +13% to small-space execution."
+  },
+  "Intrepid Sword": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "At the start of a stint or after halftime",
+    "effect desc": "begins sharp, gaining +16% to attack confidence and +13% to assertive scoring."
+  },
+  "Protosynthesis": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "At the start of each half and after timeouts",
+    "effect desc": "supercharges the best part of the toolkit, granting +16% to core strengths and +13% to downhill scoring."
+  },
+  "Orichalcum Pulse": {
+    "affect target": "team",
+    "edge type": "team buff",
+    "effect trigger": "When this player anchors a stint",
+    "effect desc": "adds physical pop to the lineup: +16% to downhill force and +13% to finishing through bodies."
+  },
+  "Rough Skin": {
+    "affect target": "enemy",
+    "edge type": "enemy debuff",
+    "effect trigger": "After contact or repeated pressure",
+    "effect desc": "wears on the matchup, dealing -16% to help rotations and -12% to passing lane discipline."
+  },
+  "Turboblaze": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "When attacking a loaded defense",
+    "effect desc": "forces through resistance with +16% to advantage creation and +12% to finishing over help."
+  },
+  "Unseen Fist": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "Against handsy defenders",
+    "effect desc": "gets to spots anyway, earning +16% to blow-by access and +12% to finishing through contact."
+  },
+  "Intimidate": {
+    "affect target": "enemy",
+    "edge type": "enemy debuff",
+    "effect trigger": "On the first touch against the primary matchup",
+    "effect desc": "forces hesitation: the opposing lead handler takes -16% to confidence and -13% to clean separation."
+  },
+  "Blaze": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "After two made plays in a row or after a hard foul",
+    "effect desc": "heats up for a scoring burst: +16% to downhill scoring and +13% to pressure finishing."
+  },
+  "Speed Boost": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "Each time it strings possessions together",
+    "effect desc": "keeps getting quicker, gaining another +5% to burst speed up to +16% total."
+  },
+  "Beast Boost": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "After any score, assist, steal, or block",
+    "effect desc": "snowballs the game, gaining +5% to downhill scoring after each impact play up to +16% total."
+  },
+  "Synchronize": {
+    "affect target": "enemy",
+    "edge type": "enemy debuff",
+    "effect trigger": "When the matchup tries to get physical or tricky",
+    "effect desc": "sends some of that stress right back, dealing -16% to composure and -13% to touch."
+  },
+  "Protean": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "When the matchup changes",
+    "effect desc": "adapts style instantly for +16% to versatility and +13% to downhill scoring."
+  },
+  "Justified": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "After a hard foul, bump, or disrespectful coverage",
+    "effect desc": "answers with +16% to assertiveness and +13% to downhill scoring."
+  },
+  "Sheer Force": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "On direct attacks and strong takes",
+    "effect desc": "turns finesse into force: +16% to downhill scoring and +13% to forcing weak contests."
+  },
+  "Fairy Aura": {
+    "affect target": "team",
+    "edge type": "team buff",
+    "effect trigger": "While on the floor",
+    "effect desc": "boosts the whole team’s touch: +16% to soft finishes, touch passes, and finesse scoring."
+  },
+  "Electric Surge": {
+    "affect target": "team",
+    "edge type": "team buff",
+    "effect trigger": "When on the court",
+    "effect desc": "electrifies pace: teammates gain +16% to burst speed and +13% to transition pressure."
+  },
+  "Prism Armor": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "When caught in a tough matchup",
+    "effect desc": "cuts down the worst damage, preserving +13% of normal efficiency under stress."
+  },
+  "Overgrow": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "When trailing by 6+ or in the final 3 minutes",
+    "effect desc": "gets a late-game burst to advantage creation (+16%) and extra work on the glass (+11%)."
+  },
+  "Dauntless Shield": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "When absorbing a drive or mismatch",
+    "effect desc": "hardens up for +16% to stop strength and +13% to paint deterrence."
+  },
+  "Leaf Guard": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "When under pressure",
+    "effect desc": "stays protected, gaining +16% to steadiness and +13% to resisting disruption."
+  },
+  "Quark Drive": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "After reading the floor for a beat",
+    "effect desc": "locks into the efficient line, adding +16% to decision speed and +13% to advantage creation."
+  },
+  "Stamina": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "With each physical possession",
+    "effect desc": "gets stronger for the grind, adding +5% resilience per tough sequence up to +16% total."
+  },
+  "Regenerator": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "After physical or chaotic sequences",
+    "effect desc": "recovers faster than most, restoring stamina and keeping +12% more execution quality."
+  },
+  "Drought": {
+    "affect target": "team",
+    "edge type": "team buff",
+    "effect trigger": "When this player checks in",
+    "effect desc": "warms the whole offense: team gets +16% to spacing and +12% to shot confidence."
+  },
+  "Prankster": {
+    "affect target": "team",
+    "edge type": "team buff",
+    "effect trigger": "On the first action of a possession",
+    "effect desc": "creates instant advantage: teammates get +13% to surprise openings and +11% to action speed."
+  },
+  "Thermal Exchange": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "After absorbing contact or a body-up",
+    "effect desc": "converts that contact into +13% to finishing strength and +10% to scoring confidence."
+  },
+  "Unknown": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "At unpredictable moments",
+    "effect desc": "creates a strange but useful edge: +11% to improvisation and +9% to broken-play success."
+  },
+  "Sniper": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "When a small opening appears",
+    "effect desc": "capitalizes hard for +13% to shot precision and +11% to punish overhelp."
+  },
+  "Unburden": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "When the pace rises",
+    "effect desc": "adds burst with +13% to first-step speed and +11% to downhill scoring."
+  },
+  "Infiltrator": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "Against organized defense",
+    "effect desc": "cuts through counters for +13% to downhill scoring and +11% to getting to the intended spot."
+  },
+  "Illusion": {
+    "affect target": "enemy",
+    "edge type": "enemy debuff",
+    "effect trigger": "On the first few possessions after checking in",
+    "effect desc": "conceals intentions and forces the matchup into -13% defensive accuracy and late help calls."
+  },
+  "Magician": {
+    "affect target": "enemy",
+    "edge type": "enemy debuff",
+    "effect trigger": "On strips, digs, and sneaky reaches",
+    "effect desc": "steals momentum from the matchup, causing -13% to handle confidence and creating extra live-ball chances."
+  },
+  "Motor Drive": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "After a chase, closeout, or recovery sprint",
+    "effect desc": "hits another gear for +13% to straight-line burst and +11% to transition creation."
+  },
+  "Bad Dreams": {
+    "affect target": "enemy",
+    "edge type": "enemy debuff",
+    "effect trigger": "Against tired or cold opponents",
+    "effect desc": "keeps them uncomfortable, dealing -13% to confidence and -11% to shot rhythm."
+  },
+  "Receiver": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "When subbing in or taking over a set",
+    "effect desc": "inherits rhythm well, gaining +13% to continuity and +11% to keeping the offense humming."
+  },
+  "RKS System": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "When the matchup or lineup changes",
+    "effect desc": "retools fast for +13% to versatility and +11% to role fit."
+  },
+  "Bulletproof": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "When under pressure",
+    "effect desc": "stays protected, gaining +13% to steadiness and +11% to resisting disruption."
+  },
+  "Contrary": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "When the defense tries to take away the first option",
+    "effect desc": "turns that pressure into an edge, gaining +13% to counterplay and +11% to downhill scoring."
+  },
+  "Moxie": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "After a big play",
+    "effect desc": "gains confidence momentum, adding +4% bursts that can stack up to +13% to downhill scoring."
+  },
+  "Iron Fist": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "On direct drives and contact finishes",
+    "effect desc": "turns physical touches into offense: +13% to rim pressure and +11% to contact finishing."
+  },
+  "Weak Armor": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "After taking a bump",
+    "effect desc": "loosens up and gets quicker, gaining +13% to burst speed at the cost of being more physical."
+  },
+  "Sword of Ruin": {
+    "affect target": "enemy team",
+    "edge type": "enemy team debuff",
+    "effect trigger": "While on the floor",
+    "effect desc": "softens the whole defense, causing opponents -13% to physical resistance and -11% to contest power."
+  },
+  "Defiant": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "After a turnover, block, or opponent run",
+    "effect desc": "responds with edge, gaining +13% to attack mentality and +11% to downhill scoring."
+  },
+  "Guts": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "Whenever met with physical defense",
+    "effect desc": "shrugs off bumps and keeps control, gaining +13% to advantage creation and stronger foul-drawing pressure."
+  },
+  "Mold Breaker": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "Against set defenses, switches, and packed paint",
+    "effect desc": "cuts through counters for +13% to advantage creation and freer access to preferred spots."
+  },
+  "Steadfast": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "When the pace rises",
+    "effect desc": "adds burst with +12% to first-step speed and +11% to downhill scoring."
+  },
+  "Static": {
+    "affect target": "enemy",
+    "edge type": "enemy debuff",
+    "effect trigger": "When defenders body up or reach in",
+    "effect desc": "zaps the matchup: the primary defender takes -12% to foot speed and -11% to recovery balance."
+  },
+  "Pure Power": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "When attacking decisively",
+    "effect desc": "amplifies the punch of each move for +12% to downhill scoring and +11% to forceful finishing."
+  },
+  "Torrent": {
+    "affect target": "team",
+    "edge type": "team buff",
+    "effect trigger": "After a defensive stop or rebound",
+    "effect desc": "pushes pace for the whole group: teammates gain +12% to spacing and +11% to early-clock creation."
+  },
+  "Accelerock": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "On the very first step of an attack",
+    "effect desc": "gets instant lift-off for +12% to launch speed and +11% to early advantage."
+  },
+  "Toxic Chain": {
+    "affect target": "enemy",
+    "edge type": "enemy debuff",
+    "effect trigger": "After contact or repeated pressure",
+    "effect desc": "wears on the matchup, dealing -12% to help rotations and -10% to passing lane discipline."
+  },
+  "Queenly Majesty": {
+    "affect target": "team",
+    "edge type": "team buff",
+    "effect trigger": "When initiating offense",
+    "effect desc": "shuts down cheap reach-ins and gives the team +12% to safe entry passes and clean starts."
+  },
+  "Download": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "After seeing the matchup once",
+    "effect desc": "downloads the weakness for +12% to targeted creation and +11% to exploiting coverages."
+  },
+  "Levitate": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "On gathers, evasive steps, and hang finishes",
+    "effect desc": "stays above the traffic for +13% to agility and +11% to finishing angles."
+  },
+  "No Guard": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "On daring skip passes and contested shots",
+    "effect desc": "commits fully, gaining +13% to aggressive playmaking and +10% to high-difficulty execution."
+  },
+  "Sand Stream": {
+    "affect target": "enemy team",
+    "edge type": "enemy team debuff",
+    "effect trigger": "While on the floor",
+    "effect desc": "muddies the game for opponents: -13% to vision on skips and -10% to clean closeouts."
+  },
+  "Solar Power": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "During scoring stretches",
+    "effect desc": "trades some sustainability for juice, gaining +12% to scoring pop and +11% to pull-up gravity."
+  },
+  "Scrappy": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "Against organized defense",
+    "effect desc": "cuts through counters for +12% to advantage creation and +11% to getting to the intended spot."
+  },
+  "Poison Heal": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "After rugged defensive possessions",
+    "effect desc": "turns wear into value, recovering stamina and regaining +11% execution quality."
+  },
+  "Shadow Shield": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "On the first big challenge after checking in",
+    "effect desc": "gets a premium defensive layer with +12% to contest quality and +10% to blow-by resistance."
+  },
+  "Toxic Boost": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "After a rough sequence or physical contact",
+    "effect desc": "channels irritation into +12% to attack force and +10% to downhill pressure."
+  },
+  "Anger Point": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "After a hard foul, big block against it, or disrespectful bump",
+    "effect desc": "snaps into attack mode for +12% to forceful creation and +10% to downhill scoring."
+  },
+  "Sharpness": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "On sharp cuts and precise attacks",
+    "effect desc": "turns clean geometry into +12% to cutting impact and +10% to decisive scoring angles."
+  },
+  "Natural Cure": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "After physical or chaotic sequences",
+    "effect desc": "recovers faster than most, restoring stamina and keeping +11% more execution quality."
+  },
+  "Clear Body": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "When under pressure",
+    "effect desc": "stays protected, gaining +12% to steadiness and +10% to resisting disruption."
+  },
+  "Aura Break": {
+    "affect target": "enemy team",
+    "edge type": "enemy team debuff",
+    "effect trigger": "Whenever the opponent builds momentum buffs",
+    "effect desc": "turns them down, cutting enemy bonuses by roughly -12% and blunting hot streaks."
+  },
+  "Flash Fire": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "After being face-guarded or pressured full court",
+    "effect desc": "uses the attention as fuel for +12% to shot creation and +11% to pull-up rhythm."
+  },
+  "Psychic Surge": {
+    "affect target": "team",
+    "edge type": "team buff",
+    "effect trigger": "When on the floor",
+    "effect desc": "opens the mental game: teammates gain +12% to passing vision and +11% to read speed."
+  },
+  "Trace": {
+    "affect target": "team",
+    "edge type": "team buff",
+    "effect trigger": "After reading the floor",
+    "effect desc": "improves shared decision-making, giving allies +12% to catch-and-shoot rhythm and +11% to transition lanes."
+  },
+  "Chlorophyll": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "Whenever the team is pushing tempo",
+    "effect desc": "moves into top gear with +12% to burst speed and +11% to downhill scoring."
+  },
+  "Swift Swim": {
+    "affect target": "team",
+    "edge type": "team buff",
+    "effect trigger": "After steals, blocks, or long rebounds",
+    "effect desc": "turns chaos into transition, giving the team +12% to lane running and +11% to hit-ahead passing."
+  },
+  "Sap Sipper": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "After a deflection, steal, or disrupted set",
+    "effect desc": "uses the broken play as fuel for +12% to transition push and +11% to downhill scoring."
+  },
+  "Limber": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "Against traps, grabs, and body pressure",
+    "effect desc": "slips free for +12% to escape dribbles and +11% to balance recovery."
+  },
+  "Anticipation": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "At the start of each possession",
+    "effect desc": "sniffs out the action early for +12% to rotation timing and +11% to jump-start reads."
+  },
+  "Gooey": {
+    "affect target": "enemy",
+    "edge type": "enemy debuff",
+    "effect trigger": "After contact",
+    "effect desc": "slows the matchup down, inflicting -12% to burst and -11% to recovery steps."
+  },
+  "Long Reach": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "On long gathers, pokes, and reach-ins",
+    "effect desc": "plays from farther away, adding +12% to deflection range and +11% to creative finishes."
+  },
+  "Rocky Payload": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "On strong-base attacks and deep launches",
+    "effect desc": "adds weight behind looks, gaining +12% to power scoring and +11% to long-range confidence."
+  },
+  "Swarm": {
+    "affect target": "team",
+    "edge type": "team buff",
+    "effect trigger": "After collapsing the defense",
+    "effect desc": "brings extra bodies into the play, giving the team +12% to crash, cut, and second-chance pressure."
+  },
+  "Vital Spirit": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "In hustle and chase-down situations",
+    "effect desc": "never coasts, gaining +12% to energy plays and +10% to transition urgency."
+  },
+  "Sand Veil": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "In traffic and through crowded lanes",
+    "effect desc": "gets harder to track, gaining +12% to ball protection and +10% to slippery drives."
+  },
+  "Battle Armor": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "When under pressure",
+    "effect desc": "stays protected, gaining +12% to steadiness and +10% to resisting disruption."
+  },
+  "Snow Warning": {
+    "affect target": "team",
+    "edge type": "team buff",
+    "effect trigger": "While on the floor",
+    "effect desc": "tilts the environment for allies, giving the team +12% to rhythm and +10% to coordinated action."
+  },
+  "Slush Rush": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "When the game gets messy or defensive",
+    "effect desc": "thrives in the chaos with +12% to pace and +10% to loose-ball burst."
+  },
+  "Water Absorb": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "After a frantic sequence",
+    "effect desc": "absorbs the chaos, recovering composure and regaining +10% to decision quality."
+  },
+  "Grassy Surge": {
+    "affect target": "team",
+    "edge type": "team buff",
+    "effect trigger": "When on the court",
+    "effect desc": "stabilizes possessions, granting +12% to balance and +10% to recovery on rebounds and cuts."
+  },
+  "Heavy Metal": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "On ball screens and seals",
+    "effect desc": "adds heft, giving +12% to screen impact and +10% to lane-opening force."
+  },
+  "Supreme Overlord": {
+    "affect target": "team",
+    "edge type": "team buff",
+    "effect trigger": "In late moments or after others have done the setup work",
+    "effect desc": "raises finishing power for the lineup with +12% to clutch shot quality and +10% to composure."
+  },
+  "Filter": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "When forced into bad switches or heavy contests",
+    "effect desc": "reduces the punishment, taking smaller efficiency hits and keeping +11% of normal poise."
+  },
+  "Serene Grace": {
+    "affect target": "team",
+    "edge type": "team buff",
+    "effect trigger": "When this player is the connective piece",
+    "effect desc": "good things chain together more often: team gains +12% to favorable outcomes on smart plays."
+  },
+  "Screen Cleaner": {
+    "affect target": "enemy team",
+    "edge type": "enemy team debuff",
+    "effect trigger": "When navigating picks",
+    "effect desc": "cuts through screening clutter so opponents lose -12% of their screen advantage."
+  },
+  "Cursed Body": {
+    "affect target": "enemy",
+    "edge type": "enemy debuff",
+    "effect trigger": "After repeated physical pressure",
+    "effect desc": "throws the matchup off, dealing -12% to composure and -11% to decision quality."
+  },
+  "Insomnia": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "In late-game minutes and back-to-backs",
+    "effect desc": "fights fatigue with +12% to alertness and +11% to decision quality."
+  },
+  "Oblivious": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "Against trash talk, crowd swings, and bait",
+    "effect desc": "keeps the same rhythm for +12% to focus and +11% to ball security."
+  },
+  "Flame Body": {
+    "affect target": "enemy",
+    "edge type": "enemy debuff",
+    "effect trigger": "After shoulder contact or bodying up",
+    "effect desc": "the matchup feels the burn, taking -12% to stamina retention and -11% to closeout sharpness."
+  },
+  "Skill Link": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "On dribble strings and multi-action sets",
+    "effect desc": "keeps each move connected, gaining +12% to sequence accuracy and +11% to combo creation."
+  },
+  "Snow Cloak": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "In scramble possessions",
+    "effect desc": "gets harder to line up, earning +12% to evasiveness and +11% to strip resistance."
+  },
+  "Victory Star": {
+    "affect target": "team",
+    "edge type": "team buff",
+    "effect trigger": "When orchestrating half-court offense",
+    "effect desc": "raises the team’s accuracy floor with +12% to shot quality and +11% to passing trust."
+  },
+  "Dancer": {
+    "affect target": "team",
+    "edge type": "team buff",
+    "effect trigger": "After a teammate creates an advantage",
+    "effect desc": "syncs instantly, giving teammates +12% to continuation actions and +11% to timing on cuts."
+  },
+  "Berserk": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "After a hard hit or momentum swing",
+    "effect desc": "erupts into +12% attack force and +11% to aggressive creation for a short burst."
+  },
+  "Keen Eye": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "On precision plays",
+    "effect desc": "sharpens execution, adding +12% to accuracy and +11% to downhill scoring."
+  },
+  "Strong Jaw": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "When attacking decisively",
+    "effect desc": "amplifies the punch of each move for +12% to downhill scoring and +11% to forceful finishing."
+  },
+  "Punk Rock": {
+    "affect target": "enemy team",
+    "edge type": "enemy team debuff",
+    "effect trigger": "Through constant communication and swagger",
+    "effect desc": "throws the other team off, dealing -12% to set-call clarity and -11% to rhythm."
+  },
+  "Armor Tail": {
+    "affect target": "team",
+    "edge type": "team buff",
+    "effect trigger": "When bringing the ball up",
+    "effect desc": "protects the back line of the action, granting +12% to safe outlets and reducing strip chances."
+  },
+  "Good as Gold": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "Against flops, stunts, and junk pressure",
+    "effect desc": "ignores the nonsense for +12% to composure and +11% to clean decision-making."
+  },
+  "Super Luck": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "In 50-50 moments and loose balls",
+    "effect desc": "finds the clean break, giving +12% to clutch conversion and +10% to favorable bounces."
+  },
+  "Hyper Cutter": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "Whenever defenders swipe down",
+    "effect desc": "keeps the handle strong with +12% to ball security and +10% to hold-the-line strength."
+  },
+  "Costar": {
+    "affect target": "team",
+    "edge type": "team buff",
+    "effect trigger": "After a teammate gets hot",
+    "effect desc": "mirrors the rhythm, giving this player and nearby teammates +12% to continuation efficiency."
+  },
+  "Slow Start": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "For the first few minutes on the floor",
+    "effect desc": "ramps slowly, but once settled it gains +12% to downhill scoring for the rest of the stint."
+  },
+  "Sand Rush": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "When the pace rises",
+    "effect desc": "adds burst with +12% to first-step speed and +10% to advantage creation."
+  },
+  "Fluffy": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "When colliding in traffic",
+    "effect desc": "softens impact, keeping +12% more balance through contact and +10% more finishing control."
+  },
+  "Mirror Armor": {
+    "affect target": "enemy",
+    "edge type": "enemy debuff",
+    "effect trigger": "When targeted with physical pressure or debuffs",
+    "effect desc": "reflects the discomfort: the opposing matchup takes -12% to composure and -10% to confidence."
+  },
+  "Anger Shell": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "After getting hit by a run or hard contact",
+    "effect desc": "trades calm for force, adding +12% to attack speed and +10% to risk-taking creation."
+  },
+  "Shadow Tag": {
+    "affect target": "enemy",
+    "edge type": "enemy debuff",
+    "effect trigger": "When isolating a target matchup",
+    "effect desc": "pins the opponent into the action, causing -10% to escape dribbles and -8% to bailout passing."
+  },
+  "Hustle": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "On fast, aggressive possessions",
+    "effect desc": "plays with nonstop energy for +10% to attack pace and +8% to second-effort creation."
+  },
+  "Lingering Aroma": {
+    "affect target": "enemy",
+    "edge type": "enemy debuff",
+    "effect trigger": "After repeated possessions on the same matchup",
+    "effect desc": "sticks to them, dealing -10% to comfort and -8% to repeat-action efficiency."
+  },
+  "Magic Bounce": {
+    "affect target": "enemy team",
+    "edge type": "enemy team debuff",
+    "effect trigger": "When opponents send doubles or gimmick pressure",
+    "effect desc": "turns it back on them: enemy defense rotates late and loses -10% to structure for the next action."
+  },
+  "Corrosion": {
+    "affect target": "enemy team",
+    "edge type": "enemy team debuff",
+    "effect trigger": "Across a full stint",
+    "effect desc": "erodes discipline even from sturdy defenders, causing -10% to contact resistance and -9% to effort plays."
+  },
+  "Stakeout": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "Against a fresh defender or after a scouting possession",
+    "effect desc": "attacks the read with +10% to first-step advantage and +9% to targeted scoring."
+  },
+  "Fur Coat": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "When absorbing drives or chesting up",
+    "effect desc": "takes the hit and stays balanced with +10% to defensive sturdiness and +8% to box-out hold."
+  },
+  "Defeatist": {
+    "affect target": "team",
+    "edge type": "team buff",
+    "effect trigger": "When the team falls behind",
+    "effect desc": "becomes more unselfish, giving teammates +10% to movement looks and +8% to comeback pace."
+  },
+  "Soundproof": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "When under pressure",
+    "effect desc": "stays protected, gaining +10% to steadiness and +8% to resisting disruption."
+  },
+  "Huge Power": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "When attacking decisively",
+    "effect desc": "amplifies the punch of each move for +10% to advantage creation and +8% to forceful finishing."
+  },
+  "Tough Claws": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "On attacks into bodies",
+    "effect desc": "wins contact battles for +10% to finishing and +8% to physical drives."
+  },
+  "Rock Head": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "When attacking through contact",
+    "effect desc": "does not shy away, gaining +10% to fearless rim pressure and +8% to finishing control."
+  },
+  "Own Tempo": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "Against pace changes and defensive junk",
+    "effect desc": "stays on beat with +10% to dribble control and +9% to shot rhythm."
+  },
+  "Unaware": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "Against fakes, stars, and overcomplicated actions",
+    "effect desc": "ignores the noise and gains +10% to assignment discipline and +8% to clean reads."
+  },
+  "Symbiosis": {
+    "affect target": "team",
+    "edge type": "team buff",
+    "effect trigger": "After this player creates an edge",
+    "effect desc": "passes the benefit along, giving the next teammate +10% to shot quality or drive angle."
+  },
+  "Magic Guard": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "All game long",
+    "effect desc": "ignores a lot of chip damage from bumps, fatigue, and gimmicks, gaining +10% to steadiness and +9% to late-game execution."
+  },
+  "Drizzle": {
+    "affect target": "team",
+    "edge type": "team buff",
+    "effect trigger": "At the start of offensive possessions",
+    "effect desc": "slickens the passing game, giving the team +10% to ball movement and +9% to cutter timing."
+  },
+  "Overcoat": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "Against contact, distractions, and messy possessions",
+    "effect desc": "stays clean, adding +10% to stability and +8% to focus retention."
+  },
+  "Purifying Salt": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "Against gimmicks and emotional swings",
+    "effect desc": "stays clean-headed with +10% to focus and +8% to resisting disruption."
+  },
+  "Thick Fat": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "Across long, physical stretches",
+    "effect desc": "resists wear with +10% to stamina retention and +8% to contact balance."
+  },
+  "Solid Rock": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "When absorbing contact or meeting drivers",
+    "effect desc": "holds ground with +10% to positional strength and +8% to finishing through bumps."
+  },
+  "Analytic": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "After sizing up the set for a second",
+    "effect desc": "finds the most efficient line, gaining +8% to calculated attacks and +7% to pass selection."
+  },
+  "Poison Point": {
+    "affect target": "enemy",
+    "edge type": "enemy debuff",
+    "effect trigger": "After repeated body contact",
+    "effect desc": "the matchup wears it: the defender takes -8% to discipline and -6% to staying attached."
+  },
+  "Cute Charm": {
+    "affect target": "enemy",
+    "edge type": "enemy debuff",
+    "effect trigger": "On close face-up or isolation possessions",
+    "effect desc": "charms the matchup into hesitation, causing -8% to pressure quality and -6% to recovery speed."
+  },
+  "Poison Touch": {
+    "affect target": "enemy",
+    "edge type": "enemy debuff",
+    "effect trigger": "On repeated pokes and contact defense",
+    "effect desc": "leaves the matchup drained, dealing -8% to composure and -6% to handle sharpness."
+  },
+  "Gluttony": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "At the first sign of fatigue",
+    "effect desc": "refuels earlier than others, restoring stamina sooner and keeping +6% more burst."
+  },
+  "Color Change": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "After seeing a defender’s first answer",
+    "effect desc": "adjusts style on the fly for +8% to counterplay and +6% to downhill scoring."
+  },
+  "Simple": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "Whenever it gains any temporary buff",
+    "effect desc": "amplifies the gain, making self-buffs hit about +8% harder than usual."
+  },
+  "Aftermath": {
+    "affect target": "enemy team",
+    "edge type": "enemy team debuff",
+    "effect trigger": "Even after a turnover, charge, or block against it",
+    "effect desc": "leaves behind a scramble that causes opponents -8% to outlet quality on the next beat."
+  },
+  "Frisk": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "On the first defensive look",
+    "effect desc": "spots what the offense wants, gaining +8% to anticipation and +6% to steal timing."
+  },
+  "Ripen": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "Whenever it gets a recovery boost",
+    "effect desc": "that recovery hits harder, restoring roughly +8% more stamina or rhythm than normal."
+  },
+  "Steely Spirit": {
+    "affect target": "team",
+    "edge type": "team buff",
+    "effect trigger": "On physical possessions",
+    "effect desc": "toughens the group, giving teammates +8% to screen setting, seals, and tough finishes."
+  },
+  "Mycelium Might": {
+    "affect target": "team",
+    "edge type": "team buff",
+    "effect trigger": "On slower, deliberate possessions",
+    "effect desc": "makes the next action harder to stop, giving teammates +8% to execution once the set is established."
+  },
+  "Emergency Exit": {
+    "affect target": "team",
+    "edge type": "team buff",
+    "effect trigger": "When a possession gets ugly",
+    "effect desc": "bails the team out into a reset, improving escape passing and reducing broken-possession losses by 6%."
+  },
+  "Truant": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "Every other heavy-usage possession",
+    "effect desc": "stores energy, then cashes it in for a bigger spike: +8% to advantage creation on active possessions."
+  },
+  "Cheek Pouch": {
+    "affect target": "self",
+    "edge type": "self buff",
+    "effect trigger": "On brief dead balls or stoppages",
+    "effect desc": "sneaks in recovery, regaining stamina and keeping +6% more burst for the next stretch."
+  }
+}
