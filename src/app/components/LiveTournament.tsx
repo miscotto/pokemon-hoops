@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { GameEvent, PlayerGameStats, Side } from "../utils/tournamentEngine";
+import { PokeButton, PokeCard, PokeDialog, TypewriterText } from "./ui";
 
 // ─── Types (API response shapes) ────────────────────────────────────────────
 
@@ -88,12 +89,20 @@ function LobbyView({ lobby }: { lobby: LobbyState }) {
 
   return (
     <div className="max-w-lg mx-auto text-center">
-      <div className="bg-slate-800 rounded-2xl p-8 border border-slate-700">
+      <PokeCard variant="default" className="p-8">
         <div className="text-5xl mb-4">🏟️</div>
-        <h2 className="text-2xl font-black text-white mb-2">
-          Live Tournament Lobby
+        <h2
+          className="font-pixel text-[10px] mb-2"
+          style={{ color: "var(--color-text)" }}
+        >
+          LIVE TOURNAMENT LOBBY
         </h2>
-        <p className="text-slate-400 mb-6">Waiting for players to join...</p>
+        <p
+          className="font-pixel text-[6px] mb-6"
+          style={{ color: "var(--color-text-muted)" }}
+        >
+          WAITING FOR PLAYERS TO JOIN...
+        </p>
 
         {/* Progress ring */}
         <div className="relative w-32 h-32 mx-auto mb-6">
@@ -103,7 +112,7 @@ function LobbyView({ lobby }: { lobby: LobbyState }) {
               cy="64"
               r="56"
               fill="none"
-              stroke="#334155"
+              stroke="var(--color-border)"
               strokeWidth="8"
             />
             <circle
@@ -111,7 +120,7 @@ function LobbyView({ lobby }: { lobby: LobbyState }) {
               cy="64"
               r="56"
               fill="none"
-              stroke="#f59e0b"
+              stroke="var(--color-primary)"
               strokeWidth="8"
               strokeDasharray={`${progress * 3.52} ${352 - progress * 3.52}`}
               strokeLinecap="round"
@@ -119,9 +128,17 @@ function LobbyView({ lobby }: { lobby: LobbyState }) {
             />
           </svg>
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-3xl font-black text-white">
+            <span
+              className="font-pixel text-[14px]"
+              style={{ color: "var(--color-text)" }}
+            >
               {lobby.teamCount}
-              <span className="text-lg text-slate-400">/{lobby.maxTeams}</span>
+              <span
+                className="font-pixel text-[8px]"
+                style={{ color: "var(--color-text-muted)" }}
+              >
+                /{lobby.maxTeams}
+              </span>
             </span>
           </div>
         </div>
@@ -129,39 +146,66 @@ function LobbyView({ lobby }: { lobby: LobbyState }) {
         {/* Team list */}
         <div className="space-y-2 text-left">
           {lobby.teams.map((t, i) => (
-            <div
+            <PokeCard
               key={i}
-              className="flex items-center gap-3 bg-slate-700/50 rounded-lg px-4 py-2.5"
+              variant="highlighted"
+              className="flex items-center gap-3 px-4 py-2.5"
             >
-              <span className="text-amber-400 font-bold text-sm">{i + 1}</span>
-              <span className="text-white text-sm font-medium">
+              <span
+                className="font-pixel text-[6px]"
+                style={{ color: "var(--color-primary)" }}
+              >
+                {i + 1}
+              </span>
+              <span
+                className="font-pixel text-[6px] flex-1 truncate"
+                style={{ color: "var(--color-text)" }}
+              >
                 {t.teamName}
               </span>
-              <span className="text-slate-500 text-xs ml-auto">Joined</span>
-            </div>
+              <span
+                className="font-pixel text-[5px]"
+                style={{ color: "var(--color-text-muted)" }}
+              >
+                JOINED
+              </span>
+            </PokeCard>
           ))}
           {Array.from({ length: lobby.maxTeams - lobby.teamCount }).map(
             (_, i) => (
-              <div
+              <PokeCard
                 key={`empty-${i}`}
-                className="flex items-center gap-3 bg-slate-800/50 rounded-lg px-4 py-2.5 border border-dashed border-slate-600"
+                variant="default"
+                className="flex items-center gap-3 px-4 py-2.5 border-dashed"
               >
-                <span className="text-slate-600 font-bold text-sm">
+                <span
+                  className="font-pixel text-[6px]"
+                  style={{ color: "var(--color-text-muted)" }}
+                >
                   {lobby.teamCount + i + 1}
                 </span>
-                <span className="text-slate-600 text-sm italic">
-                  Waiting...
+                <span
+                  className="font-pixel text-[6px] italic"
+                  style={{ color: "var(--color-text-muted)" }}
+                >
+                  WAITING...
                 </span>
-              </div>
+              </PokeCard>
             ),
           )}
         </div>
 
-        <div className="mt-6 flex items-center justify-center gap-2 text-amber-400 text-sm">
-          <div className="w-2 h-2 bg-amber-400 rounded-full animate-pulse" />
-          Searching for opponents...
+        <div
+          className="mt-6 flex items-center justify-center gap-2 font-pixel text-[6px]"
+          style={{ color: "var(--color-primary)" }}
+        >
+          <div
+            className="w-2 h-2 rounded-full animate-pulse"
+            style={{ backgroundColor: "var(--color-primary)" }}
+          />
+          SEARCHING FOR OPPONENTS...
         </div>
-      </div>
+      </PokeCard>
     </div>
   );
 }
@@ -182,33 +226,35 @@ function LiveMatchupCard({
   const isUpcoming = matchup.status === "upcoming";
 
   return (
-    <div
-      className={`rounded-lg border-2 overflow-hidden transition-all ${
-        isDone
-          ? "border-green-500/50 bg-slate-800"
-          : isLive
-            ? "border-amber-400/70 bg-slate-800 shadow-lg shadow-amber-400/10"
-            : "border-slate-700 bg-slate-800/60"
-      }`}
+    <PokeCard
+      variant={isLive ? "highlighted" : "default"}
+      className="overflow-hidden transition-all"
     >
       {/* Status bar */}
       <div
-        className={`px-3 py-1 text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5 ${
-          isDone
-            ? "bg-green-900/40 text-green-400"
+        className="px-3 py-1 font-pixel text-[6px] uppercase tracking-wider flex items-center gap-1.5"
+        style={{
+          backgroundColor: isDone
+            ? "rgba(var(--color-primary-rgb, 0,0,0), 0.15)"
             : isLive
-              ? "bg-amber-900/40 text-amber-400"
-              : "bg-slate-700/40 text-slate-500"
-        }`}
+              ? "rgba(var(--color-primary-rgb, 0,0,0), 0.25)"
+              : "transparent",
+          color: isDone
+            ? "var(--color-primary)"
+            : isLive
+              ? "var(--color-primary)"
+              : "var(--color-text-muted)",
+          borderBottom: "1px solid var(--color-border)",
+        }}
       >
         {isLive && (
           <div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />
         )}
-        {isDone ? "Final" : isLive ? "Live" : "Upcoming"}
+        {isDone ? "FINAL" : isLive ? "LIVE" : "UPCOMING"}
       </div>
 
       {/* Teams */}
-      <div className="divide-y divide-slate-700/50">
+      <div style={{ borderTop: "none" }}>
         <LiveTeamRow
           name={matchup.homeTeam.name}
           seed={matchup.homeTeam.seed}
@@ -217,6 +263,7 @@ function LiveMatchupCard({
           isUser={matchup.homeTeam.name === userTeamName}
           showScore={!isUpcoming}
         />
+        <div style={{ borderTop: "1px solid var(--color-border)", opacity: 0.4 }} />
         <LiveTeamRow
           name={matchup.awayTeam.name}
           seed={matchup.awayTeam.seed}
@@ -229,29 +276,39 @@ function LiveMatchupCard({
 
       {/* Watch button for live/completed games */}
       {(isLive || isDone) && (
-        <button
-          onClick={() => onWatch(matchup.id)}
-          className={`w-full py-1.5 text-xs font-bold transition-colors ${
-            isLive
-              ? "bg-amber-500 hover:bg-amber-400 text-slate-900"
-              : "bg-slate-700 hover:bg-slate-600 text-slate-300"
-          }`}
-        >
-          {isLive ? "WATCH LIVE" : "VIEW RECAP"}
-        </button>
+        <div className="p-2" style={{ borderTop: "1px solid var(--color-border)" }}>
+          <PokeButton
+            variant={isLive ? "primary" : "ghost"}
+            size="sm"
+            className="w-full"
+            onClick={() => onWatch(matchup.id)}
+          >
+            {isLive ? "WATCH LIVE" : "VIEW RECAP"}
+          </PokeButton>
+        </div>
       )}
 
       {/* MVP for completed */}
       {isDone && matchup.mvp && (
-        <div className="px-3 py-1.5 bg-slate-900/50 text-[10px] text-slate-400 flex items-center gap-1.5">
+        <div
+          className="px-3 py-1.5 font-pixel text-[5px] flex items-center gap-1.5"
+          style={{
+            backgroundColor: "rgba(0,0,0,0.15)",
+            color: "var(--color-text-muted)",
+            borderTop: "1px solid var(--color-border)",
+          }}
+        >
           MVP:{" "}
-          <span className="text-amber-400 font-semibold">
+          <span
+            className="font-pixel text-[5px]"
+            style={{ color: "var(--color-primary)" }}
+          >
             {matchup.mvp.name}
           </span>
-          ({matchup.mvp.points} pts)
+          ({matchup.mvp.points} PTS)
         </div>
       )}
-    </div>
+    </PokeCard>
   );
 }
 
@@ -272,22 +329,44 @@ function LiveTeamRow({
 }) {
   return (
     <div
-      className={`px-3 py-2 flex items-center gap-2 ${isWinner ? "bg-green-900/20" : ""}`}
+      className="px-3 py-2 flex items-center gap-2"
+      style={{
+        backgroundColor: isWinner ? "rgba(var(--color-primary-rgb, 0,0,0), 0.1)" : "transparent",
+      }}
     >
-      <span className="w-4 text-[10px] text-slate-500 font-mono">{seed}</span>
       <span
-        className={`text-sm flex-1 truncate ${isWinner ? "font-bold text-green-400" : "text-slate-200"}`}
+        className="w-4 font-pixel text-[5px]"
+        style={{ color: "var(--color-text-muted)" }}
+      >
+        {seed}
+      </span>
+      <span
+        className="font-pixel text-[6px] flex-1 truncate"
+        style={{
+          color: isWinner ? "var(--color-primary)" : "var(--color-text)",
+          fontWeight: isWinner ? "bold" : undefined,
+        }}
       >
         {name}
       </span>
       {isUser && (
-        <span className="text-[9px] bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded font-bold">
+        <span
+          className="font-pixel text-[5px] px-1.5 py-0.5"
+          style={{
+            backgroundColor: "rgba(var(--color-primary-rgb, 0,0,0), 0.2)",
+            color: "var(--color-primary)",
+            border: "1px solid var(--color-primary)",
+          }}
+        >
           YOU
         </span>
       )}
       {showScore && (
         <span
-          className={`text-sm font-bold tabular-nums ${isWinner ? "text-green-400" : "text-slate-400"}`}
+          className="font-pixel text-[6px] tabular-nums"
+          style={{
+            color: isWinner ? "var(--color-primary)" : "var(--color-text-muted)",
+          }}
         >
           {score}
         </span>
@@ -314,26 +393,35 @@ function LiveBracketView({
       : null;
 
   return (
-    <div className="w-full">
+    <div className="w-full" style={{ backgroundColor: "var(--color-bg)" }}>
       {champion && (
         <div className="mb-8 text-center">
-          <div className="inline-block bg-gradient-to-r from-amber-500/20 via-amber-400/20 to-amber-500/20 border border-amber-400/40 rounded-2xl px-8 py-5">
+          <PokeCard variant="highlighted" className="inline-block px-8 py-5">
             <div className="text-4xl mb-2">🏆</div>
-            <div className="text-2xl font-black text-amber-400">
+            <div
+              className="font-pixel text-[10px]"
+              style={{ color: "var(--color-primary)" }}
+            >
               {champion.name}
             </div>
-            <div className="text-sm text-slate-400 mt-1">
-              Tournament Champion
+            <div
+              className="font-pixel text-[6px] mt-1"
+              style={{ color: "var(--color-text-muted)" }}
+            >
+              TOURNAMENT CHAMPION
             </div>
-          </div>
+          </PokeCard>
         </div>
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr_1fr] gap-6 max-w-5xl mx-auto">
         {/* Round 1 */}
         <div className="space-y-4">
-          <h3 className="text-xs font-bold text-blue-400 uppercase tracking-wider text-center">
-            West First Round
+          <h3
+            className="font-pixel text-[6px] uppercase tracking-wider text-center"
+            style={{ color: "var(--color-text-muted)" }}
+          >
+            WEST FIRST ROUND
           </h3>
           {m
             .filter((g) => g.round === 1 && g.conference === "west")
@@ -345,8 +433,11 @@ function LiveBracketView({
                 onWatch={onWatch}
               />
             ))}
-          <h3 className="text-xs font-bold text-red-400 uppercase tracking-wider text-center pt-3">
-            East First Round
+          <h3
+            className="font-pixel text-[6px] uppercase tracking-wider text-center pt-3"
+            style={{ color: "var(--color-text-muted)" }}
+          >
+            EAST FIRST ROUND
           </h3>
           {m
             .filter((g) => g.round === 1 && g.conference === "east")
@@ -362,8 +453,11 @@ function LiveBracketView({
 
         {/* Round 2 */}
         <div className="space-y-4">
-          <h3 className="text-xs font-bold text-blue-400 uppercase tracking-wider text-center">
-            West Final
+          <h3
+            className="font-pixel text-[6px] uppercase tracking-wider text-center"
+            style={{ color: "var(--color-text-muted)" }}
+          >
+            WEST FINAL
           </h3>
           {m
             .filter((g) => g.round === 2 && g.conference === "west")
@@ -375,8 +469,11 @@ function LiveBracketView({
                 onWatch={onWatch}
               />
             ))}
-          <h3 className="text-xs font-bold text-purple-400 uppercase tracking-wider text-center pt-3">
-            Championship
+          <h3
+            className="font-pixel text-[6px] uppercase tracking-wider text-center pt-3"
+            style={{ color: "var(--color-text-muted)" }}
+          >
+            CHAMPIONSHIP
           </h3>
           {m
             .filter((g) => g.round === 3)
@@ -388,8 +485,11 @@ function LiveBracketView({
                 onWatch={onWatch}
               />
             ))}
-          <h3 className="text-xs font-bold text-red-400 uppercase tracking-wider text-center pt-3">
-            East Final
+          <h3
+            className="font-pixel text-[6px] uppercase tracking-wider text-center pt-3"
+            style={{ color: "var(--color-text-muted)" }}
+          >
+            EAST FINAL
           </h3>
           {m
             .filter((g) => g.round === 2 && g.conference === "east")
@@ -430,7 +530,10 @@ function LiveGameScoreboard({
   status: string;
 }) {
   return (
-    <div className="bg-slate-900 rounded-xl shadow-2xl overflow-hidden border border-slate-700">
+    <PokeCard
+      variant="default"
+      className="overflow-hidden"
+    >
       <div className="flex items-center justify-between px-6 py-5">
         <div className="flex items-center gap-3 flex-1">
           <div className="flex -space-x-2">
@@ -439,13 +542,25 @@ function LiveGameScoreboard({
                 key={i}
                 src={p.sprite}
                 alt=""
-                className="w-7 h-7 rounded-full bg-slate-700 border-2 border-slate-900"
+                className="w-7 h-7 rounded-full border-2"
+                style={{
+                  backgroundColor: "var(--color-surface)",
+                  borderColor: "var(--color-border)",
+                }}
               />
             ))}
           </div>
           <div>
-            <div className="text-white font-bold">{homeTeam.name}</div>
-            <div className="text-slate-500 text-xs">
+            <div
+              className="font-pixel text-[7px]"
+              style={{ color: "var(--color-text)" }}
+            >
+              {homeTeam.name}
+            </div>
+            <div
+              className="font-pixel text-[5px]"
+              style={{ color: "var(--color-text-muted)" }}
+            >
               {homeTeam.coast?.toUpperCase()} CONF
             </div>
           </div>
@@ -454,13 +569,30 @@ function LiveGameScoreboard({
         <div className="text-center px-6">
           <div className="flex items-center gap-3">
             <span
-              className={`text-4xl font-black tabular-nums ${homeScore > awayScore ? "text-white" : "text-slate-500"}`}
+              className="font-pixel text-[14px] tabular-nums"
+              style={{
+                color:
+                  homeScore > awayScore
+                    ? "var(--color-primary)"
+                    : "var(--color-text-muted)",
+              }}
             >
               {homeScore}
             </span>
-            <span className="text-slate-600 text-xl">-</span>
             <span
-              className={`text-4xl font-black tabular-nums ${awayScore > homeScore ? "text-white" : "text-slate-500"}`}
+              className="font-pixel text-[10px]"
+              style={{ color: "var(--color-text-muted)" }}
+            >
+              -
+            </span>
+            <span
+              className="font-pixel text-[14px] tabular-nums"
+              style={{
+                color:
+                  awayScore > homeScore
+                    ? "var(--color-primary)"
+                    : "var(--color-text-muted)",
+              }}
             >
               {awayScore}
             </span>
@@ -470,13 +602,18 @@ function LiveGameScoreboard({
               <div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />
             )}
             <span
-              className={`text-xs font-bold px-2 py-0.5 rounded ${
-                status === "completed"
-                  ? "bg-slate-700 text-slate-300"
-                  : status === "in_progress"
-                    ? "bg-red-600 text-white"
-                    : "bg-slate-700 text-slate-400"
-              }`}
+              className="font-pixel text-[5px] px-2 py-0.5"
+              style={{
+                backgroundColor:
+                  status === "in_progress"
+                    ? "var(--color-danger)"
+                    : "var(--color-surface)",
+                color:
+                  status === "in_progress"
+                    ? "#fff"
+                    : "var(--color-text-muted)",
+                border: "1px solid var(--color-border)",
+              }}
             >
               {status === "completed"
                 ? "FINAL"
@@ -485,15 +622,28 @@ function LiveGameScoreboard({
                   : `Q${quarter}`}
             </span>
             {status === "in_progress" && (
-              <span className="text-slate-400 text-sm font-mono">{clock}</span>
+              <span
+                className="font-pixel text-[5px]"
+                style={{ color: "var(--color-text-muted)" }}
+              >
+                {clock}
+              </span>
             )}
           </div>
         </div>
 
         <div className="flex items-center gap-3 flex-1 justify-end">
           <div className="text-right">
-            <div className="text-white font-bold">{awayTeam.name}</div>
-            <div className="text-slate-500 text-xs">
+            <div
+              className="font-pixel text-[7px]"
+              style={{ color: "var(--color-text)" }}
+            >
+              {awayTeam.name}
+            </div>
+            <div
+              className="font-pixel text-[5px]"
+              style={{ color: "var(--color-text-muted)" }}
+            >
               {awayTeam.coast?.toUpperCase()} CONF
             </div>
           </div>
@@ -503,13 +653,17 @@ function LiveGameScoreboard({
                 key={i}
                 src={p.sprite}
                 alt=""
-                className="w-7 h-7 rounded-full bg-slate-700 border-2 border-slate-900"
+                className="w-7 h-7 rounded-full border-2"
+                style={{
+                  backgroundColor: "var(--color-surface)",
+                  borderColor: "var(--color-border)",
+                }}
               />
             ))}
           </div>
         </div>
       </div>
-    </div>
+    </PokeCard>
   );
 }
 
@@ -525,6 +679,7 @@ function LiveEventFeed({ events }: { events: GameEvent[] }) {
   }, [events.length]);
 
   const reversed = [...events].reverse();
+  const latestEvent = reversed[0]?.description ?? "";
 
   const getIcon = (type: string) => {
     const map: Record<string, string> = {
@@ -558,18 +713,20 @@ function LiveEventFeed({ events }: { events: GameEvent[] }) {
   };
 
   return (
-    <div className="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden">
-      <div className="px-4 py-3 bg-slate-900/50 border-b border-slate-700">
-        <h3 className="font-bold text-slate-200 text-sm flex items-center gap-2">
-          Play-by-Play
-          {events.length > 0 && (
-            <span className="text-[10px] bg-slate-700 text-slate-400 px-1.5 py-0.5 rounded">
-              {events.length} plays
-            </span>
-          )}
-        </h3>
-      </div>
-      <div ref={containerRef} className="h-96 overflow-y-auto">
+    <PokeDialog label="LIVE FEED" className="overflow-hidden">
+      {events.length > 0 && (
+        <span
+          className="font-pixel text-[5px] px-1.5 py-0.5"
+          style={{
+            backgroundColor: "var(--color-surface)",
+            color: "var(--color-text-muted)",
+            border: "1px solid var(--color-border)",
+          }}
+        >
+          {events.length} PLAYS
+        </span>
+      )}
+      <div ref={containerRef} className="h-96 overflow-y-auto mt-3">
         {reversed.map((event, idx) => {
           const isNew = idx === 0;
           const isScoring = [
@@ -582,15 +739,26 @@ function LiveEventFeed({ events }: { events: GameEvent[] }) {
           return (
             <div
               key={events.length - 1 - idx}
-              className={`px-4 py-2.5 border-b border-slate-700/30 flex gap-3 transition-colors ${
-                isNew ? "bg-amber-900/20" : ""
-              } ${isScoring ? (event.team === "home" ? "border-l-2 border-l-blue-500" : "border-l-2 border-l-red-500") : ""}`}
+              className="px-2 py-2.5 flex gap-3 transition-colors"
+              style={{
+                borderBottom: "1px solid var(--color-border)",
+                borderLeft: isScoring
+                  ? `2px solid ${event.team === "home" ? "var(--color-primary)" : "var(--color-danger)"}`
+                  : undefined,
+                opacity: isNew ? 1 : 0.45,
+              }}
             >
               <div className="shrink-0 text-center w-10">
-                <div className="text-[9px] text-slate-500 font-mono">
+                <div
+                  className="font-pixel text-[5px]"
+                  style={{ color: "var(--color-text-muted)" }}
+                >
                   Q{event.quarter}
                 </div>
-                <div className="text-[11px] text-slate-400 font-mono">
+                <div
+                  className="font-pixel text-[5px]"
+                  style={{ color: "var(--color-text-muted)" }}
+                >
                   {event.clock}
                 </div>
               </div>
@@ -601,34 +769,63 @@ function LiveEventFeed({ events }: { events: GameEvent[] }) {
                     <img src={event.pokemonSprite} alt="" className="w-4 h-4" />
                   )}
                   <span
-                    className={`text-xs font-bold ${event.team === "home" ? "text-blue-400" : "text-red-400"}`}
+                    className="font-pixel text-[5px]"
+                    style={{
+                      color:
+                        event.team === "home"
+                          ? "var(--color-primary)"
+                          : "var(--color-danger)",
+                    }}
                   >
                     {event.pokemonName}
                   </span>
                   {event.pointsScored && (
-                    <span className="text-[10px] font-bold text-green-400 bg-green-900/40 px-1 rounded">
+                    <span
+                      className="font-pixel text-[5px] px-1"
+                      style={{
+                        color: "var(--color-primary)",
+                        border: "1px solid var(--color-primary)",
+                      }}
+                    >
                       +{event.pointsScored}
                     </span>
                   )}
                 </div>
-                <div className="text-xs text-slate-300">
-                  {event.description}
+                <div
+                  className="font-pixel text-[5px] leading-loose"
+                  style={{ color: "var(--color-text)" }}
+                >
+                  {isNew ? (
+                    <TypewriterText
+                      key={events.length}
+                      text={latestEvent}
+                      speed={30}
+                    />
+                  ) : (
+                    event.description
+                  )}
                 </div>
               </div>
-              <div className="shrink-0 text-xs font-bold text-slate-400 tabular-nums">
+              <div
+                className="shrink-0 font-pixel text-[5px] tabular-nums"
+                style={{ color: "var(--color-text-muted)" }}
+              >
                 {event.homeScore}-{event.awayScore}
               </div>
             </div>
           );
         })}
         {events.length === 0 && (
-          <div className="text-center text-slate-500 py-12">
+          <div
+            className="text-center py-12 font-pixel text-[6px]"
+            style={{ color: "var(--color-text-muted)" }}
+          >
             <div className="text-2xl mb-2">⏳</div>
-            Game hasn&apos;t started yet...
+            GAME HASN&apos;T STARTED YET...
           </div>
         )}
       </div>
-    </div>
+    </PokeDialog>
   );
 }
 
@@ -678,70 +875,152 @@ function LiveBoxScore({
   );
 
   return (
-    <div className="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden">
-      <div className="flex border-b border-slate-700">
+    <PokeCard variant="default" className="overflow-hidden">
+      <div
+        className="flex"
+        style={{ borderBottom: "1px solid var(--color-border)" }}
+      >
         <button
           onClick={() => setTab("home")}
-          className={`flex-1 py-2.5 text-xs font-bold ${tab === "home" ? "text-blue-400 bg-blue-900/20 border-b-2 border-blue-400" : "text-slate-500"}`}
+          className="flex-1 py-2.5 font-pixel text-[6px]"
+          style={{
+            color: tab === "home" ? "var(--color-primary)" : "var(--color-text-muted)",
+            backgroundColor:
+              tab === "home" ? "rgba(var(--color-primary-rgb, 0,0,0), 0.1)" : "transparent",
+            borderBottom: tab === "home" ? "2px solid var(--color-primary)" : "none",
+          }}
         >
           {homeTeam.name}
         </button>
         <button
           onClick={() => setTab("away")}
-          className={`flex-1 py-2.5 text-xs font-bold ${tab === "away" ? "text-red-400 bg-red-900/20 border-b-2 border-red-400" : "text-slate-500"}`}
+          className="flex-1 py-2.5 font-pixel text-[6px]"
+          style={{
+            color: tab === "away" ? "var(--color-danger)" : "var(--color-text-muted)",
+            backgroundColor:
+              tab === "away" ? "rgba(var(--color-danger-rgb, 0,0,0), 0.1)" : "transparent",
+            borderBottom: tab === "away" ? "2px solid var(--color-danger)" : "none",
+          }}
         >
           {awayTeam.name}
         </button>
       </div>
       <table className="w-full text-xs">
         <thead>
-          <tr className="text-slate-500 uppercase text-[10px]">
-            <th className="text-left px-3 py-2">Player</th>
-            <th className="text-center px-1.5 py-2">PTS</th>
-            <th className="text-center px-1.5 py-2">REB</th>
-            <th className="text-center px-1.5 py-2">AST</th>
-            <th className="text-center px-1.5 py-2">STL</th>
-            <th className="text-center px-1.5 py-2">BLK</th>
-            <th className="text-center px-1.5 py-2">PF</th>
+          <tr>
+            <th
+              className="text-left px-3 py-2 font-pixel text-[5px]"
+              style={{ color: "var(--color-text-muted)" }}
+            >
+              PLAYER
+            </th>
+            <th
+              className="text-center px-1.5 py-2 font-pixel text-[5px]"
+              style={{ color: "var(--color-text-muted)" }}
+            >
+              PTS
+            </th>
+            <th
+              className="text-center px-1.5 py-2 font-pixel text-[5px]"
+              style={{ color: "var(--color-text-muted)" }}
+            >
+              REB
+            </th>
+            <th
+              className="text-center px-1.5 py-2 font-pixel text-[5px]"
+              style={{ color: "var(--color-text-muted)" }}
+            >
+              AST
+            </th>
+            <th
+              className="text-center px-1.5 py-2 font-pixel text-[5px]"
+              style={{ color: "var(--color-text-muted)" }}
+            >
+              STL
+            </th>
+            <th
+              className="text-center px-1.5 py-2 font-pixel text-[5px]"
+              style={{ color: "var(--color-text-muted)" }}
+            >
+              BLK
+            </th>
+            <th
+              className="text-center px-1.5 py-2 font-pixel text-[5px]"
+              style={{ color: "var(--color-text-muted)" }}
+            >
+              PF
+            </th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-slate-700/30">
+        <tbody>
           {players.map((p) => (
-            <tr key={p.name} className={p.injured ? "opacity-40" : ""}>
+            <tr
+              key={p.name}
+              className={p.injured ? "opacity-40" : ""}
+              style={{ borderTop: "1px solid var(--color-border)" }}
+            >
               <td className="px-3 py-2 flex items-center gap-1.5">
                 <img src={p.sprite} alt="" className="w-5 h-5" />
-                <span className="text-slate-200 truncate max-w-[80px]">
+                <span
+                  className="font-pixel text-[6px] truncate max-w-20"
+                  style={{ color: "var(--color-text)" }}
+                >
                   {p.name}
                 </span>
                 {p.injured && (
-                  <span className="text-[8px] bg-red-900/50 text-red-400 px-1 rounded">
+                  <span
+                    className="font-pixel text-[5px] px-1"
+                    style={{
+                      backgroundColor: "rgba(var(--color-danger-rgb, 0,0,0), 0.2)",
+                      color: "var(--color-danger)",
+                      border: "1px solid var(--color-danger)",
+                    }}
+                  >
                     OUT
                   </span>
                 )}
               </td>
-              <td className="text-center px-1.5 py-2 font-bold text-white">
+              <td
+                className="text-center px-1.5 py-2 font-pixel text-[6px]"
+                style={{ color: "var(--color-text)" }}
+              >
                 {p.points}
               </td>
-              <td className="text-center px-1.5 py-2 text-slate-400">
+              <td
+                className="text-center px-1.5 py-2 font-pixel text-[6px]"
+                style={{ color: "var(--color-text-muted)" }}
+              >
                 {p.rebounds}
               </td>
-              <td className="text-center px-1.5 py-2 text-slate-400">
+              <td
+                className="text-center px-1.5 py-2 font-pixel text-[6px]"
+                style={{ color: "var(--color-text-muted)" }}
+              >
                 {p.assists}
               </td>
-              <td className="text-center px-1.5 py-2 text-slate-400">
+              <td
+                className="text-center px-1.5 py-2 font-pixel text-[6px]"
+                style={{ color: "var(--color-text-muted)" }}
+              >
                 {p.steals}
               </td>
-              <td className="text-center px-1.5 py-2 text-slate-400">
+              <td
+                className="text-center px-1.5 py-2 font-pixel text-[6px]"
+                style={{ color: "var(--color-text-muted)" }}
+              >
                 {p.blocks}
               </td>
-              <td className="text-center px-1.5 py-2 text-slate-400">
+              <td
+                className="text-center px-1.5 py-2 font-pixel text-[6px]"
+                style={{ color: "var(--color-text-muted)" }}
+              >
                 {p.fouls}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-    </div>
+    </PokeCard>
   );
 }
 
@@ -784,7 +1063,10 @@ function LiveGameView({
   if (!game) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-amber-400" />
+        <div
+          className="animate-spin rounded-full h-10 w-10 border-b-2"
+          style={{ borderColor: "var(--color-primary)" }}
+        />
       </div>
     );
   }
@@ -792,13 +1074,18 @@ function LiveGameView({
   const lastEvent = game.events[game.events.length - 1];
 
   return (
-    <div className="max-w-6xl mx-auto space-y-4">
-      <button
+    <div
+      className="max-w-6xl mx-auto space-y-4"
+      style={{ backgroundColor: "var(--color-bg)" }}
+    >
+      <PokeButton
+        variant="ghost"
+        size="sm"
         onClick={onBack}
-        className="text-slate-400 hover:text-slate-200 text-sm font-medium flex items-center gap-1"
+        className="flex items-center gap-1"
       >
-        <span>←</span> Back to Bracket
-      </button>
+        ← BACK TO BRACKET
+      </PokeButton>
 
       <LiveGameScoreboard
         homeTeam={game.homeTeam}
@@ -812,17 +1099,28 @@ function LiveGameView({
 
       {/* Game over banner */}
       {game.status === "completed" && game.mvp && (
-        <div className="bg-gradient-to-r from-amber-900/30 to-amber-800/30 border border-amber-500/30 rounded-xl p-4 text-center">
-          <div className="text-lg font-black text-white mb-1">
+        <PokeCard variant="highlighted" className="p-4 text-center">
+          <div
+            className="font-pixel text-[8px] mb-1"
+            style={{ color: "var(--color-text)" }}
+          >
             {game.winner === "home" ? game.homeTeam.name : game.awayTeam.name}{" "}
-            Wins!
+            WINS!
           </div>
-          <div className="text-sm text-slate-300">
+          <div
+            className="font-pixel text-[6px]"
+            style={{ color: "var(--color-text-muted)" }}
+          >
             MVP:{" "}
-            <span className="text-amber-400 font-bold">{game.mvp.name}</span> (
-            {game.mvp.points} pts)
+            <span
+              className="font-pixel text-[6px]"
+              style={{ color: "var(--color-primary)" }}
+            >
+              {game.mvp.name}
+            </span>{" "}
+            ({game.mvp.points} PTS)
           </div>
-        </div>
+        </PokeCard>
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
@@ -891,7 +1189,10 @@ export default function LiveTournament({
   // Watching a live game
   if (watchingMatchup) {
     return (
-      <div className="min-h-screen bg-slate-900 text-white p-4 pt-6">
+      <div
+        className="min-h-screen p-4 pt-6"
+        style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
+      >
         <LiveGameView
           tournamentId={tournamentId}
           matchupId={watchingMatchup}
@@ -902,21 +1203,32 @@ export default function LiveTournament({
   }
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white p-4">
+    <div
+      className="min-h-screen p-4"
+      style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
+    >
       <div className="max-w-6xl mx-auto pt-6">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
-          <button
+          <PokeButton
+            variant="ghost"
+            size="sm"
             onClick={onBack}
-            className="text-slate-400 hover:text-slate-200 font-medium text-sm flex items-center gap-1"
+            className="flex items-center gap-1"
           >
-            <span>←</span> Dashboard
-          </button>
+            ← DASHBOARD
+          </PokeButton>
           <div className="text-center">
-            <h1 className="text-xl font-black">
-              Live Tournament
+            <h1
+              className="font-pixel text-[9px]"
+              style={{ color: "var(--color-text)" }}
+            >
+              LIVE TOURNAMENT
               {status === "active" && (
-                <span className="ml-2 inline-flex items-center gap-1 text-sm text-red-400">
+                <span
+                  className="ml-2 inline-flex items-center gap-1 font-pixel text-[7px]"
+                  style={{ color: "var(--color-danger)" }}
+                >
                   <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />
                   LIVE
                 </span>
@@ -935,7 +1247,10 @@ export default function LiveTournament({
         {/* Loading */}
         {!lobby && status === "waiting" && (
           <div className="text-center py-20">
-            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-amber-400 mx-auto" />
+            <div
+              className="animate-spin rounded-full h-10 w-10 border-b-2 mx-auto"
+              style={{ borderColor: "var(--color-primary)" }}
+            />
           </div>
         )}
       </div>
