@@ -3,13 +3,9 @@
 import { Pokemon } from "../types";
 import Image from "next/image";
 import { useState } from "react";
-import {
-  toBballAverages,
-  getPlaystyle,
-  computeSalary,
-} from "../utils/bballStats";
+import { toBballAverages, getPlaystyle, computeSalary } from "../utils/bballStats";
+import { PokeButton, TypeBadge } from "./ui";
 
-// Import abilities data
 const abilitiesData = require("../../../public/abilities.json");
 
 interface PokemonCardProps {
@@ -22,23 +18,31 @@ interface PokemonCardProps {
 function AbilityBadge({ ability }: { ability: string }) {
   const [showTip, setShowTip] = useState(false);
   const abilityInfo = abilitiesData[ability];
-  const desc = abilityInfo
-    ? abilityInfo["effect desc"]
-    : "Standard Pokemon ability";
+  const desc = abilityInfo ? abilityInfo["effect desc"] : "Standard Pokemon ability";
 
   return (
     <span
-      className="relative mt-0.5 capitalize text-[9px] font-semibold text-purple-300 bg-purple-400/15 px-2 py-0.5 rounded-full cursor-help"
-      title={desc}
-      onClick={(e) => {
-        e.stopPropagation();
-        setShowTip((v) => !v);
+      className="relative font-pixel text-[5px] leading-loose px-1.5 py-0.5 border cursor-help"
+      style={{
+        backgroundColor: "var(--color-surface-alt)",
+        borderColor: "var(--color-border)",
+        color: "var(--color-text-muted)",
       }}
+      title={desc}
+      onClick={(e) => { e.stopPropagation(); setShowTip((v) => !v); }}
       onMouseLeave={() => setShowTip(false)}
     >
       ✨ {ability}
       {showTip && (
-        <span className="absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-1.5 w-48 px-2.5 py-1.5 rounded-lg bg-slate-900 border border-purple-400/30 text-[10px] text-slate-200 font-normal tracking-normal text-center shadow-lg shadow-black/40 pointer-events-none">
+        <span
+          className="absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 text-[6px] font-pixel leading-loose text-center pointer-events-none border-2"
+          style={{
+            backgroundColor: "var(--color-surface)",
+            borderColor: "var(--color-shadow)",
+            color: "var(--color-text)",
+            boxShadow: "3px 3px 0 var(--color-shadow)",
+          }}
+        >
           {desc}
         </span>
       )}
@@ -65,90 +69,99 @@ export default function PokemonCard({
         e.dataTransfer.effectAllowed = "move";
       }}
       disabled={disabled && !isSelected}
-      className={`relative flex flex-col items-center rounded-xl border-2 p-2 sm:p-3 transition-all duration-200 cursor-pointer
-        ${
-          isSelected
-            ? "border-amber-400 bg-amber-400/10 shadow-lg shadow-amber-400/20 scale-105"
-            : disabled
-              ? "border-slate-700 bg-slate-800/50 opacity-40 cursor-not-allowed"
-              : "border-slate-700 bg-slate-800/80 hover:border-slate-500 hover:bg-slate-700/80 hover:scale-102"
-        }
-      `}
+      className="relative flex flex-col items-center p-2 w-full text-left"
+      style={{
+        border: `3px solid ${isSelected ? "var(--color-accent)" : "var(--color-border)"}`,
+        backgroundColor: isSelected ? "var(--color-surface-alt)" : "var(--color-surface)",
+        boxShadow: isSelected
+          ? "4px 4px 0 var(--color-accent)"
+          : disabled
+            ? "none"
+            : "4px 4px 0 var(--color-shadow)",
+        opacity: disabled && !isSelected ? 0.4 : 1,
+        cursor: disabled && !isSelected ? "not-allowed" : "pointer",
+      }}
     >
       {isSelected && (
-        <div className="absolute -top-2 -right-2 w-6 h-6 bg-amber-400 rounded-full flex items-center justify-center">
-          <svg
-            className="w-4 h-4 text-slate-900"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={3}
-              d="M5 13l4 4L19 7"
-            />
-          </svg>
+        <div
+          className="absolute -top-2 -right-2 w-5 h-5 flex items-center justify-center border-2 font-pixel text-[7px]"
+          style={{
+            backgroundColor: "var(--color-accent)",
+            borderColor: "var(--color-shadow)",
+            color: "var(--color-shadow)",
+          }}
+        >
+          ✓
         </div>
       )}
 
-      <div className="relative w-16 h-16 sm:w-20 sm:h-20">
+      {/* Sprite */}
+      <div
+        className="relative w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center"
+        style={{ backgroundColor: "var(--color-surface-alt)" }}
+      >
         <Image
           src={pokemon.sprite}
           alt={pokemon.name}
           fill
           sizes="(max-width: 640px) 64px, 80px"
-          className="object-contain pixelated"
+          className="object-contain"
+          style={{ imageRendering: "pixelated" }}
           unoptimized
         />
       </div>
 
-      <p className="text-xs text-slate-400 font-mono">
+      {/* Pokedex number */}
+      <p className="font-pixel text-[6px] mt-1" style={{ color: "var(--color-text-muted)" }}>
         #{String(pokemon.id).padStart(3, "0")}
       </p>
-      <p className="text-sm font-bold capitalize mt-0.5 truncate w-full text-center">
+
+      {/* Name */}
+      <p className="font-pixel text-[7px] mt-0.5 capitalize truncate w-full text-center"
+        style={{ color: "var(--color-text)" }}>
         {pokemon.name}
       </p>
 
-      <div className="flex gap-1 mt-1.5">
+      {/* Types */}
+      <div className="flex gap-1 mt-1.5 flex-wrap justify-center">
         {pokemon.types.map((type) => (
-          <span
-            key={type}
-            className={`type-${type} text-[10px] px-2 py-0.5 rounded-full font-semibold capitalize`}
-          >
-            {type}
-          </span>
+          <TypeBadge key={type} type={type} />
         ))}
       </div>
 
-      <div className="flex gap-2 mt-1.5 text-[10px]">
-        <span className="text-orange-400 font-bold">
-          {avg.ppg}
-          <span className="text-slate-500 font-normal"> pts</span>
-        </span>
-        <span className="text-blue-400 font-bold">
-          {avg.rpg}
-          <span className="text-slate-500 font-normal"> reb</span>
-        </span>
-        <span className="text-green-400 font-bold">
-          {avg.apg}
-          <span className="text-slate-500 font-normal"> ast</span>
-        </span>
+      {/* Stats */}
+      <div className="flex gap-2 mt-1.5 font-pixel text-[6px]">
+        <span style={{ color: "#f08030" }}>{avg.ppg}<span style={{ color: "var(--color-text-muted)" }}>pt</span></span>
+        <span style={{ color: "#6890f0" }}>{avg.rpg}<span style={{ color: "var(--color-text-muted)" }}>rb</span></span>
+        <span style={{ color: "#78c850" }}>{avg.apg}<span style={{ color: "var(--color-text-muted)" }}>as</span></span>
       </div>
-      <p className="text-[9px] text-slate-500 mt-0.5">{playstyle}</p>
+
+      {/* Playstyle */}
+      <p className="font-pixel text-[5px] mt-0.5 text-center" style={{ color: "var(--color-text-muted)" }}>
+        {playstyle}
+      </p>
+
+      {/* Ability */}
       {pokemon.ability && <AbilityBadge ability={pokemon.ability} />}
+
+      {/* Salary */}
       <span
-        className={`mt-1 text-[10px] font-bold px-2 py-0.5 rounded-full ${
-          salary >= 35
-            ? "bg-amber-400/20 text-amber-300"
-            : salary >= 20
-              ? "bg-emerald-400/20 text-emerald-300"
-              : "bg-slate-700/60 text-slate-400"
-        }`}
+        className="mt-1 font-pixel text-[6px] px-1.5 py-0.5 border"
+        style={{
+          backgroundColor: salary >= 35 ? "var(--color-accent)" : "var(--color-surface-alt)",
+          borderColor: "var(--color-shadow)",
+          color: salary >= 35 ? "var(--color-shadow)" : "var(--color-text-muted)",
+        }}
       >
         ${salary}M
       </span>
+
+      {/* Draft button */}
+      {!disabled && !isSelected && (
+        <PokeButton variant="primary" size="sm" className="mt-2 w-full">
+          + DRAFT
+        </PokeButton>
+      )}
     </button>
   );
 }
