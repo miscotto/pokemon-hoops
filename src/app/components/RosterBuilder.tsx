@@ -10,6 +10,7 @@ import {
   SALARY_CAP,
   getPlaystyle,
 } from "../utils/bballStats";
+import { PokeButton, PokeInput } from "./ui";
 const POKEMON_TYPES = [
   "normal",
   "fire",
@@ -407,55 +408,39 @@ export default function RosterBuilder({
 
   if (loadingRoster) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: "var(--color-bg)" }}>
         <div className="text-center">
-          <div className="inline-block w-8 h-8 border-2 border-amber-400 border-t-transparent rounded-full animate-spin" />
-          <p className="text-slate-400 text-sm mt-3">Loading roster...</p>
+          <div className="inline-block w-8 h-8 border-2 border-t-transparent animate-spin" style={{ borderColor: "var(--color-primary)", borderTopColor: "transparent" }} />
+          <p className="font-pixel text-[8px] mt-3" style={{ color: "var(--color-text-muted)" }}>LOADING ROSTER...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col" style={{ backgroundColor: "var(--color-bg)" }}>
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-slate-900/95 backdrop-blur-sm border-b border-slate-700/50 px-3 sm:px-4 py-2 sm:py-3">
+      <header className="sticky top-0 z-50 backdrop-blur-sm px-3 sm:px-4 py-2 sm:py-3" style={{ backgroundColor: "var(--color-surface)", borderBottom: "3px solid var(--color-border)" }}>
         <div className="max-w-[1600px] mx-auto flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-            <button
-              onClick={onBack}
-              className="text-slate-400 hover:text-slate-200 p-1.5 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer shrink-0"
-              title="Back to dashboard"
-            >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-            </button>
+            <PokeButton variant="ghost" size="sm" onClick={onBack}>
+              ◀ BACK
+            </PokeButton>
             <div className="text-2xl sm:text-3xl shrink-0">🏀</div>
             <div className="min-w-0">
-              <h1 className="text-base sm:text-xl font-black tracking-tight truncate">
+              <h1 className="text-base sm:text-xl font-pixel tracking-tight truncate" style={{ color: "var(--color-text)" }}>
                 {rosterName}
               </h1>
-              <p className="text-[11px] text-slate-400 -mt-0.5 hidden sm:block">
-                Draft your starting 5 + reserve
+              <p className="font-pixel text-[7px] -mt-0.5 hidden sm:block" style={{ color: "var(--color-text-muted)" }}>
+                DRAFT YOUR STARTING 5 + RESERVE
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
-            <div className="text-xs sm:text-sm text-slate-400 hidden xs:block">
+            <div className="font-pixel text-[8px] hidden xs:block" style={{ color: "var(--color-text-muted)" }}>
               <span
-                className={`font-bold ${isComplete ? "text-green-400" : "text-amber-400"}`}
+                style={{ color: isComplete ? "var(--color-success, #4ade80)" : "var(--color-primary)" }}
               >
                 {filledCount}
               </span>
@@ -463,32 +448,28 @@ export default function RosterBuilder({
             </div>
 
             {/* Save button */}
-            <button
+            <PokeButton
+              variant="primary"
+              size="sm"
               onClick={saveRoster}
               disabled={saving}
-              className={`text-xs font-bold px-3 sm:px-4 py-1.5 rounded-lg transition-all cursor-pointer ${
-                saveStatus === "saved"
-                  ? "bg-green-400/20 text-green-400 border border-green-400/30"
-                  : saveStatus === "error"
-                    ? "bg-red-400/20 text-red-400 border border-red-400/30"
-                    : "bg-amber-400 text-slate-900 hover:bg-amber-300"
-              }`}
             >
               {saving
-                ? "..."
+                ? "SAVING..."
                 : saveStatus === "saved"
-                  ? "✓"
+                  ? "✓ SAVED"
                   : saveStatus === "error"
-                    ? "!"
-                    : "Save"}
-            </button>
+                    ? "ERROR"
+                    : "SAVE ROSTER"}
+            </PokeButton>
 
             {filledCount > 0 && (
               <button
                 onClick={handleClearAll}
-                className="text-xs text-red-400 hover:text-red-300 border border-red-400/30 hover:border-red-400/60 px-2 sm:px-3 py-1.5 rounded-lg transition-colors cursor-pointer hidden sm:block"
+                className="font-pixel text-[7px] cursor-pointer hidden sm:block"
+                style={{ color: "var(--color-danger, #f87171)" }}
               >
-                Clear All
+                CLEAR ALL
               </button>
             )}
           </div>
@@ -498,11 +479,12 @@ export default function RosterBuilder({
       {/* Mobile Roster Toggle Button */}
       <button
         onClick={() => setMobileRosterOpen(!mobileRosterOpen)}
-        className="md:hidden fixed bottom-4 right-4 z-50 bg-amber-400 text-slate-900 font-bold rounded-full w-14 h-14 flex items-center justify-center shadow-lg shadow-amber-400/30 cursor-pointer active:scale-95 transition-transform"
+        className="md:hidden fixed bottom-4 right-4 z-50 font-pixel w-14 h-14 flex items-center justify-center cursor-pointer active:scale-95 transition-transform border-2"
+        style={{ backgroundColor: "var(--color-primary)", color: "var(--color-bg)", borderColor: "var(--color-shadow)" }}
       >
         <div className="text-center leading-none">
           <span className="text-lg">🏀</span>
-          <span className="block text-[9px] font-bold -mt-0.5">
+          <span className="block font-pixel text-[7px] -mt-0.5">
             {filledCount}/6
           </span>
         </div>
@@ -516,25 +498,28 @@ export default function RosterBuilder({
         >
           <div className="absolute inset-0 bg-black/60" />
           <div
-            className="absolute bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-700/50 rounded-t-2xl max-h-[75vh] overflow-y-auto p-4"
+            className="absolute bottom-0 left-0 right-0 max-h-[75vh] overflow-y-auto p-4"
+            style={{ backgroundColor: "var(--color-surface)", borderTop: "3px solid var(--color-border)" }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400">
-                Your Roster
+              <h2 className="font-pixel text-[8px] uppercase" style={{ color: "var(--color-text-muted)" }}>
+                YOUR ROSTER
               </h2>
               <div className="flex items-center gap-2">
                 {filledCount > 0 && (
                   <button
                     onClick={handleClearAll}
-                    className="text-xs text-red-400 hover:text-red-300 border border-red-400/30 px-2 py-1 rounded-lg cursor-pointer"
+                    className="font-pixel text-[7px] border px-2 py-1 cursor-pointer"
+                    style={{ color: "var(--color-danger)", borderColor: "var(--color-danger)" }}
                   >
-                    Clear
+                    CLEAR
                   </button>
                 )}
                 <button
                   onClick={() => setMobileRosterOpen(false)}
-                  className="text-slate-400 hover:text-slate-200 p-1 cursor-pointer"
+                  className="p-1 cursor-pointer"
+                  style={{ color: "var(--color-text-muted)" }}
                 >
                   <svg
                     className="w-5 h-5"
@@ -554,21 +539,25 @@ export default function RosterBuilder({
             </div>
 
             {/* Mobile Salary Cap */}
-            <div className="mb-3 p-3 rounded-xl bg-slate-800/60 border border-slate-700/50">
+            <div className="mb-3 p-3 border-2" style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-surface-alt)" }}>
               <div className="flex items-center justify-between mb-1.5">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                  Salary Cap
+                <span className="font-pixel text-[6px] uppercase" style={{ color: "var(--color-text-muted)" }}>
+                  SALARY CAP
                 </span>
                 <span
-                  className={`text-xs font-bold ${isOverCap ? "text-red-400" : remainingCap < 15 ? "text-amber-400" : "text-emerald-400"}`}
+                  className="font-pixel text-[6px]"
+                  style={{ color: isOverCap ? "var(--color-danger)" : "var(--color-text)" }}
                 >
                   ${Math.round(teamSalary * 10) / 10}M / ${SALARY_CAP}M
                 </span>
               </div>
-              <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
+              <div className="h-2 border-2" style={{ borderColor: "var(--color-shadow)", backgroundColor: "var(--color-surface-alt)" }}>
                 <div
-                  className={`h-full rounded-full transition-all duration-500 ${isOverCap ? "bg-red-500" : capPercent > 80 ? "bg-amber-400" : "bg-emerald-400"}`}
-                  style={{ width: `${capPercent}%` }}
+                  className="h-full transition-all"
+                  style={{
+                    width: `${capPercent}%`,
+                    backgroundColor: isOverCap ? "var(--color-danger)" : "var(--color-primary)",
+                  }}
                 />
               </div>
             </div>
@@ -612,9 +601,9 @@ export default function RosterBuilder({
             </div>
 
             {isComplete && (
-              <div className="mt-4 p-3 rounded-xl bg-linear-to-r from-amber-400/20 to-orange-400/20 border border-amber-400/30 text-center">
-                <p className="text-amber-400 font-bold text-sm">
-                  🏆 Roster Complete!
+              <div className="mt-4 p-3 border-2 text-center" style={{ borderColor: "var(--color-primary)", backgroundColor: "var(--color-surface-alt)" }}>
+                <p className="font-pixel text-[8px]" style={{ color: "var(--color-primary)" }}>
+                  ROSTER COMPLETE!
                 </p>
               </div>
             )}
@@ -627,58 +616,49 @@ export default function RosterBuilder({
       >
         {/* Roster Panel - Desktop only */}
         <aside
-          style={{ width: sidebarWidth }}
-          className="shrink-0 border-r border-slate-700/50 bg-slate-900/50 p-3 sticky top-[57px] h-[calc(100vh-57px)] overflow-y-auto hidden md:block"
+          style={{ width: sidebarWidth, backgroundColor: "var(--color-surface)", borderRight: "3px solid var(--color-border)" }}
+          className="shrink-0 p-3 sticky top-[57px] h-[calc(100vh-57px)] overflow-y-auto hidden md:block"
         >
-          <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3">
-            Your Roster
+          <h2 className="font-pixel text-[8px] uppercase mb-3" style={{ color: "var(--color-text-muted)" }}>
+            YOUR ROSTER
           </h2>
 
           {/* Salary Cap Tracker */}
-          <div className="mb-4 p-3 rounded-xl bg-slate-800/60 border border-slate-700/50">
-            <div className="flex items-center justify-between mb-1.5">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                Salary Cap
-              </span>
+          <div className="mb-4 p-3 border-t-2" style={{ borderColor: "var(--color-border)" }}>
+            <div className="flex justify-between mb-1">
+              <span className="font-pixel text-[6px]" style={{ color: "var(--color-text-muted)" }}>SALARY CAP</span>
               <span
-                className={`text-xs font-bold ${isOverCap ? "text-red-400" : remainingCap < 15 ? "text-amber-400" : "text-emerald-400"}`}
+                className="font-pixel text-[6px]"
+                style={{ color: isOverCap ? "var(--color-danger)" : "var(--color-text)" }}
               >
                 ${Math.round(teamSalary * 10) / 10}M / ${SALARY_CAP}M
               </span>
             </div>
-            <div className="h-2.5 bg-slate-700 rounded-full overflow-hidden">
+            <div className="h-2 border-2" style={{ borderColor: "var(--color-shadow)", backgroundColor: "var(--color-surface-alt)" }}>
               <div
-                className={`h-full rounded-full transition-all duration-500 ${
-                  isOverCap
-                    ? "bg-red-500"
-                    : capPercent > 80
-                      ? "bg-amber-400"
-                      : "bg-emerald-400"
-                }`}
-                style={{ width: `${capPercent}%` }}
+                className="h-full transition-all"
+                style={{
+                  width: `${capPercent}%`,
+                  backgroundColor: isOverCap ? "var(--color-danger)" : "var(--color-primary)",
+                }}
               />
             </div>
             <div className="flex items-center justify-between mt-1">
-              <span className="text-[10px] text-slate-500">
-                {filledCount}/6 slots filled
+              <span className="font-pixel text-[6px]" style={{ color: "var(--color-text-muted)" }}>
+                {filledCount}/6 SLOTS
               </span>
               <span
-                className={`text-[10px] font-semibold ${
-                  isOverCap
-                    ? "text-red-400"
-                    : remainingCap < 15
-                      ? "text-amber-400"
-                      : "text-slate-400"
-                }`}
+                className="font-pixel text-[6px]"
+                style={{ color: isOverCap ? "var(--color-danger)" : "var(--color-text-muted)" }}
               >
-                {isOverCap ? "Over cap!" : `$${remainingCap}M remaining`}
+                {isOverCap ? "OVER CAP!" : `$${remainingCap}M LEFT`}
               </span>
             </div>
           </div>
 
           {/* Starters */}
           <div className="space-y-2 mb-3">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-amber-400/70">
+            <p className="font-pixel text-[6px] uppercase" style={{ color: "var(--color-primary)" }}>
               Starting Five
             </p>
             {roster.slice(0, 5).map((slot, i) => (
@@ -710,7 +690,7 @@ export default function RosterBuilder({
 
           {/* Reserve */}
           <div className="space-y-2">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-cyan-400/70">
+            <p className="font-pixel text-[6px] uppercase" style={{ color: "var(--color-text-muted)" }}>
               Reserve
             </p>
             <div
@@ -739,12 +719,12 @@ export default function RosterBuilder({
           </div>
 
           {isComplete && (
-            <div className="mt-6 p-4 rounded-xl bg-linear-to-r from-amber-400/20 to-orange-400/20 border border-amber-400/30 text-center">
-              <p className="text-amber-400 font-bold text-sm">
-                🏆 Roster Complete!
+            <div className="mt-6 p-4 border-2 text-center" style={{ borderColor: "var(--color-primary)", backgroundColor: "var(--color-surface-alt)" }}>
+              <p className="font-pixel text-[8px]" style={{ color: "var(--color-primary)" }}>
+                ROSTER COMPLETE!
               </p>
-              <p className="text-[11px] text-slate-400 mt-1">
-                Don&apos;t forget to save your roster
+              <p className="font-pixel text-[6px] mt-1" style={{ color: "var(--color-text-muted)" }}>
+                DON&apos;T FORGET TO SAVE
               </p>
             </div>
           )}
@@ -753,34 +733,22 @@ export default function RosterBuilder({
         {/* Resize Handle - Desktop only */}
         <div
           onMouseDown={handleResizeStart}
-          className="w-1.5 shrink-0 cursor-col-resize hover:bg-amber-400/40 active:bg-amber-400/60 transition-colors sticky top-[57px] h-[calc(100vh-57px)] z-10 hidden md:block"
+          className="w-1.5 shrink-0 cursor-col-resize transition-colors sticky top-[57px] h-[calc(100vh-57px)] z-10 hidden md:block"
+          style={{ backgroundColor: "var(--color-border)" }}
         />
 
         {/* Pokemon Grid */}
         <main className="flex-1 p-2 sm:p-4">
           {/* Filters */}
-          <div className="sticky top-[49px] sm:top-[57px] z-40 bg-slate-900/95 backdrop-blur-sm -mx-2 sm:-mx-4 px-2 sm:px-4 pb-2 sm:pb-3 pt-1 border-b border-slate-700/30 mb-3 sm:mb-4">
+          <div className="sticky top-[49px] sm:top-[57px] z-40 backdrop-blur-sm -mx-2 sm:-mx-4 px-2 sm:px-4 pb-2 sm:pb-3 pt-1 mb-3 sm:mb-4" style={{ backgroundColor: "var(--color-surface)", borderBottom: "2px solid var(--color-border)" }}>
             <div className="flex items-center gap-2 sm:gap-3">
-              <div className="relative flex-1 min-w-0">
-                <svg
-                  className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
-                <input
+              <div className="flex-1 min-w-0">
+                <PokeInput
+                  label="SEARCH"
                   type="text"
-                  placeholder="Search..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="w-full bg-slate-800 border border-slate-700 rounded-lg pl-10 pr-3 py-2 text-sm focus:outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/30 placeholder-slate-500"
+                  placeholder="BULBASAUR..."
                 />
               </div>
 
@@ -789,7 +757,8 @@ export default function RosterBuilder({
                 onChange={(e) =>
                   setSortBy(e.target.value as "id" | "name" | "stats")
                 }
-                className="bg-slate-800 border border-slate-700 rounded-lg px-2 sm:px-3 py-2 text-sm focus:outline-none focus:border-amber-400/50 cursor-pointer shrink-0"
+                className="font-pixel text-[7px] border-2 px-2 sm:px-3 py-2 focus:outline-none cursor-pointer shrink-0"
+                style={{ backgroundColor: "var(--color-surface-alt)", borderColor: "var(--color-border)", color: "var(--color-text)" }}
               >
                 <option value="id">#</option>
                 <option value="name">A-Z</option>
@@ -801,11 +770,12 @@ export default function RosterBuilder({
             <div className="flex items-center gap-2 mt-2">
               <button
                 onClick={() => setFiltersExpanded(!filtersExpanded)}
-                className={`text-[11px] px-3 py-1 rounded-lg font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
-                  filtersExpanded || activeFilterCount > 0
-                    ? "bg-amber-400/20 text-amber-400 border border-amber-400/40"
-                    : "bg-slate-800 text-slate-400 hover:bg-slate-700 border border-slate-700"
-                }`}
+                className="font-pixel text-[7px] px-3 py-1 border-2 transition-all cursor-pointer flex items-center gap-1.5"
+                style={{
+                  backgroundColor: filtersExpanded || activeFilterCount > 0 ? "var(--color-primary)" : "var(--color-surface-alt)",
+                  color: filtersExpanded || activeFilterCount > 0 ? "var(--color-bg)" : "var(--color-text-muted)",
+                  borderColor: "var(--color-border)",
+                }}
               >
                 <svg
                   className={`w-3.5 h-3.5 transition-transform ${filtersExpanded ? "rotate-180" : ""}`}
@@ -822,7 +792,7 @@ export default function RosterBuilder({
                 </svg>
                 Filters
                 {activeFilterCount > 0 && (
-                  <span className="bg-amber-400 text-slate-900 text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                  <span className="font-pixel text-[7px] w-4 h-4 flex items-center justify-center border" style={{ backgroundColor: "var(--color-shadow)", color: "var(--color-bg)", borderColor: "var(--color-shadow)" }}>
                     {activeFilterCount}
                   </span>
                 )}
@@ -831,9 +801,10 @@ export default function RosterBuilder({
               {activeFilterCount > 0 && (
                 <button
                   onClick={clearAllFilters}
-                  className="text-[10px] text-red-400 hover:text-red-300 cursor-pointer"
+                  className="font-pixel text-[7px] cursor-pointer"
+                  style={{ color: "var(--color-danger)" }}
                 >
-                  Clear all
+                  CLEAR ALL
                 </button>
               )}
 
@@ -865,8 +836,8 @@ export default function RosterBuilder({
               <div className="mt-2 space-y-2 pb-1">
                 {/* Type filter */}
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">
-                    Type
+                  <p className="font-pixel text-[6px] uppercase mb-1" style={{ color: "var(--color-text-muted)" }}>
+                    TYPE
                   </p>
                   <div className="flex flex-wrap gap-1">
                     {POKEMON_TYPES.map((type) => (
@@ -875,13 +846,12 @@ export default function RosterBuilder({
                         onClick={() =>
                           toggleFilter(typeFilters, setTypeFilters, type)
                         }
-                        className={`text-[10px] sm:text-[11px] px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full font-semibold capitalize transition-all cursor-pointer whitespace-nowrap
-                          ${
-                            typeFilters.has(type)
-                              ? `type-${type} ring-2 ring-white/30`
-                              : "bg-slate-800 text-slate-400 hover:bg-slate-700"
-                          }
-                        `}
+                        className={[
+                          `type-${type} font-pixel text-[5px] px-1.5 py-0.5 uppercase cursor-pointer whitespace-nowrap`,
+                          typeFilters.has(type)
+                            ? "border-2 border-[var(--color-shadow)] shadow-poke-sm"
+                            : "border border-[var(--color-shadow)] opacity-60",
+                        ].join(" ")}
                       >
                         {type}
                       </button>
@@ -891,8 +861,8 @@ export default function RosterBuilder({
 
                 {/* Role filter */}
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">
-                    Role / Playstyle
+                  <p className="font-pixel text-[6px] uppercase mb-1" style={{ color: "var(--color-text-muted)" }}>
+                    ROLE / PLAYSTYLE
                   </p>
                   <div className="flex flex-wrap gap-1">
                     {availableRoles.map((role) => (
@@ -901,13 +871,12 @@ export default function RosterBuilder({
                         onClick={() =>
                           toggleFilter(roleFilters, setRoleFilters, role)
                         }
-                        className={`text-[10px] sm:text-[11px] px-2.5 py-1 rounded-full font-semibold transition-all cursor-pointer whitespace-nowrap
-                          ${
-                            roleFilters.has(role)
-                              ? "bg-cyan-400/30 text-cyan-300 ring-2 ring-cyan-400/40"
-                              : "bg-slate-800 text-slate-400 hover:bg-slate-700"
-                          }
-                        `}
+                        className="font-pixel text-[5px] px-1.5 py-0.5 uppercase cursor-pointer whitespace-nowrap border-2 transition-all"
+                        style={{
+                          backgroundColor: roleFilters.has(role) ? "var(--color-primary)" : "var(--color-surface-alt)",
+                          color: roleFilters.has(role) ? "var(--color-bg)" : "var(--color-text-muted)",
+                          borderColor: "var(--color-border)",
+                        }}
                       >
                         {role}
                       </button>
@@ -921,26 +890,26 @@ export default function RosterBuilder({
           {/* Loading Bar */}
           {loading && (
             <div className="mb-4">
-              <div className="flex items-center justify-between text-xs text-slate-400 mb-1">
-                <span>Loading Pokémon...</span>
-                <span>
+              <div className="flex items-center justify-between mb-1">
+                <span className="font-pixel text-[6px]" style={{ color: "var(--color-text-muted)" }}>LOADING POKEMON...</span>
+                <span className="font-pixel text-[6px]" style={{ color: "var(--color-text-muted)" }}>
                   {loadedCount} / {TOTAL_POKEMON}
                 </span>
               </div>
-              <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden">
+              <div className="h-2 border-2" style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-surface-alt)" }}>
                 <div
-                  className="h-full bg-linear-to-r from-amber-400 to-orange-500 rounded-full transition-all duration-500"
-                  style={{ width: `${(loadedCount / TOTAL_POKEMON) * 100}%` }}
+                  className="h-full transition-all duration-500"
+                  style={{ width: `${(loadedCount / TOTAL_POKEMON) * 100}%`, backgroundColor: "var(--color-primary)" }}
                 />
               </div>
             </div>
           )}
 
           {activeSlot !== null && (
-            <div className="mb-3 p-2 rounded-lg bg-amber-400/10 border border-amber-400/30 text-center">
-              <p className="text-xs text-amber-400">
-                Selecting for:{" "}
-                <span className="font-bold">
+            <div className="mb-3 p-2 border-2 text-center" style={{ borderColor: "var(--color-primary)", backgroundColor: "var(--color-surface-alt)" }}>
+              <p className="font-pixel text-[6px]" style={{ color: "var(--color-primary)" }}>
+                SELECTING FOR:{" "}
+                <span>
                   {roster[activeSlot].position} — {roster[activeSlot].label}
                 </span>
               </p>
@@ -969,9 +938,9 @@ export default function RosterBuilder({
           </div>
 
           {filteredPokemon.length === 0 && !loading && (
-            <div className="text-center py-20 text-slate-500">
-              <p className="text-lg">No Pokémon found</p>
-              <p className="text-sm mt-1">Try a different search or filter</p>
+            <div className="text-center py-20">
+              <p className="font-pixel text-[10px]" style={{ color: "var(--color-text-muted)" }}>NO POKEMON FOUND</p>
+              <p className="font-pixel text-[7px] mt-1" style={{ color: "var(--color-text-muted)" }}>TRY A DIFFERENT SEARCH OR FILTER</p>
             </div>
           )}
         </main>
