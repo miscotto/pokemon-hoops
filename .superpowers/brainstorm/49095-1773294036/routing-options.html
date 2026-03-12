@@ -1,0 +1,37 @@
+<h2>How should the new routing be structured?</h2>
+<p class="subtitle">Pick the URL structure that feels most natural for Pokemon Hoops</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Clean Nested Routes</h3>
+      <p><code>/tournaments</code> — all tournaments list<br>
+      <code>/tournaments/[id]</code> — specific tournament bracket<br>
+      <code>/rosters/[id]/build</code> — roster builder<br>
+      <code>/profile</code> — your own profile (wins, losses, history)<br>
+      <code>/users/[id]</code> — view any player's profile</p>
+    </div>
+  </div>
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Dashboard-Anchored Routes</h3>
+      <p><code>/dashboard</code> — home hub<br>
+      <code>/dashboard/tournaments/[id]</code> — tournament page<br>
+      <code>/dashboard/rosters/[id]/build</code> — roster builder<br>
+      <code>/dashboard/profile</code> — your profile<br>
+      <code>/dashboard/players/[id]</code> — other player profiles</p>
+    </div>
+  </div>
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Flat Routes (Simple)</h3>
+      <p><code>/tournaments/[id]</code> — tournament bracket<br>
+      <code>/build/[rosterId]</code> — roster builder<br>
+      <code>/player/[userId]</code> — any user's profile (including yours)<br>
+      No separate tournaments list page — use dashboard</p>
+    </div>
+  </div>
+</div>

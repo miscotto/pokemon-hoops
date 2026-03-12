@@ -1,0 +1,51 @@
+<h2>New Routing Structure</h2>
+<p class="subtitle">Converting state-based navigation to real URL routes</p>
+
+<div class="section">
+  <h3>Public Routes (no auth required)</h3>
+  <div style="font-family:monospace;background:var(--color-surface-alt,#1a1a2e);border:2px solid var(--color-border,#444);border-radius:8px;padding:1.5rem;line-height:2.2">
+    <span style="color:#a0a0ff">/</span> — Home page (unchanged)<br>
+    <span style="color:#a0a0ff">/tournaments</span> — All tournaments list (waiting, active, completed)<br>
+    <span style="color:#a0a0ff">/tournaments/[id]</span> — Tournament bracket + results (spectate)<br>
+    <span style="color:#a0a0ff">/users/[id]</span> — Player profile: stats, roster, tournament history
+  </div>
+</div>
+
+<div class="section">
+  <h3>Auth-Required Routes</h3>
+  <div style="font-family:monospace;background:var(--color-surface-alt,#1a1a2e);border:2px solid var(--color-border,#444);border-radius:8px;padding:1.5rem;line-height:2.2">
+    <span style="color:#80ff80">/dashboard</span> — Roster hub (list, create, manage rosters)<br>
+    <span style="color:#80ff80">/rosters/[id]/build</span> — Roster builder (owner only)<br>
+    <span style="color:#80ff80">/profile</span> — Redirects to /users/[yourId]<br>
+    <span style="color:#80ff80">/admin</span> — Admin panel (unchanged)
+  </div>
+</div>
+
+<div class="section">
+  <h3>What Changes in /dashboard</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+    <div style="background:var(--color-surface-alt,#1a1a2e);border:2px solid #ff6060;border-radius:8px;padding:1rem">
+      <div class="label" style="color:#ff6060">Before (state-based)</div>
+      <div style="font-family:monospace;font-size:0.75rem;line-height:1.8;margin-top:0.5rem">
+        setView("dashboard") → RosterDashboard<br>
+        setView("builder") → RosterBuilder<br>
+        setView("tournament") → TournamentView<br>
+        setView("live-tournament") → LiveTournament
+      </div>
+    </div>
+    <div style="background:var(--color-surface-alt,#1a1a2e);border:2px solid #60ff60;border-radius:8px;padding:1rem">
+      <div class="label" style="color:#60ff60">After (URL-based)</div>
+      <div style="font-family:monospace;font-size:0.75rem;line-height:1.8;margin-top:0.5rem">
+        /dashboard → RosterDashboard<br>
+        /rosters/[id]/build → RosterBuilder<br>
+        /tournaments/[id] → TournamentView<br>
+        /tournaments/[id] → LiveTournament (same page, different status)
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3 style="color:#ffd700">Does this look right?</h3>
+  <p>Note: TournamentView and LiveTournament merge into one <code>/tournaments/[id]</code> page — it shows simulation bracket or live bracket based on the tournament's status in the DB.</p>
+</div>
