@@ -7,23 +7,15 @@ import { eq, and } from "drizzle-orm";
 import {
   getTournament,
   getTournamentTeams,
-  completeTournament,
+  getTournamentGames,
+  BracketStructure,
 } from "@/lib/tournament-db";
-import { SerializedMatchup, computeCurrentEventIndex } from "../../../utils/tournamentEngine";
 
-async function getUser() {
-  const session = await auth.api.getSession({ headers: await headers() });
-  return session?.user ?? null;
-}
-
-// GET /api/live-tournaments/[id] — Get tournament bracket state
+// Public endpoint — no auth required for GET
 export async function GET(
-  req: NextRequest,
+  _req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const user = await getUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-
   const { id } = await params;
   const tournament = await getTournament(id);
   if (!tournament) {
@@ -34,99 +26,72 @@ export async function GET(
   if (tournament.status === "waiting") {
     const teams = await getTournamentTeams(id);
     return NextResponse.json({
+      id: tournament.id,
+      name: tournament.name,
       status: "waiting",
-      teamCount: teams.length,
       maxTeams: tournament.max_teams,
+      teamCount: teams.length,
       teams: teams.map((t) => ({
         teamName: t.team_name,
+        userId: t.user_id,
         joinedAt: t.joined_at,
       })),
     });
   }
 
-  const bracketData = tournament.bracket_data as SerializedMatchup[] | null;
+  // Active or completed: return bracket + game states
+  const bracketData = tournament.bracket_data as BracketStructure | null;
   if (!bracketData) {
     return NextResponse.json({ error: "No bracket data" }, { status: 500 });
   }
 
-  const startedAt = new Date(tournament.started_at!).getTime();
-  const elapsed = (Date.now() - startedAt) / 1000;
+  const games = await getTournamentGames(id);
 
-  // Find user's team name
-  const userTeamRows = await db
-    .select({ teamName: liveTournamentTeams.teamName })
-    .from(liveTournamentTeams)
-    .where(
-      and(
-        eq(liveTournamentTeams.tournamentId, id),
-        eq(liveTournamentTeams.userId, user.id)
-      )
-    );
-  const userTeamName = userTeamRows[0]?.teamName ?? null;
-
-  // Build bracket overview (no events — lightweight)
-  const matchups = bracketData.map((m) => {
-    const eventIdx = computeCurrentEventIndex(elapsed, m.startsAtOffset, m.events.length);
-
-    let status: string;
-    let homeScore = 0;
-    let awayScore = 0;
-    let winner = null;
-    let mvp = null;
-
-    if (eventIdx < 0) {
-      status = "upcoming";
-    } else if (eventIdx >= m.events.length - 1) {
-      status = "completed";
-      homeScore = m.finalHomeScore;
-      awayScore = m.finalAwayScore;
-      winner = m.winner;
-      const topScorer = m.playerStats.sort((a, b) => b.points - a.points)[0];
-      if (topScorer) {
-        mvp = { name: topScorer.name, sprite: topScorer.sprite, points: topScorer.points };
-      }
-    } else {
-      status = "in_progress";
-      const event = m.events[eventIdx];
-      homeScore = event.homeScore;
-      awayScore = event.awayScore;
-    }
-
+  // Attach game state to each bracket matchup
+  const matchups = bracketData.matchups.map((m) => {
+    const game = games.find((g) => g.id === m.gameId);
     return {
-      id: m.id,
+      gameId: m.gameId,
       round: m.round,
-      conference: m.conference,
-      homeTeam: {
-        id: m.homeTeam.id,
-        name: m.homeTeam.name,
-        coast: m.homeTeam.coast,
-        seed: m.homeTeam.seed,
-        isPlayer: m.homeTeam.isPlayer,
-      },
-      awayTeam: {
-        id: m.awayTeam.id,
-        name: m.awayTeam.name,
-        coast: m.awayTeam.coast,
-        seed: m.awayTeam.seed,
-        isPlayer: m.awayTeam.isPlayer,
-      },
-      status,
-      homeScore,
-      awayScore,
-      winner,
-      mvp,
+      matchupIndex: m.matchupIndex,
+      team1UserId: m.team1UserId,
+      team1Name: m.team1Name,
+      team2UserId: m.team2UserId,
+      team2Name: m.team2Name,
+      status: game?.status ?? "pending",
+      team1Score: game?.team1_score ?? null,
+      team2Score: game?.team2_score ?? null,
+      winnerId: game?.winner_id ?? null,
+      playedAt: game?.played_at ?? null,
     };
   });
 
-  // Check if all games completed → mark tournament done
-  const allDone = matchups.every((m) => m.status === "completed");
-  if (allDone && tournament.status === "active") {
-    await completeTournament(id);
+  // Determine calling user's team name (optional — only if session present)
+  let userTeamName: string | null = null;
+  try {
+    const session = await auth.api.getSession({ headers: await headers() });
+    if (session?.user) {
+      const rows = await db
+        .select({ teamName: liveTournamentTeams.teamName })
+        .from(liveTournamentTeams)
+        .where(
+          and(
+            eq(liveTournamentTeams.tournamentId, id),
+            eq(liveTournamentTeams.userId, session.user.id)
+          )
+        );
+      userTeamName = rows[0]?.teamName ?? null;
+    }
+  } catch {
+    // Not authenticated — that's fine, page is public
   }
 
   return NextResponse.json({
-    status: allDone ? "completed" : "active",
-    startedAt: tournament.started_at,
+    id: tournament.id,
+    name: tournament.name,
+    status: tournament.status,
+    maxTeams: tournament.max_teams,
+    totalRounds: bracketData.totalRounds,
     matchups,
     userTeamName,
   });
