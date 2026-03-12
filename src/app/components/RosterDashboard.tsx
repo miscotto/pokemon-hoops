@@ -17,16 +17,12 @@ interface RosterSummary {
 interface RosterDashboardProps {
   userName: string;
   onEditRoster: (rosterId: string) => void;
-  onNewRoster: () => void;
-  onEnterTournament: () => void;
-  onJoinLiveTournament: () => void;
+  onJoinLiveTournament: (tournamentId?: string) => void;
 }
 
 export default function RosterDashboard({
   userName,
   onEditRoster,
-  onNewRoster,
-  onEnterTournament,
   onJoinLiveTournament,
 }: RosterDashboardProps) {
   const [rosters, setRosters] = useState<RosterSummary[]>([]);
@@ -187,11 +183,8 @@ export default function RosterDashboard({
                 </span>
               </div>
               <div className="flex gap-2 flex-wrap shrink-0">
-                <PokeButton variant="danger" size="sm" onClick={onJoinLiveTournament}>
-                  ⚡ LIVE
-                </PokeButton>
-                <PokeButton variant="primary" size="sm" onClick={onEnterTournament}>
-                  VS BOTS
+                <PokeButton variant="danger" size="sm" onClick={() => onJoinLiveTournament()}>
+                  ⚡ JOIN LIVE
                 </PokeButton>
                 <PokeButton variant="ghost" size="sm" onClick={() => onEditRoster(tournamentRoster.id)}>
                   VIEW
