@@ -17,12 +17,7 @@ import {
   getUserActiveTournament,
   getAllTournaments,
 } from "@/lib/tournament-db";
-import {
-  TournamentTeam,
-  toTournamentPokemon,
-  simulateBracketForSize,
-  Coast,
-} from "../../utils/tournamentEngine";
+import { toTournamentPokemon } from "../../utils/tournamentEngine";
 
 async function getUser() {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -173,25 +168,17 @@ export async function POST(req: NextRequest) {
   const count = await getTournamentTeamCount(tournamentId);
   const tournamentInfo = await getTournament(tournamentId);
   const maxTeams = tournamentInfo?.max_teams ?? 8;
+
   if (count >= maxTeams) {
     const teams = await getTournamentTeams(tournamentId);
 
-    const tournamentTeams: TournamentTeam[] = teams.map((t) => ({
-      id: t.id,
-      name: t.team_name,
-      coast: "west" as Coast,
-      seed: 1,
-      isPlayer: true,
-      roster: (t.roster_data as Parameters<typeof toTournamentPokemon>[0][]).map(
-        (p) => toTournamentPokemon(p)
-      ),
-    }));
-
-    // Rank by team power for seeding
-    const ranked = tournamentTeams
-      .map((t) => ({
-        team: t,
-        power: t.roster.reduce(
+    // Rank teams by power for seeding — build a flat list with userId
+    const rankedTeams = teams
+      .map((t) => {
+        const roster = (t.roster_data as Parameters<typeof toTournamentPokemon>[0][]).map(
+          toTournamentPokemon
+        );
+        const power = roster.reduce(
           (sum, p) =>
             sum +
             p.bball.ppg * 2.5 +
@@ -199,29 +186,32 @@ export async function POST(req: NextRequest) {
             p.bball.apg * 1.8 +
             p.bball.per * 1.0,
           0
-        ),
-      }))
+        );
+        return { userId: t.user_id, teamName: t.team_name, power };
+      })
       .sort((a, b) => b.power - a.power);
 
-    // Alternate assignment: #1→West, #2→East, #3→West, #4→East, ...
-    const westTeams: TournamentTeam[] = [];
-    const eastTeams: TournamentTeam[] = [];
-    for (let i = 0; i < ranked.length; i++) {
-      const team = ranked[i].team;
-      if (i % 2 === 0) {
-        team.coast = "west";
-        team.seed = westTeams.length + 1;
-        westTeams.push(team);
-      } else {
-        team.coast = "east";
-        team.seed = eastTeams.length + 1;
-        eastTeams.push(team);
-      }
+    // Pair: seed 1 vs last, seed 2 vs second-last, etc.
+    const totalRounds = Math.floor(Math.log2(maxTeams));
+    const round1Matchups: Array<{
+      matchupIndex: number;
+      team1UserId: string;
+      team1Name: string;
+      team2UserId: string;
+      team2Name: string;
+    }> = [];
+
+    for (let i = 0; i < rankedTeams.length / 2; i++) {
+      round1Matchups.push({
+        matchupIndex: i,
+        team1UserId: rankedTeams[i].userId,
+        team1Name: rankedTeams[i].teamName,
+        team2UserId: rankedTeams[rankedTeams.length - 1 - i].userId,
+        team2Name: rankedTeams[rankedTeams.length - 1 - i].teamName,
+      });
     }
 
-    const bracketData = simulateBracketForSize(westTeams, eastTeams, maxTeams);
-    await startTournament(tournamentId, bracketData);
-
+    await startTournament(tournamentId, round1Matchups, totalRounds);
     return NextResponse.json({ tournamentId, status: "active" });
   }
 
