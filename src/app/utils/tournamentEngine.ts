@@ -499,9 +499,10 @@ function generateGameEvents(
       } else if (sp < 0.80) {
         eventType = "ability_trigger";
         const abilityName = player.ability || "Pressure";
-        const abilityInfo = (abilitiesData as Record<string, { "effect desc": string }>)[abilityName];
-        description = abilityInfo
-          ? `${player.name}'s ${abilityName} activates — ${abilityInfo["effect desc"]}`
+        const abilityInfo = (abilitiesData as Record<string, { "effect desc"?: string }>)[abilityName];
+        const effectDesc = abilityInfo?.["effect desc"];
+        description = effectDesc
+          ? `${player.name}'s ${abilityName} activates — ${effectDesc}`
           : `${player.name}'s ability "${abilityName}" activates!`;
         if (side === "home") homeMomentum += 2; else awayMomentum += 2;
       } else if (sp < 0.90) {
