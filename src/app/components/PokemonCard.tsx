@@ -22,9 +22,8 @@ interface PokemonCardProps {
 function AbilityBadge({ ability }: { ability: string }) {
   const [showTip, setShowTip] = useState(false);
   const abilityInfo = abilitiesData[ability];
-  const desc = abilityInfo
-    ? abilityInfo["effect desc"]
-    : "Standard Pokemon ability";
+  const trigger = abilityInfo?.["effect trigger"] ?? "No in-game effect";
+  const desc = abilityInfo?.["effect desc"] ?? "No in-game effect";
 
   return (
     <span
@@ -34,17 +33,15 @@ function AbilityBadge({ ability }: { ability: string }) {
         borderColor: "var(--color-border)",
         color: "var(--color-text-muted)",
       }}
-      title={desc}
       onClick={(e) => {
         e.stopPropagation();
         setShowTip((v) => !v);
       }}
-      // onMouseLeave={() => setShowTip(false)}
     >
       ✨ {ability}
       {showTip && (
         <span
-          className="absolute first-letter:uppercase c z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 text-[6px] font-pixel leading-loose text-center pointer-events-none border-2"
+          className="absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 text-[6px] font-pixel leading-loose text-center pointer-events-none border-2"
           style={{
             borderColor: "var(--color-shadow)",
             color: "var(--color-text)",
@@ -52,6 +49,9 @@ function AbilityBadge({ ability }: { ability: string }) {
             backgroundColor: "var(--color-bg)",
           }}
         >
+          <span className="block font-bold">When:</span>{" "}
+          {trigger}
+          <span className="block font-bold mt-1">Effect:</span>{" "}
           {desc}
         </span>
       )}
