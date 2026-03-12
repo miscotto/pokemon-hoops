@@ -1,6 +1,8 @@
 import { Pokemon, PhysicalProfile } from "../types";
 import { toBballAverages, BballAverages, computeSalary, SALARY_CAP } from "./bballStats";
 import { calcTypeAdvantage } from "./typeChart";
+import { computeAbilityModifier } from "./abilityModifier";
+import abilitiesData from "../../../public/abilities.json";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -262,6 +264,7 @@ interface TeamFactors {
   teamBaseScore: number;
   headToHeadMatchup: number;
   clutchFatigue: number;
+  abilityModifier: number;
   finalRating: number;
   foulOutInjuryChance: number;
 }
@@ -312,9 +315,14 @@ function calculateTeamFactors(
   // 4. Injury chance rises late
   const foulOutInjuryChance = 0.05 + (gameTimeSec > GAME_DURATION * 0.7 ? 0.03 : 0);
 
-  const finalRating = teamBaseScore + headToHeadMatchup + clutchFatigue;
+  const abilityModifier = computeAbilityModifier(
+    roster.map(p => p.ability ?? ""),
+    opponent.roster.map(p => p.ability ?? ""),
+  );
 
-  return { teamBaseScore, headToHeadMatchup, clutchFatigue, finalRating, foulOutInjuryChance };
+  const finalRating = teamBaseScore + headToHeadMatchup + clutchFatigue + abilityModifier;
+
+  return { teamBaseScore, headToHeadMatchup, clutchFatigue, abilityModifier, finalRating, foulOutInjuryChance };
 }
 
 // ─── Event Generation ───────────────────────────────────────────────────────
@@ -490,7 +498,11 @@ function generateGameEvents(
         if (side === "home") homeMomentum += 1.5; else awayMomentum += 1.5;
       } else if (sp < 0.80) {
         eventType = "ability_trigger";
-        description = `${player.name}'s ability "${player.ability || "Pressure"}" activates!`;
+        const abilityName = player.ability || "Pressure";
+        const abilityInfo = (abilitiesData as Record<string, { "effect desc": string }>)[abilityName];
+        description = abilityInfo
+          ? `${player.name}'s ${abilityName} activates — ${abilityInfo["effect desc"]}`
+          : `${player.name}'s ability "${abilityName}" activates!`;
         if (side === "home") homeMomentum += 2; else awayMomentum += 2;
       } else if (sp < 0.90) {
         eventType = "rivalry_clash";
