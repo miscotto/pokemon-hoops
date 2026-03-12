@@ -7,6 +7,7 @@ import {
   integer,
   jsonb,
   unique,
+  index,
 } from "drizzle-orm/pg-core";
 
 export const rosters = pgTable("rosters", {
@@ -63,6 +64,31 @@ export const liveTournamentTeams = pgTable(
     teamName: text("team_name").notNull(),
     rosterData: jsonb("roster_data").notNull(),
     joinedAt: timestamp("joined_at", { withTimezone: true }).notNull().defaultNow(),
+    result: text("result"),       // "champion" | "finalist" | "eliminated" | "in_progress" | "waiting"
+    roundReached: integer("round_reached"), // 1-based. NULL until tournament starts.
   },
   (t) => [unique().on(t.tournamentId, t.userId)]
+);
+
+export const tournamentGames = pgTable(
+  "tournament_games",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    tournamentId: uuid("tournament_id")
+      .notNull()
+      .references(() => liveTournaments.id, { onDelete: "cascade" }),
+    round: integer("round").notNull(),
+    matchupIndex: integer("matchup_index").notNull(),
+    team1UserId: text("team1_user_id"),
+    team1Name: text("team1_name"),
+    team2UserId: text("team2_user_id"),
+    team2Name: text("team2_name"),
+    team1Score: integer("team1_score"),
+    team2Score: integer("team2_score"),
+    winnerId: text("winner_id"),
+    status: text("status").notNull().default("pending"), // "pending" | "in_progress" | "completed"
+    events: jsonb("events"),
+    playedAt: timestamp("played_at", { withTimezone: true }),
+  },
+  (t) => [index("tournament_games_tournament_id_idx").on(t.tournamentId)]
 );
