@@ -9,10 +9,11 @@ import {
   getPlaystyle,
   computeSalary,
 } from "../utils/bballStats";
+import { PokeButton, TypeBadge } from "./ui";
+
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const abilitiesData: Record<string, { "effect trigger": string; "effect desc": string }> =
   require("../../../public/abilities.json");
-import { PokeButton, TypeBadge } from "./ui";
 
 interface RosterSlotProps {
   position: string;

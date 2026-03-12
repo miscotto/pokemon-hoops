@@ -10,7 +10,9 @@ import {
 } from "../utils/bballStats";
 import { PokeButton, TypeBadge } from "./ui";
 
-const abilitiesData = require("../../../public/abilities.json");
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const abilitiesData: Record<string, { "effect trigger"?: string; "effect desc"?: string }> =
+  require("../../../public/abilities.json");
 
 interface PokemonCardProps {
   pokemon: Pokemon;
