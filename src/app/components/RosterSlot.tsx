@@ -1,10 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import { Pokemon } from "../types";
 import Image from "next/image";
-import { toBballAverages, getPlaystyle, computeSalary } from "../utils/bballStats";
-import { SUPPORT_ABILITIES } from "../utils/supportAbilities";
+import {
+  toBballAverages,
+  getPlaystyle,
+  computeSalary,
+} from "../utils/bballStats";
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const abilitiesData: Record<string, { "effect trigger": string; "effect desc": string }> =
+  require("../../../public/abilities.json");
 import { PokeButton, TypeBadge } from "./ui";
 
 interface RosterSlotProps {
@@ -20,34 +27,57 @@ interface RosterSlotProps {
 }
 
 function AbilityBadge({ ability }: { ability: string }) {
-  const [showTip, setShowTip] = useState(false);
-  const desc = SUPPORT_ABILITIES[ability]?.description;
+  const [tipPos, setTipPos] = useState<{ x: number; y: number } | null>(null);
+  const abilityInfo = abilitiesData[ability];
+  const trigger = abilityInfo?.["effect trigger"] ?? "No in-game effect";
+  const desc = abilityInfo?.["effect desc"] ?? "No in-game effect";
+
   return (
     <span
-      className="relative font-pixel text-[5px] leading-loose px-1.5 py-0.5 border cursor-help"
+      className="font-pixel text-[5px] leading-loose px-1.5 py-0.5 border cursor-help"
       style={{
         backgroundColor: "var(--color-surface-alt)",
         borderColor: "var(--color-border)",
         color: "var(--color-text-muted)",
       }}
-      title={desc}
-      onClick={(e) => { e.stopPropagation(); setShowTip((v) => !v); }}
-      onMouseLeave={() => setShowTip(false)}
+      onClick={(e) => {
+        e.stopPropagation();
+        if (tipPos) {
+          setTipPos(null);
+        } else {
+          const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+          setTipPos({ x: rect.left + rect.width / 2, y: rect.top });
+        }
+      }}
     >
-      ✨ {ability}
-      {showTip && desc && (
-        <span
-          className="absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 w-44 p-2 text-[6px] font-pixel leading-loose text-center pointer-events-none border-2"
-          style={{
-            backgroundColor: "var(--color-surface)",
-            borderColor: "var(--color-shadow)",
-            color: "var(--color-text)",
-            boxShadow: "3px 3px 0 var(--color-shadow)",
-          }}
-        >
-          {desc}
-        </span>
-      )}
+      {ability}
+      {tipPos &&
+        createPortal(
+          <>
+            <div
+              className="fixed inset-0 z-40"
+              onClick={() => setTipPos(null)}
+            />
+            <span
+              className="fixed z-50 w-44 p-2 text-[6px] font-pixel leading-loose text-center pointer-events-none border-2"
+              style={{
+                top: tipPos.y - 8,
+                left: tipPos.x,
+                transform: "translate(-50%, -100%)",
+                backgroundColor: "var(--color-surface)",
+                borderColor: "var(--color-shadow)",
+                color: "var(--color-text)",
+                boxShadow: "3px 3px 0 var(--color-shadow)",
+              }}
+            >
+              <span className="block font-bold">When:</span>{" "}
+              {trigger}
+              <span className="block font-bold mt-1">Effect:</span>{" "}
+              {desc}
+            </span>
+          </>,
+          document.body
+        )}
     </span>
   );
 }
@@ -66,23 +96,34 @@ export default function RosterSlot({
   const [showStats, setShowStats] = useState(false);
 
   const borderStyle = isDragOver
-    ? { borderColor: "var(--color-accent)", backgroundColor: "var(--color-surface-alt)" }
+    ? {
+        borderColor: "var(--color-accent)",
+        backgroundColor: "var(--color-surface-alt)",
+      }
     : pokemon
-      ? { borderColor: "var(--color-border)", backgroundColor: "var(--color-surface)" }
-      : { borderColor: "var(--color-border)", backgroundColor: "var(--color-surface-alt)" };
+    ? {
+        borderColor: "var(--color-border)",
+        backgroundColor: "var(--color-surface)",
+      }
+    : {
+        borderColor: "var(--color-border)",
+        backgroundColor: "var(--color-surface-alt)",
+      };
 
   return (
     <div
       onDrop={onDrop}
       onDragOver={onDragOver}
       onDragLeave={onDragLeave}
-      className="relative flex flex-col items-center border-3 border-dashed p-2 transition-all"
+      className="relative flex flex-col items-center border-3 rounded-xl border-dashed p-2 transition-all"
       style={borderStyle}
     >
       {/* Position label */}
       <span
         className="font-pixel text-[7px] uppercase tracking-widest mb-1"
-        style={{ color: isReserve ? "var(--color-accent)" : "var(--color-primary)" }}
+        style={{
+          color: isReserve ? "var(--color-accent)" : "var(--color-primary)",
+        }}
       >
         {position}
       </span>
@@ -100,8 +141,10 @@ export default function RosterSlot({
               unoptimized
             />
           </div>
-          <p className="font-pixel text-[7px] capitalize mt-0.5 truncate w-full text-center"
-            style={{ color: "var(--color-text)" }}>
+          <p
+            className="font-pixel text-[7px] capitalize mt-0.5 truncate w-full text-center"
+            style={{ color: "var(--color-text)" }}
+          >
             {pokemon.name}
           </p>
           {(() => {
@@ -113,28 +156,42 @@ export default function RosterSlot({
                 <span
                   className="font-pixel text-[6px] px-1.5 py-0.5 border mt-1"
                   style={{
-                    backgroundColor: salary >= 35 ? "var(--color-accent)" : "var(--color-surface-alt)",
+                    backgroundColor:
+                      salary >= 35
+                        ? "var(--color-accent)"
+                        : "var(--color-surface-alt)",
                     borderColor: "var(--color-shadow)",
-                    color: salary >= 35 ? "var(--color-shadow)" : "var(--color-text-muted)",
+                    color:
+                      salary >= 35
+                        ? "var(--color-shadow)"
+                        : "var(--color-text-muted)",
                   }}
                 >
                   ${salary}M
                 </span>
 
                 <button
-                  onClick={(e) => { e.stopPropagation(); setShowStats(!showStats); }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowStats(!showStats);
+                  }}
                   className="mt-1.5 font-pixel text-[6px] cursor-pointer"
                   style={{ color: "var(--color-text-muted)" }}
                 >
-                  {showStats ? "▲ HIDE" : "▼ STATS"}
+                  {showStats ? "HIDE" : "STATS"}
                 </button>
 
                 {showStats && (
                   <div className="w-full pt-2 flex flex-col gap-1 items-center">
-                    <span className="font-pixel text-[5px]" style={{ color: "var(--color-text-muted)" }}>
+                    <span
+                      className="font-pixel text-[5px]"
+                      style={{ color: "var(--color-text-muted)" }}
+                    >
                       {playstyle}
                     </span>
-                    {pokemon.ability && <AbilityBadge ability={pokemon.ability} />}
+                    {pokemon.ability && (
+                      <AbilityBadge ability={pokemon.ability} />
+                    )}
                     <div className="flex gap-1 mt-1 flex-wrap justify-center">
                       {pokemon.types.map((type) => (
                         <TypeBadge key={type} type={type} />
@@ -150,24 +207,54 @@ export default function RosterSlot({
                         { label: "MPG", val: avg.mpg, color: "#a040a0" },
                       ].map(({ label, val, color }) => (
                         <div key={label} className="flex flex-col items-center">
-                          <span className="font-pixel text-[8px] font-bold" style={{ color }}>{val}</span>
-                          <span className="font-pixel text-[5px]" style={{ color: "var(--color-text-muted)" }}>{label}</span>
+                          <span
+                            className="font-pixel text-[8px] font-bold"
+                            style={{ color }}
+                          >
+                            {val}
+                          </span>
+                          <span
+                            className="font-pixel text-[5px]"
+                            style={{ color: "var(--color-text-muted)" }}
+                          >
+                            {label}
+                          </span>
                         </div>
                       ))}
                     </div>
                     {/* PER bar */}
                     <div className="flex items-center gap-1 mt-1.5 w-full font-pixel text-[5px]">
-                      <span style={{ color: "var(--color-text-muted)" }}>PER</span>
-                      <div className="flex-1 h-1.5 border" style={{ borderColor: "var(--color-shadow)", backgroundColor: "var(--color-surface-alt)" }}>
+                      <span style={{ color: "var(--color-text-muted)" }}>
+                        PER
+                      </span>
+                      <div
+                        className="flex-1 h-1.5 border"
+                        style={{
+                          borderColor: "var(--color-shadow)",
+                          backgroundColor: "var(--color-surface-alt)",
+                        }}
+                      >
                         <div
                           className="h-full"
                           style={{
                             width: `${(avg.per / 35) * 100}%`,
-                            backgroundColor: avg.per >= 25 ? "var(--color-accent)" : avg.per >= 18 ? "#78c850" : "var(--color-text-muted)",
+                            backgroundColor:
+                              avg.per >= 25
+                                ? "var(--color-accent)"
+                                : avg.per >= 18
+                                ? "#78c850"
+                                : "var(--color-text-muted)",
                           }}
                         />
                       </div>
-                      <span style={{ color: avg.per >= 25 ? "var(--color-accent)" : "var(--color-text-muted)" }}>
+                      <span
+                        style={{
+                          color:
+                            avg.per >= 25
+                              ? "var(--color-accent)"
+                              : "var(--color-text-muted)",
+                        }}
+                      >
                         {avg.per}
                       </span>
                     </div>
@@ -188,8 +275,16 @@ export default function RosterSlot({
         </>
       ) : (
         <div className="flex flex-col items-center justify-center h-14 w-14 gap-1">
-          <span className="font-pixel text-[18px]" style={{ color: "var(--color-border)" }}>+</span>
-          <p className="font-pixel text-[5px] text-center" style={{ color: "var(--color-text-muted)" }}>
+          <span
+            className="font-pixel text-[18px]"
+            style={{ color: "var(--color-border)" }}
+          >
+            +
+          </span>
+          <p
+            className="font-pixel text-[5px] text-center"
+            style={{ color: "var(--color-text-muted)" }}
+          >
             {label}
           </p>
         </div>
