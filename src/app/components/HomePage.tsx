@@ -53,11 +53,19 @@ export default function HomePage() {
           <span className="font-pixel text-[10px] sm:text-[12px]" style={{ color: "var(--color-primary-text)" }}>
             ⚡ POKEMON HOOPS
           </span>
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
+            <Link href="/tournaments" className="font-pixel text-[7px] hidden sm:block" style={{ color: "var(--color-primary-text)", opacity: 0.85 }}>
+              TOURNAMENTS
+            </Link>
             {session?.user ? (
-              <Link href="/dashboard">
-                <PokeButton variant="primary" size="sm">DASHBOARD</PokeButton>
-              </Link>
+              <>
+                <Link href="/profile" className="font-pixel text-[7px] hidden sm:block" style={{ color: "var(--color-primary-text)", opacity: 0.85 }}>
+                  MY PROFILE
+                </Link>
+                <Link href="/dashboard">
+                  <PokeButton variant="primary" size="sm">DASHBOARD</PokeButton>
+                </Link>
+              </>
             ) : (
               <>
                 <Link href="/dashboard">
