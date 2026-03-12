@@ -1,4 +1,5 @@
 import { betterAuth } from "better-auth";
+import { admin } from "better-auth/plugins";
 import { Pool } from "@neondatabase/serverless";
 
 export const auth = betterAuth({
@@ -7,4 +8,5 @@ export const auth = betterAuth({
     enabled: true,
   },
   trustedOrigins: ["*"],
+  plugins: [admin()],
 });

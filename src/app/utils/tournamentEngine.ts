@@ -737,17 +737,16 @@ export interface SerializedMatchup {
 }
 
 /**
- * Pre-simulate an entire 8-team tournament bracket.
- * Used for live tournaments where all games are computed at start
- * and events are revealed based on wall-clock time.
+ * Run a single-elimination conference bracket for any number of teams.
+ * Top seeds get byes when team count is odd.
+ * Returns all matchups and the conference winner.
  */
-export function simulateFullBracket(
-  westTeams: TournamentTeam[],
-  eastTeams: TournamentTeam[],
-): SerializedMatchup[] {
-  const getWinner = (r: LiveGameResult) =>
-    r.winner === "home" ? r.homeTeam : r.awayTeam;
-
+function simulateConferenceRounds(
+  teams: TournamentTeam[], // sorted by seed, index 0 = best seed
+  conference: "west" | "east",
+  roundStart: number,
+  timeStart: number,
+): { matchups: SerializedMatchup[]; winner: TournamentTeam; finalRound: number; finalOffset: number } {
   const toSerialized = (
     id: string, round: number, conf: "west" | "east" | "finals",
     r: LiveGameResult, offset: number,
@@ -756,36 +755,86 @@ export function simulateFullBracket(
     homeTeam: r.homeTeam, awayTeam: r.awayTeam,
     events: r.events, playerStats: r.playerStats,
     finalHomeScore: r.finalHomeScore, finalAwayScore: r.finalAwayScore,
-    winner: r.winner, winnerTeam: getWinner(r),
+    winner: r.winner, winnerTeam: r.winner === "home" ? r.homeTeam : r.awayTeam,
     startsAtOffset: offset,
   });
 
-  // Round 1: 1v4, 2v3 each conference (all start at t=0)
-  const wr1g1 = simulateMatchup(westTeams[0], westTeams[3]);
-  const wr1g2 = simulateMatchup(westTeams[1], westTeams[2]);
-  const er1g1 = simulateMatchup(eastTeams[0], eastTeams[3]);
-  const er1g2 = simulateMatchup(eastTeams[1], eastTeams[2]);
+  let currentTeams = [...teams];
+  const allMatchups: SerializedMatchup[] = [];
+  let round = roundStart;
+  let timeOffset = timeStart;
 
-  const r2Offset = LIVE_GAME_REAL_SECONDS + LIVE_ROUND_BUFFER;
+  while (currentTeams.length > 1) {
+    const hasBye = currentTeams.length % 2 !== 0;
+    const byeTeam = hasBye ? currentTeams[0] : null; // best seed gets bye
+    const playing = hasBye ? currentTeams.slice(1) : currentTeams;
+    const roundWinners: TournamentTeam[] = byeTeam ? [byeTeam] : [];
+    const half = playing.length / 2;
 
-  // Round 2: Conference Finals
-  const wr2 = simulateMatchup(getWinner(wr1g1), getWinner(wr1g2));
-  const er2 = simulateMatchup(getWinner(er1g1), getWinner(er1g2));
+    for (let i = 0; i < half; i++) {
+      const home = playing[i];
+      const away = playing[playing.length - 1 - i];
+      const result = simulateMatchup(home, away);
+      const winner = result.winner === "home" ? home : away;
+      const gameId = `${conference}-r${round}-g${i + 1}`;
+      allMatchups.push(toSerialized(gameId, round, conference, result, timeOffset));
+      roundWinners.push(winner);
+    }
 
-  const finalsOffset = r2Offset + LIVE_GAME_REAL_SECONDS + LIVE_ROUND_BUFFER;
+    currentTeams = roundWinners;
+    round++;
+    timeOffset += LIVE_GAME_REAL_SECONDS + LIVE_ROUND_BUFFER;
+  }
 
-  // Round 3: Championship
-  const finals = simulateMatchup(getWinner(wr2), getWinner(er2));
+  return {
+    matchups: allMatchups,
+    winner: currentTeams[0],
+    finalRound: round - 1,
+    finalOffset: timeOffset - LIVE_GAME_REAL_SECONDS - LIVE_ROUND_BUFFER,
+  };
+}
 
-  return [
-    toSerialized("west-r1-g1", 1, "west", wr1g1, 0),
-    toSerialized("west-r1-g2", 1, "west", wr1g2, 0),
-    toSerialized("east-r1-g1", 1, "east", er1g1, 0),
-    toSerialized("east-r1-g2", 1, "east", er1g2, 0),
-    toSerialized("west-r2", 2, "west", wr2, r2Offset),
-    toSerialized("east-r2", 2, "east", er2, r2Offset),
-    toSerialized("finals", 3, "finals", finals, finalsOffset),
-  ];
+/**
+ * Simulate a bracket for any even team count >= 2.
+ * Splits teams into west/east conferences and runs single-elimination,
+ * then a championship finals.
+ */
+export function simulateBracketForSize(
+  westTeams: TournamentTeam[],
+  eastTeams: TournamentTeam[],
+  maxTeams: number,
+): SerializedMatchup[] {
+  const toSerialized = (
+    id: string, round: number, conf: "west" | "east" | "finals",
+    r: LiveGameResult, offset: number,
+  ): SerializedMatchup => ({
+    id, round, conference: conf,
+    homeTeam: r.homeTeam, awayTeam: r.awayTeam,
+    events: r.events, playerStats: r.playerStats,
+    finalHomeScore: r.finalHomeScore, finalAwayScore: r.finalAwayScore,
+    winner: r.winner, winnerTeam: r.winner === "home" ? r.homeTeam : r.awayTeam,
+    startsAtOffset: offset,
+  });
+
+  // 2-team: single championship game
+  if (maxTeams === 2) {
+    const home = westTeams[0] ?? eastTeams[0];
+    const away = eastTeams[0] ?? westTeams[1];
+    const result = simulateMatchup(home, away);
+    return [toSerialized("finals", 1, "finals", result, 0)];
+  }
+
+  const west = simulateConferenceRounds(westTeams, "west", 1, 0);
+  const east = simulateConferenceRounds(eastTeams, "east", 1, 0);
+
+  const finalsOffset =
+    Math.max(west.finalOffset, east.finalOffset) + LIVE_GAME_REAL_SECONDS + LIVE_ROUND_BUFFER;
+  const finalsRound = Math.max(west.finalRound, east.finalRound) + 1;
+
+  const finalsResult = simulateMatchup(west.winner, east.winner);
+  const finalsMatchup = toSerialized("finals", finalsRound, "finals", finalsResult, finalsOffset);
+
+  return [...west.matchups, ...east.matchups, finalsMatchup];
 }
 
 /**

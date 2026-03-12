@@ -25,6 +25,7 @@ export async function GET(
     .select({
       id: rosters.id,
       name: rosters.name,
+      city: rosters.city,
       is_tournament_roster: rosters.isTournamentRoster,
       created_at: rosters.createdAt,
       updated_at: rosters.updatedAt,
@@ -85,11 +86,15 @@ export async function PUT(
     );
   }
 
-  // Update name if provided
-  if (body.name) {
+  // Update name/city if provided
+  if (body.name || body.city !== undefined) {
     await db
       .update(rosters)
-      .set({ name: body.name.trim(), updatedAt: new Date() })
+      .set({
+        ...(body.name ? { name: body.name.trim() } : {}),
+        ...(body.city !== undefined ? { city: body.city.trim() } : {}),
+        updatedAt: new Date(),
+      })
       .where(eq(rosters.id, id));
   }
 

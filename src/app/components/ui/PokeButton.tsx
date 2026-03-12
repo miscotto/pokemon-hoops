@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes } from "react";
 
-type Variant = "primary" | "danger" | "ghost";
-type Size = "sm" | "md";
+type Variant = "primary" | "danger" | "ghost" | "accent";
+type Size = "sm" | "md" | "lg";
 
 interface PokeButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant;
@@ -15,11 +15,14 @@ const variantStyles: Record<Variant, string> = {
     "bg-[var(--color-danger)] text-white border-[var(--color-shadow)]",
   ghost:
     "bg-[var(--color-surface)] text-[var(--color-primary)] border-[var(--color-primary)]",
+  accent:
+    "bg-[var(--color-accent)] text-[var(--color-shadow)] border-[var(--color-shadow)]",
 };
 
 const sizeStyles: Record<Size, string> = {
   sm: "text-[6px] px-2 py-1",
   md: "text-[7px] px-3 py-2",
+  lg: "text-[8px] px-5 py-3",
 };
 
 export function PokeButton({

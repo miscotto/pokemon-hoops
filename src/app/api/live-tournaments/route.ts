@@ -12,13 +12,15 @@ import {
   joinTournament,
   getTournamentTeamCount,
   getTournamentTeams,
+  getTournament,
   startTournament,
   getUserActiveTournament,
+  getAllTournaments,
 } from "@/lib/tournament-db";
 import {
   TournamentTeam,
   toTournamentPokemon,
-  simulateFullBracket,
+  simulateBracketForSize,
   Coast,
 } from "../../utils/tournamentEngine";
 
@@ -41,23 +43,34 @@ function loadPokemonPool(): Record<number, Record<string, unknown>> {
   return cachedPool;
 }
 
-// GET /api/live-tournaments — Check if user is in a tournament
+// GET /api/live-tournaments — Check if user is in a tournament, or list open tournaments
 export async function GET(req: NextRequest) {
   const user = await getUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
+  const { searchParams } = new URL(req.url);
+
+  // ?available=true → list open tournaments the user can join
+  if (searchParams.get("available") === "true") {
+    const all = await getAllTournaments(50);
+    const open = all.filter((t) => t.status === "waiting" && t.team_count < t.max_teams);
+    return NextResponse.json(open);
+  }
+
   const active = await getUserActiveTournament(user.id);
   if (active) {
+    const info = await getTournament(active.tournament_id);
     return NextResponse.json({
       tournamentId: active.tournament_id,
       status: active.status,
+      name: info?.name ?? "Tournament",
     });
   }
 
   return NextResponse.json({ tournamentId: null });
 }
 
-// POST /api/live-tournaments — Join or create a live tournament
+// POST /api/live-tournaments — Join a specific or any open live tournament
 export async function POST(req: NextRequest) {
   const user = await getUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -71,9 +84,12 @@ export async function POST(req: NextRequest) {
     });
   }
 
+  const body = await req.json().catch(() => ({}));
+  const { tournamentId: requestedId } = (body ?? {}) as { tournamentId?: string };
+
   // Check tournament roster
   const rosterRows = await db
-    .select({ id: rosters.id, name: rosters.name })
+    .select({ id: rosters.id, name: rosters.name, city: rosters.city })
     .from(rosters)
     .where(and(eq(rosters.userId, user.id), eq(rosters.isTournamentRoster, true)));
 
@@ -84,7 +100,8 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const { id: rosterId, name: rosterName } = rosterRows[0];
+  const { id: rosterId, name: rosterName, city: rosterCity } = rosterRows[0];
+  const teamName = rosterCity ? `${rosterCity} ${rosterName}` : rosterName;
 
   // Load roster pokemon
   const pokemon = await db
@@ -133,17 +150,30 @@ export async function POST(req: NextRequest) {
     };
   });
 
-  // Find or create tournament
-  let tournamentId = await findOpenTournament();
-  if (!tournamentId) {
-    tournamentId = await createTournament();
+  // Find the tournament to join
+  let tournamentId: string;
+  if (requestedId) {
+    const requested = await getTournament(requestedId);
+    if (!requested || requested.status !== "waiting") {
+      return NextResponse.json({ error: "Tournament is not available to join" }, { status: 400 });
+    }
+    const count = await getTournamentTeamCount(requestedId);
+    if (count >= requested.max_teams) {
+      return NextResponse.json({ error: "Tournament is full" }, { status: 400 });
+    }
+    tournamentId = requestedId;
+  } else {
+    const found = await findOpenTournament();
+    tournamentId = found ?? await createTournament();
   }
 
-  await joinTournament(tournamentId, user.id, rosterId, rosterName, rosterData);
+  await joinTournament(tournamentId, user.id, rosterId, teamName, rosterData);
 
   // Check if tournament is full → start it
   const count = await getTournamentTeamCount(tournamentId);
-  if (count >= 8) {
+  const tournamentInfo = await getTournament(tournamentId);
+  const maxTeams = tournamentInfo?.max_teams ?? 8;
+  if (count >= maxTeams) {
     const teams = await getTournamentTeams(tournamentId);
 
     const tournamentTeams: TournamentTeam[] = teams.map((t) => ({
@@ -189,7 +219,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const bracketData = simulateFullBracket(westTeams, eastTeams);
+    const bracketData = simulateBracketForSize(westTeams, eastTeams, maxTeams);
     await startTournament(tournamentId, bracketData);
 
     return NextResponse.json({ tournamentId, status: "active" });

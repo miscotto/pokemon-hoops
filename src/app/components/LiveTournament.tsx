@@ -384,13 +384,30 @@ function LiveBracketView({
 }) {
   const m = bracket.matchups;
   const isComplete = bracket.status === "completed";
-  const finalsMatchup = m.find((g) => g.id === "finals");
+  const finalsMatchup = m.find((g) => g.conference === "finals");
   const champion =
     isComplete && finalsMatchup?.winner
       ? finalsMatchup.winner === "home"
         ? finalsMatchup.homeTeam
         : finalsMatchup.awayTeam
       : null;
+
+  // Compute unique rounds per conference dynamically
+  const westMatchups = m.filter((g) => g.conference === "west").sort((a, b) => a.round - b.round);
+  const eastMatchups = m.filter((g) => g.conference === "east").sort((a, b) => a.round - b.round);
+  const finalsMatchups = m.filter((g) => g.conference === "finals");
+
+  const uniqueWestRounds = [...new Set(westMatchups.map((g) => g.round))];
+  const uniqueEastRounds = [...new Set(eastMatchups.map((g) => g.round))];
+
+  const roundLabel = (conf: "west" | "east", round: number, total: number) => {
+    if (total === 1) return `${conf.toUpperCase()} FINAL`;
+    if (round === 1) return `${conf.toUpperCase()} FIRST ROUND`;
+    if (round === total) return `${conf.toUpperCase()} FINAL`;
+    return `${conf.toUpperCase()} ROUND ${round}`;
+  };
+
+  const hasConferences = westMatchups.length > 0 || eastMatchups.length > 0;
 
   return (
     <div className="w-full" style={{ backgroundColor: "var(--color-bg)" }}>
@@ -414,97 +431,82 @@ function LiveBracketView({
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr_1fr] gap-6 max-w-5xl mx-auto">
-        {/* Round 1 */}
+      <div
+        className={`gap-6 max-w-5xl mx-auto ${hasConferences ? "grid grid-cols-1 md:grid-cols-3" : "flex justify-center"}`}
+      >
+        {/* West conference rounds */}
+        {hasConferences && (
+          <div className="space-y-6">
+            {uniqueWestRounds.map((round) => (
+              <div key={round} className="space-y-3">
+                <h3
+                  className="font-pixel text-[6px] uppercase tracking-wider text-center"
+                  style={{ color: "var(--color-text-muted)" }}
+                >
+                  {roundLabel("west", round, uniqueWestRounds.length)}
+                </h3>
+                {westMatchups
+                  .filter((g) => g.round === round)
+                  .map((g) => (
+                    <LiveMatchupCard
+                      key={g.id}
+                      matchup={g}
+                      userTeamName={bracket.userTeamName}
+                      onWatch={onWatch}
+                    />
+                  ))}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Center: Championship */}
         <div className="space-y-4">
-          <h3
-            className="font-pixel text-[6px] uppercase tracking-wider text-center"
-            style={{ color: "var(--color-text-muted)" }}
-          >
-            WEST FIRST ROUND
-          </h3>
-          {m
-            .filter((g) => g.round === 1 && g.conference === "west")
-            .map((g) => (
-              <LiveMatchupCard
-                key={g.id}
-                matchup={g}
-                userTeamName={bracket.userTeamName}
-                onWatch={onWatch}
-              />
-            ))}
-          <h3
-            className="font-pixel text-[6px] uppercase tracking-wider text-center pt-3"
-            style={{ color: "var(--color-text-muted)" }}
-          >
-            EAST FIRST ROUND
-          </h3>
-          {m
-            .filter((g) => g.round === 1 && g.conference === "east")
-            .map((g) => (
-              <LiveMatchupCard
-                key={g.id}
-                matchup={g}
-                userTeamName={bracket.userTeamName}
-                onWatch={onWatch}
-              />
-            ))}
+          {finalsMatchups.length > 0 && (
+            <>
+              <h3
+                className="font-pixel text-[6px] uppercase tracking-wider text-center"
+                style={{ color: "var(--color-text-muted)" }}
+              >
+                CHAMPIONSHIP
+              </h3>
+              {finalsMatchups.map((g) => (
+                <LiveMatchupCard
+                  key={g.id}
+                  matchup={g}
+                  userTeamName={bracket.userTeamName}
+                  onWatch={onWatch}
+                />
+              ))}
+            </>
+          )}
         </div>
 
-        {/* Round 2 */}
-        <div className="space-y-4">
-          <h3
-            className="font-pixel text-[6px] uppercase tracking-wider text-center"
-            style={{ color: "var(--color-text-muted)" }}
-          >
-            WEST FINAL
-          </h3>
-          {m
-            .filter((g) => g.round === 2 && g.conference === "west")
-            .map((g) => (
-              <LiveMatchupCard
-                key={g.id}
-                matchup={g}
-                userTeamName={bracket.userTeamName}
-                onWatch={onWatch}
-              />
+        {/* East conference rounds */}
+        {hasConferences && (
+          <div className="space-y-6">
+            {uniqueEastRounds.map((round) => (
+              <div key={round} className="space-y-3">
+                <h3
+                  className="font-pixel text-[6px] uppercase tracking-wider text-center"
+                  style={{ color: "var(--color-text-muted)" }}
+                >
+                  {roundLabel("east", round, uniqueEastRounds.length)}
+                </h3>
+                {eastMatchups
+                  .filter((g) => g.round === round)
+                  .map((g) => (
+                    <LiveMatchupCard
+                      key={g.id}
+                      matchup={g}
+                      userTeamName={bracket.userTeamName}
+                      onWatch={onWatch}
+                    />
+                  ))}
+              </div>
             ))}
-          <h3
-            className="font-pixel text-[6px] uppercase tracking-wider text-center pt-3"
-            style={{ color: "var(--color-text-muted)" }}
-          >
-            CHAMPIONSHIP
-          </h3>
-          {m
-            .filter((g) => g.round === 3)
-            .map((g) => (
-              <LiveMatchupCard
-                key={g.id}
-                matchup={g}
-                userTeamName={bracket.userTeamName}
-                onWatch={onWatch}
-              />
-            ))}
-          <h3
-            className="font-pixel text-[6px] uppercase tracking-wider text-center pt-3"
-            style={{ color: "var(--color-text-muted)" }}
-          >
-            EAST FINAL
-          </h3>
-          {m
-            .filter((g) => g.round === 2 && g.conference === "east")
-            .map((g) => (
-              <LiveMatchupCard
-                key={g.id}
-                matchup={g}
-                userTeamName={bracket.userTeamName}
-                onWatch={onWatch}
-              />
-            ))}
-        </div>
-
-        {/* Spacer column for symmetry */}
-        <div />
+          </div>
+        )}
       </div>
     </div>
   );

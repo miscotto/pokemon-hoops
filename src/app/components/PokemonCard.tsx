@@ -3,7 +3,11 @@
 import { Pokemon } from "../types";
 import Image from "next/image";
 import { useState } from "react";
-import { toBballAverages, getPlaystyle, computeSalary } from "../utils/bballStats";
+import {
+  toBballAverages,
+  getPlaystyle,
+  computeSalary,
+} from "../utils/bballStats";
 import { PokeButton, TypeBadge } from "./ui";
 
 const abilitiesData = require("../../../public/abilities.json");
@@ -18,7 +22,9 @@ interface PokemonCardProps {
 function AbilityBadge({ ability }: { ability: string }) {
   const [showTip, setShowTip] = useState(false);
   const abilityInfo = abilitiesData[ability];
-  const desc = abilityInfo ? abilityInfo["effect desc"] : "Standard Pokemon ability";
+  const desc = abilityInfo
+    ? abilityInfo["effect desc"]
+    : "Standard Pokemon ability";
 
   return (
     <span
@@ -29,18 +35,21 @@ function AbilityBadge({ ability }: { ability: string }) {
         color: "var(--color-text-muted)",
       }}
       title={desc}
-      onClick={(e) => { e.stopPropagation(); setShowTip((v) => !v); }}
-      onMouseLeave={() => setShowTip(false)}
+      onClick={(e) => {
+        e.stopPropagation();
+        setShowTip((v) => !v);
+      }}
+      // onMouseLeave={() => setShowTip(false)}
     >
       ✨ {ability}
       {showTip && (
         <span
-          className="absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 text-[6px] font-pixel leading-loose text-center pointer-events-none border-2"
+          className="absolute first-letter:uppercase c z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 text-[6px] font-pixel leading-loose text-center pointer-events-none border-2"
           style={{
-            backgroundColor: "var(--color-surface)",
             borderColor: "var(--color-shadow)",
             color: "var(--color-text)",
             boxShadow: "3px 3px 0 var(--color-shadow)",
+            backgroundColor: "var(--color-bg)",
           }}
         >
           {desc}
@@ -71,13 +80,17 @@ export default function PokemonCard({
       disabled={disabled && !isSelected}
       className="relative flex flex-col items-center p-2 w-full text-left"
       style={{
-        border: `3px solid ${isSelected ? "var(--color-accent)" : "var(--color-border)"}`,
-        backgroundColor: isSelected ? "var(--color-surface-alt)" : "var(--color-surface)",
+        border: `3px solid ${
+          isSelected ? "var(--color-accent)" : "var(--color-border)"
+        }`,
+        backgroundColor: isSelected
+          ? "var(--color-surface-alt)"
+          : "var(--color-surface)",
         boxShadow: isSelected
           ? "4px 4px 0 var(--color-accent)"
           : disabled
-            ? "none"
-            : "4px 4px 0 var(--color-shadow)",
+          ? "none"
+          : "4px 4px 0 var(--color-shadow)",
         opacity: disabled && !isSelected ? 0.4 : 1,
         cursor: disabled && !isSelected ? "not-allowed" : "pointer",
       }}
@@ -96,29 +109,30 @@ export default function PokemonCard({
       )}
 
       {/* Sprite */}
-      <div
-        className="relative w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center"
-        style={{ backgroundColor: "var(--color-surface-alt)" }}
-      >
+      <div className="relative w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center">
         <Image
           src={pokemon.sprite}
           alt={pokemon.name}
           fill
           sizes="(max-width: 640px) 64px, 80px"
           className="object-contain"
-          style={{ imageRendering: "pixelated" }}
           unoptimized
         />
       </div>
 
       {/* Pokedex number */}
-      <p className="font-pixel text-[6px] mt-1" style={{ color: "var(--color-text-muted)" }}>
+      <p
+        className="font-pixel text-[6px] mt-1"
+        style={{ color: "var(--color-text-muted)" }}
+      >
         #{String(pokemon.id).padStart(3, "0")}
       </p>
 
       {/* Name */}
-      <p className="font-pixel text-[7px] mt-0.5 capitalize truncate w-full text-center"
-        style={{ color: "var(--color-text)" }}>
+      <p
+        className="font-pixel text-[7px] mt-0.5 capitalize truncate w-full text-center"
+        style={{ color: "var(--color-text)" }}
+      >
         {pokemon.name}
       </p>
 
@@ -131,13 +145,25 @@ export default function PokemonCard({
 
       {/* Stats */}
       <div className="flex gap-2 mt-1.5 font-pixel text-[6px]">
-        <span style={{ color: "#f08030" }}>{avg.ppg}<span style={{ color: "var(--color-text-muted)" }}>pt</span></span>
-        <span style={{ color: "#6890f0" }}>{avg.rpg}<span style={{ color: "var(--color-text-muted)" }}>rb</span></span>
-        <span style={{ color: "#78c850" }}>{avg.apg}<span style={{ color: "var(--color-text-muted)" }}>as</span></span>
+        <span style={{ color: "#f08030" }}>
+          {avg.ppg}
+          <span style={{ color: "var(--color-text-muted)" }}>pt</span>
+        </span>
+        <span style={{ color: "#6890f0" }}>
+          {avg.rpg}
+          <span style={{ color: "var(--color-text-muted)" }}>rb</span>
+        </span>
+        <span style={{ color: "#78c850" }}>
+          {avg.apg}
+          <span style={{ color: "var(--color-text-muted)" }}>as</span>
+        </span>
       </div>
 
       {/* Playstyle */}
-      <p className="font-pixel text-[5px] mt-0.5 text-center" style={{ color: "var(--color-text-muted)" }}>
+      <p
+        className="font-pixel text-[5px] mt-0.5 text-center"
+        style={{ color: "var(--color-text-muted)" }}
+      >
         {playstyle}
       </p>
 
@@ -148,9 +174,11 @@ export default function PokemonCard({
       <span
         className="mt-1 font-pixel text-[6px] px-1.5 py-0.5 border"
         style={{
-          backgroundColor: salary >= 35 ? "var(--color-accent)" : "var(--color-surface-alt)",
+          backgroundColor:
+            salary >= 35 ? "var(--color-accent)" : "var(--color-surface-alt)",
           borderColor: "var(--color-shadow)",
-          color: salary >= 35 ? "var(--color-shadow)" : "var(--color-text-muted)",
+          color:
+            salary >= 35 ? "var(--color-shadow)" : "var(--color-text-muted)",
         }}
       >
         ${salary}M

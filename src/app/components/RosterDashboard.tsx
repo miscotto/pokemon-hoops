@@ -7,6 +7,7 @@ import { PokeButton, PokeCard, PokeInput, ThemeToggle } from "./ui";
 interface RosterSummary {
   id: string;
   name: string;
+  city: string;
   is_tournament_roster: boolean;
   pokemon_count: number;
   created_at: string;
@@ -31,6 +32,7 @@ export default function RosterDashboard({
   const [rosters, setRosters] = useState<RosterSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [newRosterName, setNewRosterName] = useState("");
+  const [newRosterCity, setNewRosterCity] = useState("");
   const [creating, setCreating] = useState(false);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [error, setError] = useState("");
@@ -55,7 +57,7 @@ export default function RosterDashboard({
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newRosterName.trim()) return;
+    if (!newRosterName.trim() || !newRosterCity.trim()) return;
     setCreating(true);
     setError("");
 
@@ -63,12 +65,13 @@ export default function RosterDashboard({
       const res = await fetch("/api/rosters", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: newRosterName.trim() }),
+        body: JSON.stringify({ name: newRosterName.trim(), city: newRosterCity.trim() }),
       });
 
       if (res.ok) {
         const roster = await res.json();
         setNewRosterName("");
+        setNewRosterCity("");
         setShowCreateForm(false);
         onEditRoster(roster.id);
       } else {
@@ -171,6 +174,11 @@ export default function RosterDashboard({
                 >
                   ★ TOURNAMENT ROSTER
                 </span>
+                {tournamentRoster.city && (
+                  <span className="font-pixel text-[6px]" style={{ color: "var(--color-text-muted)" }}>
+                    {tournamentRoster.city.toUpperCase()}
+                  </span>
+                )}
                 <span className="font-pixel text-[9px]" style={{ color: "var(--color-text)" }}>
                   {tournamentRoster.name.toUpperCase()}
                 </span>
@@ -217,14 +225,20 @@ export default function RosterDashboard({
             className="mb-6 p-4 border-3 border-[var(--color-border)]"
             style={{ backgroundColor: "var(--color-surface)", boxShadow: "4px 4px 0 var(--color-shadow)" }}
           >
-            <form onSubmit={handleCreate} className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-              <div className="flex-1">
+            <form onSubmit={handleCreate} className="flex flex-col gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
+                <PokeInput
+                  type="text"
+                  value={newRosterCity}
+                  onChange={(e) => setNewRosterCity(e.target.value)}
+                  placeholder="City (e.g. New York)"
+                  autoFocus
+                />
                 <PokeInput
                   type="text"
                   value={newRosterName}
                   onChange={(e) => setNewRosterName(e.target.value)}
-                  placeholder="Fire Squad, Dream Team..."
-                  autoFocus
+                  placeholder="Team name (e.g. Dragons)"
                 />
               </div>
               <div className="flex gap-2">
@@ -232,7 +246,7 @@ export default function RosterDashboard({
                   type="submit"
                   variant="primary"
                   size="md"
-                  disabled={creating || !newRosterName.trim()}
+                  disabled={creating || !newRosterName.trim() || !newRosterCity.trim()}
                 >
                   {creating ? "CREATING..." : "CREATE"}
                 </PokeButton>
@@ -240,7 +254,7 @@ export default function RosterDashboard({
                   type="button"
                   variant="ghost"
                   size="md"
-                  onClick={() => { setShowCreateForm(false); setNewRosterName(""); setError(""); }}
+                  onClick={() => { setShowCreateForm(false); setNewRosterName(""); setNewRosterCity(""); setError(""); }}
                 >
                   CANCEL
                 </PokeButton>
@@ -295,6 +309,11 @@ export default function RosterDashboard({
                   >
                     ★ TOURNAMENT
                   </span>
+                )}
+                {roster.city && (
+                  <p className="font-pixel text-[5px] mb-0.5 truncate" style={{ color: "var(--color-text-muted)" }}>
+                    {roster.city.toUpperCase()}
+                  </p>
                 )}
                 <h3 className="font-pixel text-[8px] truncate pr-4" style={{ color: "var(--color-text)" }}>
                   {roster.name.toUpperCase()}

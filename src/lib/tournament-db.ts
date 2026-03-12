@@ -21,10 +21,17 @@ export async function findOpenTournament(): Promise<string | null> {
 }
 
 /** Create a new tournament and return its ID */
-export async function createTournament(): Promise<string> {
+export async function createTournament(
+  options: { name?: string; maxTeams?: number; createdBy?: string } = {}
+): Promise<string> {
   const result = await db
     .insert(liveTournaments)
-    .values({ status: "waiting", maxTeams: 8 })
+    .values({
+      status: "waiting",
+      maxTeams: options.maxTeams ?? 8,
+      name: options.name ?? "Pokemon Tournament",
+      createdBy: options.createdBy ?? null,
+    })
     .returning({ id: liveTournaments.id });
   return result[0].id;
 }
@@ -92,6 +99,7 @@ export async function startTournament(
 /** Get tournament by ID */
 export async function getTournament(tournamentId: string): Promise<{
   id: string;
+  name: string;
   status: string;
   max_teams: number;
   created_at: Date;
@@ -106,12 +114,47 @@ export async function getTournament(tournamentId: string): Promise<{
   const r = rows[0];
   return {
     id: r.id,
+    name: r.name,
     status: r.status,
     max_teams: r.maxTeams,
     created_at: r.createdAt,
     started_at: r.startedAt ?? null,
     bracket_data: r.bracketData,
   };
+}
+
+/** Get all tournaments (for admin/public listing) */
+export async function getAllTournaments(limit = 20): Promise<{
+  id: string;
+  name: string;
+  status: string;
+  max_teams: number;
+  created_at: Date;
+  started_at: Date | null;
+  team_count: number;
+}[]> {
+  const rows = await db
+    .select({
+      id: liveTournaments.id,
+      name: liveTournaments.name,
+      status: liveTournaments.status,
+      maxTeams: liveTournaments.maxTeams,
+      createdAt: liveTournaments.createdAt,
+      startedAt: liveTournaments.startedAt,
+      teamCount: sql<number>`(SELECT COUNT(*) FROM live_tournament_teams WHERE tournament_id = ${liveTournaments.id})::int`,
+    })
+    .from(liveTournaments)
+    .orderBy(desc(liveTournaments.createdAt))
+    .limit(limit);
+  return rows.map((r) => ({
+    id: r.id,
+    name: r.name,
+    status: r.status,
+    max_teams: r.maxTeams,
+    created_at: r.createdAt,
+    started_at: r.startedAt ?? null,
+    team_count: r.teamCount,
+  }));
 }
 
 /** Find user's current active (waiting or active) tournament */

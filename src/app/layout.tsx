@@ -43,7 +43,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={pixelFont.variable}>
+    <html lang="en" className={pixelFont.variable} suppressHydrationWarning>
       <head>
         {/* Flash-prevention: runs synchronously before paint */}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />

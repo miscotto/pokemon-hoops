@@ -4,7 +4,14 @@
       "Bash(npx next:*)",
       "Bash(wc -l /Users/rajanrahman/CascadeProjects/windsurf-project-4/src/app/components/*.tsx)",
       "Bash(npm ls:*)",
-      "Bash(/Users/rajanrahman/.claude/plugins/cache/superpowers-dev/superpowers/5.0.1/skills/brainstorming/scripts/start-server.sh --project-dir /Users/rajanrahman/CascadeProjects/windsurf-project-4)"
+      "Bash(/Users/rajanrahman/.claude/plugins/cache/superpowers-dev/superpowers/5.0.1/skills/brainstorming/scripts/start-server.sh --project-dir /Users/rajanrahman/CascadeProjects/windsurf-project-4)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npm run:*)",
+      "Bash(npx drizzle-kit:*)",
+      "Bash(printf '0\\\\n')",
+      "Bash(npx @better-auth/cli migrate)"
     ]
   }
 }

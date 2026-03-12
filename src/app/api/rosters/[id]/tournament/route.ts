@@ -24,10 +24,12 @@ export async function POST(
   const rows = await db
     .select({
       id: rosters.id,
-      pokemon_count: sql<number>`(SELECT COUNT(*) FROM ${rosterPokemon} WHERE roster_id = ${rosters.id})::int`,
+      pokemon_count: sql<number>`cast(count(${rosterPokemon.id}) as int)`,
     })
     .from(rosters)
-    .where(and(eq(rosters.id, id), eq(rosters.userId, user.id)));
+    .leftJoin(rosterPokemon, eq(rosterPokemon.rosterId, rosters.id))
+    .where(and(eq(rosters.id, id), eq(rosters.userId, user.id)))
+    .groupBy(rosters.id);
 
   if (rows.length === 0) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
