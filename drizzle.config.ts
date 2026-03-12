@@ -1,6 +1,5 @@
-// Load .env.local so DATABASE_URL is available when drizzle-kit runs outside Next.js
 try {
-  process.loadEnvFile(".env.local");
+  process.loadEnvFile(".env");
 } catch {
   // .env.local not present — DATABASE_URL must be set in environment
 }
