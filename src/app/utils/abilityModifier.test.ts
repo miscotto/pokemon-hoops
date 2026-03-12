@@ -3,6 +3,8 @@ import { computeAbilityModifier } from "./abilityModifier";
 
 describe("computeAbilityModifier", () => {
   it("returns 0 when all abilities are unknown", () => {
+    // Every ability in abilities.json has an edge type — there are no neutral real-name abilities.
+    // Fabricated names are the only valid way to test the zero-return path.
     expect(computeAbilityModifier(["FakeAbility", "NotReal"], ["AlsoFake"])).toBe(0);
   });
 
