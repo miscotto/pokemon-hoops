@@ -633,6 +633,7 @@ export default function TournamentPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [viewingGame, setViewingGame] = useState<ViewingGame | null>(null);
+  const [leaving, setLeaving] = useState(false);
 
   const fetchTournament = useCallback(async () => {
     try {
@@ -650,8 +651,9 @@ export default function TournamentPage() {
   useEffect(() => { fetchTournament(); }, [fetchTournament]);
 
   useEffect(() => {
-    if (tournament?.status !== "active" || viewingGame) return;
-    const interval = setInterval(fetchTournament, 5000);
+    if ((tournament?.status !== "active" && tournament?.status !== "waiting") || viewingGame) return;
+    const pollInterval = tournament?.status === "waiting" ? 3000 : 5000;
+    const interval = setInterval(fetchTournament, pollInterval);
     return () => clearInterval(interval);
   }, [tournament?.status, viewingGame, fetchTournament]);
 
@@ -676,6 +678,20 @@ export default function TournamentPage() {
       });
     } catch {
       setError("Failed to load game");
+    }
+  };
+
+  const handleLeave = async () => {
+    setLeaving(true);
+    try {
+      const res = await fetch(`/api/live-tournaments/${id}/leave`, { method: "DELETE" });
+      const data = await res.json();
+      if (!res.ok) { setError(data.error ?? "Failed to leave"); return; }
+      await fetchTournament();
+    } catch {
+      setError("Failed to leave tournament");
+    } finally {
+      setLeaving(false);
     }
   };
 
@@ -800,6 +816,17 @@ export default function TournamentPage() {
               <p className="font-pixel text-[6px] mb-6" style={{ color: "var(--color-text-muted)" }}>
                 <Link href="/dashboard" className="underline" style={{ color: "var(--color-primary)" }}>SIGN IN</Link>{" "}TO JOIN
               </p>
+            )}
+            {isParticipant && tournament.status === "waiting" && (
+              <PokeButton
+                variant="danger"
+                size="sm"
+                onClick={handleLeave}
+                disabled={leaving}
+                className="mb-4"
+              >
+                {leaving ? "LEAVING..." : "LEAVE TOURNAMENT"}
+              </PokeButton>
             )}
             <div className="space-y-2">
               {tournament.teams?.map((t, i) => (
