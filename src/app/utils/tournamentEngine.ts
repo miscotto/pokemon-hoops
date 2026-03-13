@@ -775,7 +775,6 @@ export function isTournamentComplete(matchups: BracketMatchup[]): boolean {
 
 export const LIVE_GAME_REAL_SECONDS = 300; // 5 min per game
 export const LIVE_ROUND_BUFFER = 15; // 15s pause between rounds
-export const LIVE_EVENT_INTERVAL = 2; // 2s between events in real time
 
 export interface SerializedMatchup {
   id: string;
@@ -893,16 +892,3 @@ export function simulateBracketForSize(
   return [...west.matchups, ...east.matchups, finalsMatchup];
 }
 
-/**
- * Compute the current event index for a matchup based on elapsed time.
- * Returns -1 if the game hasn't started yet.
- */
-export function computeCurrentEventIndex(
-  elapsedSec: number,
-  startsAtOffset: number,
-  totalEvents: number,
-): number {
-  const gameElapsed = elapsedSec - startsAtOffset;
-  if (gameElapsed < 0) return -1;
-  return Math.min(Math.floor(gameElapsed / LIVE_EVENT_INTERVAL), totalEvents - 1);
-}
