@@ -437,85 +437,152 @@ function generateGameEvents(
     let description = "";
     let statType: GameEvent["statType"] = undefined;
 
-    if (roll < 0.38) {
-      // Scoring (38%)
+    if (roll < 0.33) {
+      // Scoring (33%)
       const sr = Math.random();
       if (sr < 0.35) {
         eventType = "score_2pt"; points = 2;
-        description = `${player.name} hits a mid-range jumper!`;
+        description = pick([
+          `${player.name} hits a mid-range jumper!`,
+          `${player.name} converts the tough floater!`,
+          `${player.name} rises up for the pull-up mid-range — good!`,
+        ]);
       } else if (sr < 0.60) {
         eventType = "score_3pt"; points = 3;
-        description = `${player.name} drains a three-pointer!`;
+        description = pick([
+          `${player.name} buries the corner three — ${activeTeam.name} extends the lead!`,
+          `${player.name} step-back three from the logo — ARE YOU KIDDING?!`,
+          `${player.name} catches and fires — GOOD!`,
+          `${player.name} off the screen, pulls up — BANG! Three-ball!`,
+        ]);
       } else if (sr < 0.80) {
         eventType = "dunk"; points = 2;
-        description = `${player.name} throws down a monster dunk!`;
+        description = pick([
+          `${player.name} bulldozes baseline and throws it DOWN!`,
+          `${player.name} rises and finishes with AUTHORITY!`,
+          `${player.name} posterizes the defender! That's going on the highlight reel!`,
+        ]);
       } else {
         eventType = "layup"; points = 2;
-        description = `${player.name} with a beautiful layup.`;
+        description = pick([
+          `${player.name} with a beautiful layup.`,
+          `${player.name} uses the glass — and it falls!`,
+          `${player.name} splits the defense and lays it up softly!`,
+        ]);
       }
 
       if (side === "home") { homeScore += points; homeMomentum += points === 3 ? 2 : 1; }
       else { awayScore += points; awayMomentum += points === 3 ? 2 : 1; }
       pStats.points += points;
 
-    } else if (roll < 0.50) {
-      // Defense (12%)
+    } else if (roll < 0.51) {
+      // Defense (18%)
       const dr = Math.random();
       if (dr < 0.35) {
         eventType = "block"; statType = "block";
-        description = `${player.name} denies the shot!`;
+        description = pick([
+          `${player.name} rises up and STUFFS the shot!`,
+          `${player.name} sends it into the stands!`,
+          `DENIED! ${player.name} with the emphatic block!`,
+        ]);
         pStats.blocks++;
       } else if (dr < 0.65) {
         eventType = "steal"; statType = "steal";
-        description = `${player.name} steals the ball!`;
+        description = pick([
+          `${player.name} reaches in and strips the ball!`,
+          `${player.name} tips the pass — turnover!`,
+          `${player.name} read the play perfectly — clean steal!`,
+          `${player.name} pickpockets the drive!`,
+        ]);
         pStats.steals++;
       } else {
         eventType = "rebound"; statType = "rebound";
-        description = `${player.name} grabs the rebound!`;
+        const isOffensive = Math.random() < 0.35;
+        description = isOffensive
+          ? pick([
+              `${player.name} crashes the glass for the offensive board!`,
+              `${player.name} tips it back in for the put-back opportunity!`,
+            ])
+          : pick([
+              `${player.name} secures the defensive board and pushes the pace!`,
+              `${player.name} grabs the rebound — possession change!`,
+            ]);
         pStats.rebounds++;
       }
       if (side === "home") { homeMomentum += 0.5; awayMomentum = Math.max(0, awayMomentum - 0.3); }
       else { awayMomentum += 0.5; homeMomentum = Math.max(0, homeMomentum - 0.3); }
 
-    } else if (roll < 0.57) {
-      // Assists (7%)
+    } else if (roll < 0.60) {
+      // Assists (9%)
       eventType = "assist"; statType = "assist";
-      description = `${player.name} with a beautiful pass!`;
+      const otherPlayers = activeRoster.filter(p => p.name !== player.name);
+      if (otherPlayers.length > 0) {
+        const scorer = pick(otherPlayers);
+        description = pick([
+          `${player.name} threads the needle to ${scorer.name} cutting to the rim!`,
+          `${player.name} fires the skip pass — ${scorer.name} is wide open!`,
+          `${player.name} with the no-look dime to ${scorer.name}!`,
+          `Beautiful ball movement — ${player.name} finds ${scorer.name} for the bucket!`,
+        ]);
+      } else {
+        description = `${player.name} with a beautiful pass!`;
+      }
       pStats.assists++;
 
-    } else if (roll < 0.64) {
+    } else if (roll < 0.67) {
       // Fouls (7%)
       eventType = "foul"; statType = "foul";
-      pStats.fouls++;
-      if (pStats.fouls >= 6) {
+      if (pStats.fouls >= 5) {
         eventType = "foul_out";
-        description = `${player.name} fouls out! That's 6 personals.`;
+        description = `${player.name} has fouled out! ${activeTeam.name} is playing shorthanded.`;
+        pStats.fouls++;
         pStats.injured = true; // Remove from active play
+      } else if (gameSec > GAME_DURATION * 0.95 && (side === "home" ? awayScore - homeScore : homeScore - awayScore) >= 5) {
+        description = `Intentional foul by ${player.name} — ${activeTeam.name} trying to stop the clock. (${pStats.fouls + 1}/6)`;
+        pStats.fouls++;
       } else {
+        pStats.fouls++;
         description = `${player.name} commits a personal foul. (${pStats.fouls}/6)`;
       }
       if (side === "home") homeMomentum = Math.max(0, homeMomentum - 1);
       else awayMomentum = Math.max(0, awayMomentum - 1);
 
-    } else if (roll < 0.72) {
-      // Special events (8%)
+    } else if (roll < 0.77) {
+      // Special events (10%)
       const sp = Math.random();
-      if (sp < 0.25) {
+      if (sp < 0.20) {
+        // Clutch (20% of special branch)
+        if (gameSec > GAME_DURATION * 0.9 && Math.abs(homeScore - awayScore) <= 8) {
+          eventType = "clutch";
+          points = Math.random() < 0.4 ? 3 : 2;
+          description = pick([
+            `${player.name} in the CLUTCH — hits the tough shot with ${clock} left!`,
+            `${player.name} draws the foul — and-1 opportunity! The crowd goes WILD!`,
+          ]);
+          if (side === "home") { homeScore += points; homeMomentum += 5; }
+          else { awayScore += points; awayMomentum += 5; }
+          pStats.points += points;
+        } else {
+          eventType = "rebound"; statType = "rebound";
+          description = `${player.name} rebounds.`;
+          pStats.rebounds++;
+        }
+      } else if (sp < 0.40) {
         eventType = "hot_hand";
         description = `${player.name} is heating up! Can't miss!`;
         if (side === "home") homeMomentum += 3; else awayMomentum += 3;
-      } else if (sp < 0.45) {
+      } else if (sp < 0.55) {
         eventType = "cold_streak";
         description = `${player.name} can't get bucket right now...`;
         if (side === "home") homeMomentum = Math.max(0, homeMomentum - 2);
         else awayMomentum = Math.max(0, awayMomentum - 2);
-      } else if (sp < 0.65) {
+      } else if (sp < 0.70) {
         eventType = "type_advantage";
         const oppTeam = side === "home" ? awayTeam : homeTeam;
         const matchup = pick(oppTeam.roster);
         description = `${player.name}'s ${player.types[0]} typing exploits ${matchup.name}'s weakness!`;
         if (side === "home") homeMomentum += 1.5; else awayMomentum += 1.5;
-      } else if (sp < 0.80) {
+      } else if (sp < 0.83) {
         eventType = "ability_trigger";
         const abilityName = player.ability || "Pressure";
         const abilityInfo = (abilitiesData as Record<string, { "effect desc"?: string }>)[abilityName];
@@ -524,7 +591,7 @@ function generateGameEvents(
           ? `${player.name}'s ${abilityName} activates — ${effectDesc}`
           : `${player.name}'s ability "${abilityName}" activates!`;
         if (side === "home") homeMomentum += 2; else awayMomentum += 2;
-      } else if (sp < 0.90) {
+      } else if (sp < 0.92) {
         eventType = "rivalry_clash";
         const oppTeam = side === "home" ? awayTeam : homeTeam;
         const rival = player.rivals?.find(r => oppTeam.roster.some(o => o.name === r));
@@ -549,8 +616,25 @@ function generateGameEvents(
         }
       }
 
-    } else if (roll < 0.76) {
-      // Injury (4%)
+    } else if (roll < 0.92) {
+      // Momentum / narrative (15%)
+      eventType = "momentum";
+      const opponent = side === "home" ? awayTeam : homeTeam;
+      const narratives = [
+        `${activeTeam.name} on a run — ${opponent.name} calls timeout!`,
+        `The energy is electric — ${activeTeam.name} feeding off the crowd!`,
+        `Great ball movement from ${activeTeam.name} — defense can't keep up!`,
+        `Coach ${activeTeam.name} calls a timeout to regroup.`,
+        `${player.name} firing up the sideline!`,
+        `${activeTeam.name} defense is suffocating right now!`,
+        `${player.name} is locked in — watch out!`,
+      ];
+      description = pick(narratives);
+      if (side === "home") { homeMomentum += 1.5; awayMomentum = Math.max(0, awayMomentum - 0.5); }
+      else { awayMomentum += 1.5; homeMomentum = Math.max(0, homeMomentum - 0.5); }
+
+    } else {
+      // Injury / fatigue (8%)
       const injuryChance = side === "home" ? hFactors.foulOutInjuryChance : aFactors.foulOutInjuryChance;
       if (Math.random() < injuryChance) {
         eventType = "injury";
@@ -562,37 +646,6 @@ function generateGameEvents(
         description = `${player.name} looks gassed.`;
         if (side === "home") homeMomentum -= 0.5; else awayMomentum -= 0.5;
       }
-
-    } else if (roll < 0.80) {
-      // Clutch (4%)
-      if (gameSec > GAME_DURATION * 0.85 && Math.abs(homeScore - awayScore) <= 10) {
-        eventType = "clutch";
-        points = Math.random() < 0.4 ? 3 : 2;
-        description = `${player.name} in the CLUTCH! ${player.name} delivers when it matters most!`;
-        if (side === "home") { homeScore += points; homeMomentum += 5; }
-        else { awayScore += points; awayMomentum += 5; }
-        pStats.points += points;
-      } else {
-        eventType = "rebound"; statType = "rebound";
-        description = `${player.name} rebounds.`;
-        pStats.rebounds++;
-      }
-
-    } else {
-      // Momentum / narrative (20%)
-      eventType = "momentum";
-      const narratives = [
-        `The ${activeTeam.name} are on a run!`,
-        `The ${activeTeam.name} are going hard!`,
-        `${player.name} is firing up!`,
-        `Coach calls a timeout to settle things down.`,
-        `${activeTeam.name} with great ball movement!`,
-        `${activeTeam.name} with the defense!`,
-        `${player.name} hustling!`,
-      ];
-      description = pick(narratives);
-      if (side === "home") { homeMomentum += 1.5; awayMomentum = Math.max(0, awayMomentum - 0.5); }
-      else { awayMomentum += 1.5; homeMomentum = Math.max(0, homeMomentum - 0.5); }
     }
 
     // Decay momentum
