@@ -15,6 +15,22 @@ import {
 } from "@/lib/tournament-db";
 import { simulateMatchup, TournamentTeam, toTournamentPokemon } from "@/app/utils/tournamentEngine";
 
+export async function GET(
+  _req: NextRequest,
+  { params }: { params: Promise<{ id: string; gameId: string }> }
+) {
+  const { gameId } = await params;
+  const game = await getGame(gameId);
+  if (!game) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  return NextResponse.json({
+    status: game.status,
+    team1Score: game.team1Score,
+    team2Score: game.team2Score,
+    winnerId: game.winnerId,
+    events: game.events ?? [],
+  });
+}
+
 async function getUser() {
   const session = await auth.api.getSession({ headers: await headers() });
   return session?.user ?? null;
