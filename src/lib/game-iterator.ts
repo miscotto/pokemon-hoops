@@ -142,17 +142,18 @@ export function createGameIterator(
           const clutchPlayer = pick(clutchTeam.roster);
           const pts = Math.random() < 0.5 ? 2 : 3;
           if (clutchSide === "home") homeScore += pts; else awayScore += pts;
-          // queue game_end after clutch
+          // Create clutch first (lower sequence), then queue game_end (higher sequence)
+          const clutchEvent = makeEvent("clutch", clutchSide, clutchPlayer.name,
+            `BUZZER BEATER! ${clutchPlayer.name} wins it at the horn!`,
+            GAME_DURATION - 5,
+            { pointsScored: pts, pokemonSprite: clutchPlayer.sprite });
           const winner: "home" | "away" = homeScore > awayScore ? "home" : "away";
           const winnerTeam = winner === "home" ? homeTeam : awayTeam;
           queue.push(makeEvent("game_end", winner, "Final",
             `Game Over! ${winnerTeam.name} wins ${Math.max(homeScore, awayScore)}-${Math.min(homeScore, awayScore)}!`,
             GAME_DURATION));
           phase = "game_end";
-          return makeEvent("clutch", clutchSide, clutchPlayer.name,
-            `BUZZER BEATER! ${clutchPlayer.name} wins it at the horn!`,
-            GAME_DURATION - 5,
-            { pointsScored: pts, pokemonSprite: clutchPlayer.sprite });
+          return clutchEvent;
         }
         phase = "game_end";
         const winner: "home" | "away" = homeScore > awayScore ? "home" : "away";
