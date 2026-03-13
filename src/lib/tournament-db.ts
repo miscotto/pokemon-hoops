@@ -218,7 +218,6 @@ export async function getTournamentGames(tournamentId: string): Promise<
     team2_score: number | null;
     winner_id: string | null;
     status: string;
-    events: unknown;
     played_at: Date | null;
   }[]
 > {
@@ -239,7 +238,6 @@ export async function getTournamentGames(tournamentId: string): Promise<
     team2_score: r.team2Score,
     winner_id: r.winnerId,
     status: r.status,
-    events: r.events,
     played_at: r.playedAt,
   }));
 }
@@ -261,7 +259,7 @@ export async function getGame(gameId: string) {
 export async function claimGame(gameId: string) {
   const rows = await db
     .update(tournamentGames)
-    .set({ status: "in_progress" })
+    .set({ status: "in_progress", claimedAt: new Date() })
     .where(and(eq(tournamentGames.id, gameId), eq(tournamentGames.status, "pending")))
     .returning();
   return rows[0] ?? null;
@@ -273,7 +271,6 @@ export async function writeGameResult(
   team1Score: number,
   team2Score: number,
   winnerId: string,
-  events: unknown
 ): Promise<void> {
   await db
     .update(tournamentGames)
@@ -282,7 +279,6 @@ export async function writeGameResult(
       team1Score,
       team2Score,
       winnerId,
-      events,
       playedAt: new Date(),
     })
     .where(eq(tournamentGames.id, gameId));

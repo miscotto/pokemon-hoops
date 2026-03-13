@@ -27,7 +27,7 @@ export async function GET(
     team1Score: game.team1Score,
     team2Score: game.team2Score,
     winnerId: game.winnerId,
-    events: game.events ?? [],
+    events: [],
   });
 }
 
@@ -61,7 +61,7 @@ export async function POST(
       team1Score: existing.team1Score,
       team2Score: existing.team2Score,
       winnerId: existing.winnerId,
-      events: existing.events,
+      events: [],
     });
   }
 
@@ -97,7 +97,7 @@ export async function POST(
   const loserId = winnerId === claimed.team1UserId ? claimed.team2UserId! : claimed.team1UserId!;
 
   // Write game result
-  await writeGameResult(gameId, team1Score, team2Score, winnerId, result.events);
+  await writeGameResult(gameId, team1Score, team2Score, winnerId);
 
   // Determine current round
   const bracket = tournament.bracket_data as BracketStructure;
@@ -158,6 +158,6 @@ export async function POST(
     team1Score,
     team2Score,
     winnerId,
-    events: result.events,
+    events: [],
   });
 }

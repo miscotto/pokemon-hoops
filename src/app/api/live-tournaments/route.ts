@@ -88,7 +88,7 @@ async function simulateAllRounds(tournamentId: string, totalRounds: number) {
       const loserId = winnerId === claimed.team1UserId ? claimed.team2UserId! : claimed.team1UserId!;
       const winnerName = winnerId === claimed.team1UserId ? claimed.team1Name! : claimed.team2Name!;
 
-      await writeGameResult(game.id, result.finalHomeScore, result.finalAwayScore, winnerId, result.events);
+      await writeGameResult(game.id, result.finalHomeScore, result.finalAwayScore, winnerId);
       await updateTeamResult(tournamentId, loserId, "eliminated", round);
       winners.push({ userId: winnerId, name: winnerName });
     }
