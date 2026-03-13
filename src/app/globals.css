@@ -54,6 +54,7 @@
 /* ─── Base ──────────────────────────────────────────────────────────────── */
 
 html {
+  font-size: 18px;
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
 }
