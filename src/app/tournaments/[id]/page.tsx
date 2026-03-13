@@ -33,6 +33,7 @@ interface TournamentState {
   teams?: { teamName: string; userId: string; joinedAt: string }[];
   matchups?: MatchupState[];
   userTeamName?: string | null;
+  startedAt?: string | null;
 }
 
 interface GameEvent {
@@ -47,6 +48,7 @@ interface GameEvent {
   pokemonSprite?: string;
   pointsScored?: number;
   statType?: string;
+  displayAtMs: number;
 }
 
 interface ViewingGame {
@@ -57,6 +59,9 @@ interface ViewingGame {
   team2Score: number;
   winnerId: string | null;
   events: GameEvent[];
+  tournamentId: string;
+  startedAt: string;
+  round: number;
 }
 
 // ─── Event Feed ───────────────────────────────────────────────────────────────
@@ -175,9 +180,14 @@ interface PlayerStat {
   injured: boolean;
 }
 
+const STRUCTURAL_TYPES = new Set([
+  "game_start", "game_end", "quarter_start", "quarter_end", "halftime",
+]);
+
 function computeBoxScore(events: GameEvent[], side: "home" | "away"): PlayerStat[] {
   const map = new Map<string, PlayerStat>();
   for (const e of events) {
+    if (STRUCTURAL_TYPES.has(e.type)) continue;
     if (e.team !== side) continue;
     if (!map.has(e.pokemonName)) {
       map.set(e.pokemonName, {
@@ -263,15 +273,57 @@ function BoxScore({ events, team1Name, team2Name }: { events: GameEvent[]; team1
 
 // ─── Game Detail View ─────────────────────────────────────────────────────────
 
+const PLAYBACK_MS = 2000;
+
 function GameDetailView({ game, onBack }: { game: ViewingGame; onBack: () => void }) {
-  const lastEvent = game.events[game.events.length - 1];
+  const [eventIndex, setEventIndex] = useState(0);
+  const [playing, setPlaying] = useState(true);
+  const totalEvents = game.events.length;
+  const isDone = eventIndex >= totalEvents - 1;
+  const currentEvent = game.events[eventIndex] ?? game.events[totalEvents - 1];
+  const liveScore = currentEvent
+    ? { home: currentEvent.homeScore, away: currentEvent.awayScore }
+    : { home: 0, away: 0 };
+  const visibleEvents = game.events.slice(0, eventIndex + 1);
+
+  useEffect(() => {
+    if (!playing || isDone) return;
+    const t = setTimeout(() => setEventIndex((i) => Math.min(i + 1, totalEvents - 1)), PLAYBACK_MS);
+    return () => clearTimeout(t);
+  }, [playing, isDone, eventIndex, totalEvents]);
+
+  const skip = () => { setEventIndex(totalEvents - 1); setPlaying(false); };
+
   const team1Wins = game.team1Score > game.team2Score;
 
   return (
     <div className="max-w-6xl mx-auto space-y-4">
-      <PokeButton variant="ghost" size="sm" onClick={onBack} className="flex items-center gap-1">
-        ← BACK TO BRACKET
-      </PokeButton>
+      {/* Top bar */}
+      <div className="flex items-center justify-between">
+        <PokeButton variant="ghost" size="sm" onClick={onBack} className="flex items-center gap-1">
+          ← BACK TO BRACKET
+        </PokeButton>
+        <div className="flex items-center gap-2">
+          {!isDone && (
+            <>
+              <PokeButton variant="primary" size="sm" onClick={() => setPlaying((p) => !p)}>
+                {playing ? "PAUSE" : "RESUME"}
+              </PokeButton>
+              <PokeButton variant="ghost" size="sm" onClick={skip}>
+                SKIP TO END
+              </PokeButton>
+            </>
+          )}
+        </div>
+      </div>
+
+      {/* Progress bar */}
+      <div className="h-1.5 overflow-hidden" style={{ backgroundColor: "var(--color-border)" }}>
+        <div
+          className="h-full transition-all duration-500"
+          style={{ width: `${totalEvents > 1 ? (eventIndex / (totalEvents - 1)) * 100 : 100}%`, backgroundColor: "var(--color-primary)" }}
+        />
+      </div>
 
       {/* Scoreboard */}
       <PokeCard variant="highlighted" className="overflow-hidden">
@@ -281,20 +333,21 @@ function GameDetailView({ game, onBack }: { game: ViewingGame; onBack: () => voi
           </div>
           <div className="text-center px-8">
             <div className="flex items-center gap-4">
-              <span className="font-pixel text-[24px] tabular-nums" style={{ color: game.team1Score >= game.team2Score ? "var(--color-primary)" : "var(--color-text-muted)" }}>
-                {game.team1Score}
+              <span className="font-pixel text-[24px] tabular-nums" style={{ color: liveScore.home >= liveScore.away ? "var(--color-primary)" : "var(--color-text-muted)" }}>
+                {liveScore.home}
               </span>
               <span className="font-pixel text-[16px]" style={{ color: "var(--color-border)" }}>-</span>
-              <span className="font-pixel text-[24px] tabular-nums" style={{ color: game.team2Score > game.team1Score ? "var(--color-primary)" : "var(--color-text-muted)" }}>
-                {game.team2Score}
+              <span className="font-pixel text-[24px] tabular-nums" style={{ color: liveScore.away > liveScore.home ? "var(--color-primary)" : "var(--color-text-muted)" }}>
+                {liveScore.away}
               </span>
             </div>
-            <div className="mt-2 flex items-center justify-center">
+            <div className="mt-2 flex items-center justify-center gap-1.5">
+              {!isDone && <div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />}
               <span
                 className="font-pixel text-[6px] px-2 py-0.5"
-                style={{ backgroundColor: "var(--color-danger)", color: "#fff" }}
+                style={{ backgroundColor: isDone ? "var(--color-danger)" : "var(--color-primary)", color: "#fff" }}
               >
-                FINAL
+                {isDone ? "FINAL" : currentEvent ? `Q${currentEvent.quarter} ${currentEvent.clock}` : "LIVE"}
               </span>
             </div>
           </div>
@@ -302,21 +355,20 @@ function GameDetailView({ game, onBack }: { game: ViewingGame; onBack: () => voi
             <div className="font-pixel text-[8px]" style={{ color: "var(--color-text)" }}>{game.team2Name}</div>
           </div>
         </div>
-        <div
-          className="px-6 py-2 text-center font-pixel text-[6px]"
-          style={{ backgroundColor: "var(--color-surface)", color: "var(--color-primary)" }}
-        >
-          {game.winnerId ? (team1Wins ? game.team1Name : game.team2Name) + " WINS!" : ""}
-        </div>
+        {isDone && (
+          <div className="px-6 py-2 text-center font-pixel text-[6px]" style={{ backgroundColor: "var(--color-surface)", color: "var(--color-primary)" }}>
+            {team1Wins ? game.team1Name : game.team2Name} WINS!
+          </div>
+        )}
       </PokeCard>
 
       {/* Event Feed + Box Score */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
         <div className="lg:col-span-3">
-          <EventFeed events={game.events} />
+          <EventFeed events={visibleEvents} />
         </div>
         <div className="lg:col-span-2">
-          <BoxScore events={game.events} team1Name={game.team1Name} team2Name={game.team2Name} />
+          <BoxScore events={visibleEvents} team1Name={game.team1Name} team2Name={game.team2Name} />
         </div>
       </div>
     </div>
@@ -328,16 +380,10 @@ function GameDetailView({ game, onBack }: { game: ViewingGame; onBack: () => voi
 function MatchupCard({
   matchup,
   userTeamName,
-  canPlay,
-  isPlaying,
-  onPlay,
   onView,
 }: {
   matchup: MatchupState;
   userTeamName: string | null;
-  canPlay: boolean;
-  isPlaying: boolean;
-  onPlay: (gameId: string) => void;
   onView: (gameId: string) => void;
 }) {
   const isDone = matchup.status === "completed";
@@ -403,18 +449,16 @@ function MatchupCard({
       </div>
 
       {/* Actions */}
-      {(isDone || (canPlay && isPending)) && (
+      {isDone && (
         <div className="p-2" style={{ borderTop: "1px solid var(--color-border)" }}>
-          {canPlay && isPending && (
-            <PokeButton variant="primary" size="sm" className="w-full" disabled={isPlaying} onClick={() => onPlay(matchup.gameId)}>
-              {isPlaying ? "SIMULATING..." : "PLAY"}
-            </PokeButton>
-          )}
-          {isDone && (
-            <PokeButton variant="ghost" size="sm" className="w-full" onClick={() => onView(matchup.gameId)}>
-              VIEW RECAP
-            </PokeButton>
-          )}
+          <PokeButton variant="ghost" size="sm" className="w-full" onClick={() => onView(matchup.gameId)}>
+            VIEW RECAP
+          </PokeButton>
+        </div>
+      )}
+      {isPending && (
+        <div className="px-3 py-2 font-pixel text-[5px] text-center" style={{ color: "var(--color-text-muted)", borderTop: "1px solid var(--color-border)" }}>
+          SIMULATING...
         </div>
       )}
     </PokeCard>
@@ -436,15 +480,9 @@ function getConferenceLabel(round: number, matchupIndex: number, totalRounds: nu
 
 function BracketView({
   tournament,
-  canPlay,
-  playingGame,
-  onPlay,
   onView,
 }: {
   tournament: TournamentState;
-  canPlay: boolean;
-  playingGame: string | null;
-  onPlay: (gameId: string) => void;
   onView: (gameId: string) => void;
 }) {
   const matchups = tournament.matchups ?? [];
@@ -470,7 +508,7 @@ function BracketView({
     const westFinal = round2.filter((m) => m.matchupIndex === 0);
     const eastFinal = round2.filter((m) => m.matchupIndex === 1);
 
-    const commonProps = { userTeamName: tournament.userTeamName ?? null, canPlay, onPlay, onView };
+    const commonProps = { userTeamName: tournament.userTeamName ?? null, onView };
 
     return (
       <div className="w-full">
@@ -495,7 +533,7 @@ function BracketView({
               WEST CONFERENCE
             </h3>
             {westR1.map((m) => (
-              <MatchupCard key={m.gameId} matchup={m} {...commonProps} isPlaying={playingGame === m.gameId} />
+              <MatchupCard key={m.gameId} matchup={m} {...commonProps} />
             ))}
             {westFinal.length > 0 && (
               <>
@@ -503,7 +541,7 @@ function BracketView({
                   WEST FINAL
                 </h3>
                 {westFinal.map((m) => (
-                  <MatchupCard key={m.gameId} matchup={m} {...commonProps} isPlaying={playingGame === m.gameId} />
+                  <MatchupCard key={m.gameId} matchup={m} {...commonProps} />
                 ))}
               </>
             )}
@@ -515,7 +553,7 @@ function BracketView({
               CHAMPIONSHIP
             </h3>
             {finalRound.map((m) => (
-              <MatchupCard key={m.gameId} matchup={m} {...commonProps} isPlaying={playingGame === m.gameId} />
+              <MatchupCard key={m.gameId} matchup={m} {...commonProps} />
             ))}
           </div>
 
@@ -525,7 +563,7 @@ function BracketView({
               EAST CONFERENCE
             </h3>
             {eastR1.map((m) => (
-              <MatchupCard key={m.gameId} matchup={m} {...commonProps} isPlaying={playingGame === m.gameId} />
+              <MatchupCard key={m.gameId} matchup={m} {...commonProps} />
             ))}
             {eastFinal.length > 0 && (
               <>
@@ -533,7 +571,7 @@ function BracketView({
                   EAST FINAL
                 </h3>
                 {eastFinal.map((m) => (
-                  <MatchupCard key={m.gameId} matchup={m} {...commonProps} isPlaying={playingGame === m.gameId} />
+                  <MatchupCard key={m.gameId} matchup={m} {...commonProps} />
                 ))}
               </>
             )}
@@ -559,9 +597,6 @@ function BracketView({
                   key={m.gameId}
                   matchup={m}
                   userTeamName={tournament.userTeamName ?? null}
-                  canPlay={canPlay}
-                  isPlaying={playingGame === m.gameId}
-                  onPlay={onPlay}
                   onView={onView}
                 />
               ))}
@@ -580,7 +615,6 @@ export default function TournamentPage() {
   const [tournament, setTournament] = useState<TournamentState | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [playingGame, setPlayingGame] = useState<string | null>(null);
   const [viewingGame, setViewingGame] = useState<ViewingGame | null>(null);
 
   const fetchTournament = useCallback(async () => {
@@ -604,6 +638,30 @@ export default function TournamentPage() {
     return () => clearInterval(interval);
   }, [tournament?.status, viewingGame, fetchTournament]);
 
+  const handleViewGameData = async (matchup: MatchupState, tournamentId: string) => {
+    try {
+      const res = await fetch(`/api/live-tournaments/${tournamentId}/games/${matchup.gameId}`);
+      const data = await res.json();
+      if (data.error) { setError(data.error); return; }
+      const startedAt = tournament?.startedAt;
+      if (!startedAt) { setError("Tournament not yet started"); return; }
+      setViewingGame({
+        gameId: matchup.gameId,
+        team1Name: matchup.team1Name,
+        team2Name: matchup.team2Name,
+        team1Score: data.team1Score ?? matchup.team1Score ?? 0,
+        team2Score: data.team2Score ?? matchup.team2Score ?? 0,
+        winnerId: data.winnerId ?? matchup.winnerId,
+        events: (data.events as GameEvent[]) ?? [],
+        tournamentId,
+        startedAt,
+        round: matchup.round,
+      });
+    } catch {
+      setError("Failed to load game");
+    }
+  };
+
   const handleJoin = async () => {
     try {
       const res = await fetch("/api/live-tournaments", {
@@ -613,56 +671,32 @@ export default function TournamentPage() {
       });
       const data = await res.json();
       if (data.error) { setError(data.error); return; }
-      await fetchTournament();
+
+      // Fetch updated tournament state
+      const tRes = await fetch(`/api/live-tournaments/${id}`);
+      if (!tRes.ok) { await fetchTournament(); return; }
+      const tData = await tRes.json();
+      setTournament(tData);
+      setLoading(false);
+
+      // If tournament just started, auto-open the user's first game
+      if (data.status === "active") {
+        const firstGame = (tData.matchups as MatchupState[] | undefined)?.find(
+          (m) => m.status === "completed"
+        );
+        if (firstGame) {
+          await handleViewGameData(firstGame, id);
+        }
+      }
     } catch {
       setError("Failed to join tournament");
-    }
-  };
-
-  const handlePlayGame = async (gameId: string) => {
-    const matchup = tournament?.matchups?.find((m) => m.gameId === gameId);
-    if (!matchup) return;
-    setPlayingGame(gameId);
-    try {
-      const res = await fetch(`/api/live-tournaments/${id}/games/${gameId}`, { method: "POST" });
-      const data = await res.json();
-      if (data.error) { setError(data.error); return; }
-      setViewingGame({
-        gameId,
-        team1Name: matchup.team1Name,
-        team2Name: matchup.team2Name,
-        team1Score: data.team1Score,
-        team2Score: data.team2Score,
-        winnerId: data.winnerId,
-        events: (data.events as GameEvent[]) ?? [],
-      });
-      await fetchTournament();
-    } catch {
-      setError("Failed to simulate game");
-    } finally {
-      setPlayingGame(null);
     }
   };
 
   const handleViewGame = async (gameId: string) => {
     const matchup = tournament?.matchups?.find((m) => m.gameId === gameId);
     if (!matchup) return;
-    try {
-      const res = await fetch(`/api/live-tournaments/${id}/games/${gameId}`);
-      const data = await res.json();
-      if (data.error) { setError(data.error); return; }
-      setViewingGame({
-        gameId,
-        team1Name: matchup.team1Name,
-        team2Name: matchup.team2Name,
-        team1Score: data.team1Score ?? matchup.team1Score ?? 0,
-        team2Score: data.team2Score ?? matchup.team2Score ?? 0,
-        winnerId: data.winnerId ?? matchup.winnerId,
-        events: (data.events as GameEvent[]) ?? [],
-      });
-    } catch {
-      setError("Failed to load game");
-    }
+    await handleViewGameData(matchup, id);
   };
 
   if (loading) {
@@ -686,7 +720,6 @@ export default function TournamentPage() {
 
   const isParticipant = tournament.userTeamName != null;
   const canJoin = tournament.status === "waiting" && session?.user && !isParticipant;
-  const canPlay = !!session?.user && tournament.status === "active";
 
   // Game detail view (full-page)
   if (viewingGame) {
@@ -765,9 +798,6 @@ export default function TournamentPage() {
         {(tournament.status === "active" || tournament.status === "completed") && (
           <BracketView
             tournament={tournament}
-            canPlay={canPlay}
-            playingGame={playingGame}
-            onPlay={handlePlayGame}
             onView={handleViewGame}
           />
         )}
