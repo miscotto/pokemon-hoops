@@ -497,3 +497,40 @@ export async function getUserTournamentHistory(userId: string): Promise<{
     joined_at: r.joined_at!,
   }));
 }
+
+/**
+ * Remove a user from a tournament waiting room.
+ * Only works while the tournament is still "waiting".
+ */
+export async function leaveTournament(
+  tournamentId: string,
+  userId: string
+): Promise<"left" | "not_in_tournament" | "already_started"> {
+  const tournament = await getTournament(tournamentId);
+  if (!tournament) return "not_in_tournament";
+  if (tournament.status !== "waiting") return "already_started";
+
+  const existing = await db
+    .select({ id: liveTournamentTeams.id })
+    .from(liveTournamentTeams)
+    .where(
+      and(
+        eq(liveTournamentTeams.tournamentId, tournamentId),
+        eq(liveTournamentTeams.userId, userId)
+      )
+    )
+    .limit(1);
+
+  if (existing.length === 0) return "not_in_tournament";
+
+  await db
+    .delete(liveTournamentTeams)
+    .where(
+      and(
+        eq(liveTournamentTeams.tournamentId, tournamentId),
+        eq(liveTournamentTeams.userId, userId)
+      )
+    );
+
+  return "left";
+}
