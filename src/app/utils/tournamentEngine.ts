@@ -57,6 +57,7 @@ export interface GameEvent {
   statType?: "rebound" | "assist" | "steal" | "block" | "foul";
   homeScore: number;
   awayScore: number;
+  displayAtMs: number; // ms from game start for client-side reveal timing
 }
 
 export interface PlayerGameStats {
@@ -352,6 +353,19 @@ function generateGameEvents(
     });
   }
 
+  // Timing cursor for displayAtMs
+  let cursorMs = 0;
+  let burstRemaining = 0;
+  let consecutiveScoringEvents = 0;
+
+  const getStepForEvent = (type: GameEventType, isBurst: boolean): number => {
+    if (isBurst) return rand(600, 1200);
+    if (type === "quarter_start" || type === "quarter_end" || type === "halftime") return 4000;
+    if (type === "score_2pt" || type === "score_3pt" || type === "dunk" || type === "layup" || type === "clutch") return rand(600, 1200);
+    if (type === "block" || type === "steal" || type === "rebound") return rand(800, 1500);
+    return rand(1500, 3500);
+  };
+
   // Game start
   events.push({
     gameTimeSec: 0, quarter: 1, clock: "12:00",
@@ -359,6 +373,7 @@ function generateGameEvents(
     pokemonName: "Tip-off",
     description: `${homeTeam.name} vs ${awayTeam.name} — Tip-off!`,
     homeScore: 0, awayScore: 0,
+    displayAtMs: 0,
   });
 
   const spacing = GAME_DURATION / TARGET_EVENTS;
@@ -373,24 +388,28 @@ function generateGameEvents(
     // Quarter start events
     if (quarter > 1 && !quarterStartsDone.has(quarter)) {
       quarterStartsDone.add(quarter);
+      cursorMs = Math.min(cursorMs + 4000, 299_000);
       events.push({
         gameTimeSec: (quarter - 1) * QUARTER_DURATION, quarter, clock: "12:00",
         type: "quarter_start", team: "home",
         pokemonName: `Q${quarter}`,
         description: `Quarter ${quarter} begins!`,
         homeScore, awayScore,
+        displayAtMs: cursorMs,
       });
     }
 
     // Halftime
     if (quarter >= 3 && !halftimeDone) {
       halftimeDone = true;
+      cursorMs = Math.min(cursorMs + 4000, 299_000);
       events.push({
         gameTimeSec: QUARTER_DURATION * 2, quarter: 2, clock: "0:00",
         type: "halftime", team: "home",
         pokemonName: "Halftime",
         description: `Halftime! ${homeTeam.name} ${homeScore} - ${awayScore} ${awayTeam.name}`,
         homeScore, awayScore,
+        displayAtMs: cursorMs,
       });
     }
 
@@ -426,13 +445,13 @@ function generateGameEvents(
         description = `${player.name} hits a mid-range jumper!`;
       } else if (sr < 0.60) {
         eventType = "score_3pt"; points = 3;
-        description = `${player.name} drains a three-pointer! 💦`;
+        description = `${player.name} drains a three-pointer!`;
       } else if (sr < 0.80) {
         eventType = "dunk"; points = 2;
         description = `${player.name} throws down a monster dunk!`;
       } else {
         eventType = "layup"; points = 2;
-        description = `${player.name} converts the crafty layup!`;
+        description = `${player.name} with a beautiful layup.`;
       }
 
       if (side === "home") { homeScore += points; homeMomentum += points === 3 ? 2 : 1; }
@@ -580,6 +599,27 @@ function generateGameEvents(
     homeMomentum *= 0.97;
     awayMomentum *= 0.97;
 
+    const isBurst = burstRemaining > 0;
+    if (isBurst) burstRemaining--;
+    const stepMs = getStepForEvent(eventType, isBurst);
+    cursorMs = Math.min(cursorMs + stepMs, 299_000);
+
+    if (eventType === "steal") {
+      burstRemaining = 2;
+      consecutiveScoringEvents = 0;
+    } else if (eventType === "block") {
+      burstRemaining = Math.floor(rand(2, 4));
+      consecutiveScoringEvents = 0;
+    } else if (["score_2pt", "score_3pt", "dunk", "layup", "clutch"].includes(eventType)) {
+      consecutiveScoringEvents++;
+      if (consecutiveScoringEvents >= 3) {
+        burstRemaining = 2;
+        consecutiveScoringEvents = 0;
+      }
+    } else {
+      consecutiveScoringEvents = 0;
+    }
+
     events.push({
       gameTimeSec: gameSec, quarter, clock,
       type: eventType, team: side,
@@ -589,6 +629,7 @@ function generateGameEvents(
       pointsScored: points || undefined,
       statType,
       homeScore, awayScore,
+      displayAtMs: cursorMs,
     });
   }
 
@@ -609,6 +650,7 @@ function generateGameEvents(
       description: `BUZZER BEATER! ${clutchPlayer.name} wins it at the horn!`,
       pointsScored: pts,
       homeScore, awayScore,
+      displayAtMs: 299_000,
     });
   }
 
@@ -621,6 +663,7 @@ function generateGameEvents(
     pokemonName: "Final",
     description: `Game Over! ${winnerTeam.name} wins ${winner === "home" ? homeScore : awayScore}-${winner === "home" ? awayScore : homeScore}!`,
     homeScore, awayScore,
+    displayAtMs: 300_000,
   });
 
   return { events, playerStats: Array.from(statsMap.values()) };
