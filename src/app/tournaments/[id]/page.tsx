@@ -273,26 +273,46 @@ function BoxScore({ events, team1Name, team2Name }: { events: GameEvent[]; team1
 
 // ─── Game Detail View ─────────────────────────────────────────────────────────
 
-const PLAYBACK_MS = 2000;
+const ROUND_DURATION_MS = 300_000;
+const ROUND_BUFFER_MS = 15_000;
 
 function GameDetailView({ game, onBack }: { game: ViewingGame; onBack: () => void }) {
-  const [eventIndex, setEventIndex] = useState(0);
-  const [playing, setPlaying] = useState(true);
-  const totalEvents = game.events.length;
-  const isDone = eventIndex >= totalEvents - 1;
-  const currentEvent = game.events[eventIndex] ?? game.events[totalEvents - 1];
+  const [allEvents, setAllEvents] = useState<GameEvent[]>(game.events);
+  const [now, setNow] = useState(Date.now());
+
+  const gameVirtualStartMs =
+    new Date(game.startedAt).getTime() +
+    (game.round - 1) * (ROUND_DURATION_MS + ROUND_BUFFER_MS);
+
+  const elapsed = now - gameVirtualStartMs;
+  const isDone = elapsed >= ROUND_DURATION_MS;
+  const visibleEvents = allEvents.filter((e) => e.displayAtMs <= elapsed);
+  const currentEvent = visibleEvents[visibleEvents.length - 1];
   const liveScore = currentEvent
     ? { home: currentEvent.homeScore, away: currentEvent.awayScore }
     : { home: 0, away: 0 };
-  const visibleEvents = game.events.slice(0, eventIndex + 1);
 
   useEffect(() => {
-    if (!playing || isDone) return;
-    const t = setTimeout(() => setEventIndex((i) => Math.min(i + 1, totalEvents - 1)), PLAYBACK_MS);
-    return () => clearTimeout(t);
-  }, [playing, isDone, eventIndex, totalEvents]);
-
-  const skip = () => { setEventIndex(totalEvents - 1); setPlaying(false); };
+    if (isDone) return;
+    const interval = setInterval(async () => {
+      setNow(Date.now());
+      try {
+        const res = await fetch(
+          `/api/live-tournaments/${game.tournamentId}/games/${game.gameId}`
+        );
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data.events) && data.events.length > allEvents.length) {
+            setAllEvents(data.events as GameEvent[]);
+          }
+        }
+      } catch {
+        // silent — clock still ticks
+      }
+    }, 750);
+    return () => clearInterval(interval);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDone, game.tournamentId, game.gameId]);
 
   const team1Wins = game.team1Score > game.team2Score;
 
@@ -303,26 +323,14 @@ function GameDetailView({ game, onBack }: { game: ViewingGame; onBack: () => voi
         <PokeButton variant="ghost" size="sm" onClick={onBack} className="flex items-center gap-1">
           ← BACK TO BRACKET
         </PokeButton>
-        <div className="flex items-center gap-2">
-          {!isDone && (
-            <>
-              <PokeButton variant="primary" size="sm" onClick={() => setPlaying((p) => !p)}>
-                {playing ? "PAUSE" : "RESUME"}
-              </PokeButton>
-              <PokeButton variant="ghost" size="sm" onClick={skip}>
-                SKIP TO END
-              </PokeButton>
-            </>
-          )}
-        </div>
-      </div>
-
-      {/* Progress bar */}
-      <div className="h-1.5 overflow-hidden" style={{ backgroundColor: "var(--color-border)" }}>
-        <div
-          className="h-full transition-all duration-500"
-          style={{ width: `${totalEvents > 1 ? (eventIndex / (totalEvents - 1)) * 100 : 100}%`, backgroundColor: "var(--color-primary)" }}
-        />
+        {!isDone && (
+          <div className="flex items-center gap-1.5">
+            <div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />
+            <span className="font-pixel text-[5px]" style={{ color: "var(--color-danger)" }}>
+              LIVE
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Scoreboard */}
@@ -333,11 +341,17 @@ function GameDetailView({ game, onBack }: { game: ViewingGame; onBack: () => voi
           </div>
           <div className="text-center px-8">
             <div className="flex items-center gap-4">
-              <span className="font-pixel text-[24px] tabular-nums" style={{ color: liveScore.home >= liveScore.away ? "var(--color-primary)" : "var(--color-text-muted)" }}>
+              <span
+                className="font-pixel text-[24px] tabular-nums"
+                style={{ color: liveScore.home >= liveScore.away ? "var(--color-primary)" : "var(--color-text-muted)" }}
+              >
                 {liveScore.home}
               </span>
               <span className="font-pixel text-[16px]" style={{ color: "var(--color-border)" }}>-</span>
-              <span className="font-pixel text-[24px] tabular-nums" style={{ color: liveScore.away > liveScore.home ? "var(--color-primary)" : "var(--color-text-muted)" }}>
+              <span
+                className="font-pixel text-[24px] tabular-nums"
+                style={{ color: liveScore.away > liveScore.home ? "var(--color-primary)" : "var(--color-text-muted)" }}
+              >
                 {liveScore.away}
               </span>
             </div>
@@ -356,7 +370,10 @@ function GameDetailView({ game, onBack }: { game: ViewingGame; onBack: () => voi
           </div>
         </div>
         {isDone && (
-          <div className="px-6 py-2 text-center font-pixel text-[6px]" style={{ backgroundColor: "var(--color-surface)", color: "var(--color-primary)" }}>
+          <div
+            className="px-6 py-2 text-center font-pixel text-[6px]"
+            style={{ backgroundColor: "var(--color-surface)", color: "var(--color-primary)" }}
+          >
             {team1Wins ? game.team1Name : game.team2Name} WINS!
           </div>
         )}
