@@ -270,7 +270,7 @@ interface TeamFactors {
   foulOutInjuryChance: number;
 }
 
-function calculateTeamFactors(
+export function calculateTeamFactors(
   team: TournamentTeam,
   opponent: TournamentTeam,
   score: { home: number; away: number },
