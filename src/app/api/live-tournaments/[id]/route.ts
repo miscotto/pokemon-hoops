@@ -94,5 +94,6 @@ export async function GET(
     totalRounds: bracketData.totalRounds,
     matchups,
     userTeamName,
+    startedAt: tournament.started_at?.toISOString() ?? null,
   });
 }
