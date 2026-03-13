@@ -783,25 +783,28 @@ interface TournamentState {
 }
 ```
 
-- [ ] **Step 5: Add `startedAt` and `round` to `ViewingGame`**
+- [ ] **Step 6: Add `startedAt`, `round`, and `tournamentId` to `ViewingGame`**
+
+`tournamentId` is needed by `GameDetailView` to construct the polling URL. Thread it in from the URL param `id`.
 
 ```ts
 interface ViewingGame {
   gameId: string;
+  tournamentId: string;  // ADD THIS — needed for polling URL in GameDetailView
   team1Name: string;
   team2Name: string;
   team1Score: number;
   team2Score: number;
   winnerId: string | null;
   events: GameEvent[];
-  startedAt: string;  // ADD THIS
-  round: number;      // ADD THIS
+  startedAt: string;     // ADD THIS
+  round: number;         // ADD THIS
 }
 ```
 
-- [ ] **Step 6: Update `handleViewGameData` to populate the new fields**
+- [ ] **Step 7: Update `handleViewGameData` to populate the new fields**
 
-In `handleViewGameData`, update the `setViewingGame` call to include `startedAt` and `round`. The `matchup.round` is already on `MatchupState` (line 22 of the file). `tournament.startedAt` comes from the updated `TournamentState`.
+In `handleViewGameData`, update the `setViewingGame` call. `tournament.startedAt` is required for timing — if it's null (tournament not yet active), guard and return early since games aren't watchable in that state anyway.
 
 ```ts
 const handleViewGameData = async (matchup: MatchupState, tournamentId: string) => {
@@ -809,16 +812,19 @@ const handleViewGameData = async (matchup: MatchupState, tournamentId: string) =
     const res = await fetch(`/api/live-tournaments/${tournamentId}/games/${matchup.gameId}`);
     const data = await res.json();
     if (data.error) { setError(data.error); return; }
+    const startedAt = tournament?.startedAt;
+    if (!startedAt) { setError("Tournament not yet started"); return; }
     setViewingGame({
       gameId: matchup.gameId,
+      tournamentId,                                    // ADD
       team1Name: matchup.team1Name,
       team2Name: matchup.team2Name,
       team1Score: data.team1Score ?? matchup.team1Score ?? 0,
       team2Score: data.team2Score ?? matchup.team2Score ?? 0,
       winnerId: data.winnerId ?? matchup.winnerId,
       events: (data.events as GameEvent[]) ?? [],
-      startedAt: tournament?.startedAt ?? new Date().toISOString(),  // ADD
-      round: matchup.round,                                           // ADD
+      startedAt,                                       // ADD
+      round: matchup.round,                            // ADD
     });
   } catch {
     setError("Failed to load game");
@@ -826,17 +832,17 @@ const handleViewGameData = async (matchup: MatchupState, tournamentId: string) =
 };
 ```
 
-- [ ] **Step 7: Verify TypeScript compiles**
+- [ ] **Step 8: Verify TypeScript compiles**
 
 ```bash
 npx tsc --noEmit
 ```
 
-- [ ] **Step 8: Commit**
+- [ ] **Step 9: Commit**
 
 ```bash
 git add src/app/tournaments/[id]/page.tsx
-git commit -m "feat(ui): add startedAt and round to ViewingGame interface"
+git commit -m "feat(ui): add startedAt, round, tournamentId to ViewingGame interface"
 ```
 
 ### Task 11: Rewrite `GameDetailView` with time-driven playback
@@ -844,7 +850,7 @@ git commit -m "feat(ui): add startedAt and round to ViewingGame interface"
 **Files:**
 - Modify: `src/app/tournaments/[id]/page.tsx` (the `GameDetailView` component, lines 268–366)
 
-- [ ] **Step 9: Replace `GameDetailView` with the new time-driven version**
+- [ ] **Step 10: Replace `GameDetailView` with the new time-driven version**
 
 Replace the entire `GameDetailView` component with:
 
@@ -868,12 +874,31 @@ function GameDetailView({ game, onBack }: { game: ViewingGame; onBack: () => voi
     ? { home: currentEvent.homeScore, away: currentEvent.awayScore }
     : { home: 0, away: 0 };
 
-  // Tick the clock every 750ms. Events are fully loaded at simulation time so no polling needed.
+  // Poll game endpoint every 750ms while live.
+  // Needed because the main simulation path (simulateAllRounds) runs synchronously when the
+  // tournament starts, so events are available immediately. But we also poll to ensure
+  // allEvents stays fresh if a viewer opens the game before the server finishes writing results.
   useEffect(() => {
     if (isDone) return;
-    const interval = setInterval(() => setNow(Date.now()), 750);
+    const interval = setInterval(async () => {
+      setNow(Date.now());
+      try {
+        const res = await fetch(
+          `/api/live-tournaments/${game.tournamentId}/games/${game.gameId}`
+        );
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data.events) && data.events.length > allEvents.length) {
+            setAllEvents(data.events as GameEvent[]);
+          }
+        }
+      } catch {
+        // silent — clock still ticks
+      }
+    }, 750);
     return () => clearInterval(interval);
-  }, [isDone]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDone, game.tournamentId, game.gameId]);
 
   const team1Wins = game.team1Score > game.team2Score;
 
@@ -954,17 +979,17 @@ function GameDetailView({ game, onBack }: { game: ViewingGame; onBack: () => voi
 }
 ```
 
-- [ ] **Step 10: Remove unused state/variables from the old `GameDetailView`**
+- [ ] **Step 11: Remove unused state/variables from the old `GameDetailView`**
 
 Ensure the old `PLAYBACK_MS`, `eventIndex`, `setEventIndex`, `playing`, `setPlaying`, `skip`, and `isDone` (old version) are all gone.
 
-- [ ] **Step 11: Verify TypeScript compiles**
+- [ ] **Step 12: Verify TypeScript compiles**
 
 ```bash
 npx tsc --noEmit
 ```
 
-- [ ] **Step 12: Commit**
+- [ ] **Step 13: Commit**
 
 ```bash
 git add src/app/tournaments/[id]/page.tsx
@@ -976,7 +1001,7 @@ git commit -m "feat(ui): replace index-based playback with time-driven GameDetai
 **Files:**
 - Modify: `src/app/tournaments/[id]/page.tsx` (the waiting lobby section and polling logic)
 
-- [ ] **Step 13: Add `leaving` state and `handleLeave` handler to `TournamentPage`**
+- [ ] **Step 14: Add `leaving` state and `handleLeave` handler to `TournamentPage`**
 
 In `TournamentPage` component, add alongside existing state:
 
@@ -996,20 +1021,6 @@ const handleLeave = async () => {
     setLeaving(false);
   }
 };
-```
-
-- [ ] **Step 14: Update the polling `useEffect` to also poll during `waiting` state**
-
-Replace the existing polling `useEffect` (around line 625):
-
-```ts
-useEffect(() => {
-  if (viewingGame) return;
-  // Poll at 3s while waiting, 5s while active
-  if (tournament?.status !== "waiting" && tournament?.status !== "active") return;
-  const interval = setInterval(fetchTournament, tournament.status === "waiting" ? 3000 : 5000);
-  return () => clearInterval(interval);
-}, [tournament?.status, viewingGame, fetchTournament]);
 ```
 
 - [ ] **Step 15: Add the LEAVE TOURNAMENT button to the waiting lobby section**
@@ -1051,7 +1062,7 @@ git commit -m "feat(ui): add leave button and waiting-room polling to tournament
 npx vitest run
 ```
 
-Expected: All tests pass (including the 5 new engine tests and the existing `abilityModifier` tests).
+Expected: All tests pass (including the 6 new engine tests and the existing `abilityModifier` tests).
 
 - [ ] **Step 19: Verify TypeScript compilation one final time**
 
