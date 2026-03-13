@@ -13,11 +13,18 @@ import {
   getTournamentTeamCount,
   getTournamentTeams,
   getTournament,
+  getTournamentGames,
   startTournament,
+  claimGame,
+  writeGameResult,
+  updateTeamResult,
+  appendNextRound,
+  completeTournament,
+  getTeamRosterData,
   getUserActiveTournament,
   getAllTournaments,
 } from "@/lib/tournament-db";
-import { toTournamentPokemon } from "../../utils/tournamentEngine";
+import { toTournamentPokemon, simulateMatchup, TournamentTeam } from "../../utils/tournamentEngine";
 
 async function getUser() {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -36,6 +43,82 @@ function loadPokemonPool(): Record<number, Record<string, unknown>> {
     cachedPool[p.id as number] = p;
   }
   return cachedPool;
+}
+
+// ─── Auto-simulation ──────────────────────────────────────────────────────────
+
+async function simulateAllRounds(tournamentId: string, totalRounds: number) {
+  for (let round = 1; round <= totalRounds; round++) {
+    const allGames = await getTournamentGames(tournamentId);
+    const roundGames = allGames.filter((g) => g.round === round);
+    const winners: { userId: string; name: string }[] = [];
+
+    for (const game of roundGames) {
+      if (game.status === "completed") {
+        winners.push({
+          userId: game.winner_id!,
+          name: game.winner_id === game.team1_user_id ? game.team1_name! : game.team2_name!,
+        });
+        continue;
+      }
+
+      const claimed = await claimGame(game.id);
+      if (!claimed) continue;
+
+      const [team1Data, team2Data] = await Promise.all([
+        getTeamRosterData(tournamentId, claimed.team1UserId!),
+        getTeamRosterData(tournamentId, claimed.team2UserId!),
+      ]);
+      if (!team1Data || !team2Data) continue;
+
+      const makeTeam = (userId: string, name: string, rosterData: unknown): TournamentTeam => ({
+        id: userId,
+        name,
+        coast: "west",
+        seed: 1,
+        isPlayer: true,
+        roster: (rosterData as Parameters<typeof toTournamentPokemon>[0][]).map(toTournamentPokemon),
+      });
+
+      const team1 = makeTeam(claimed.team1UserId!, claimed.team1Name!, team1Data.roster_data);
+      const team2 = makeTeam(claimed.team2UserId!, claimed.team2Name!, team2Data.roster_data);
+      const result = simulateMatchup(team1, team2);
+
+      const winnerId = result.winner === "home" ? claimed.team1UserId! : claimed.team2UserId!;
+      const loserId = winnerId === claimed.team1UserId ? claimed.team2UserId! : claimed.team1UserId!;
+      const winnerName = winnerId === claimed.team1UserId ? claimed.team1Name! : claimed.team2Name!;
+
+      await writeGameResult(game.id, result.finalHomeScore, result.finalAwayScore, winnerId, result.events);
+      await updateTeamResult(tournamentId, loserId, "eliminated", round);
+      winners.push({ userId: winnerId, name: winnerName });
+    }
+
+    if (round < totalRounds) {
+      const nextMatchups = [];
+      for (let i = 0; i < winners.length; i += 2) {
+        nextMatchups.push({
+          matchupIndex: i / 2,
+          team1UserId: winners[i].userId,
+          team1Name: winners[i].name,
+          team2UserId: winners[i + 1].userId,
+          team2Name: winners[i + 1].name,
+        });
+      }
+      for (const w of winners) {
+        await updateTeamResult(tournamentId, w.userId, "in_progress", round + 1);
+      }
+      await appendNextRound(tournamentId, round + 1, nextMatchups);
+    } else {
+      const champId = winners[0].userId;
+      const finalGame = roundGames[0];
+      const finalistId = champId === finalGame.team1_user_id
+        ? finalGame.team2_user_id!
+        : finalGame.team1_user_id!;
+      await updateTeamResult(tournamentId, champId, "champion", round);
+      await updateTeamResult(tournamentId, finalistId, "finalist", round);
+      await completeTournament(tournamentId);
+    }
+  }
 }
 
 // GET /api/live-tournaments — Check if user is in a tournament, or list open tournaments
@@ -212,6 +295,7 @@ export async function POST(req: NextRequest) {
     }
 
     await startTournament(tournamentId, round1Matchups, totalRounds);
+    await simulateAllRounds(tournamentId, totalRounds);
     return NextResponse.json({ tournamentId, status: "active" });
   }
 

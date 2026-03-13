@@ -657,12 +657,12 @@ export default function TournamentPage() {
     return () => clearInterval(interval);
   }, [tournament?.status, viewingGame, fetchTournament]);
 
-  const handleViewGameData = async (matchup: MatchupState, tournamentId: string) => {
+  const handleViewGameData = async (matchup: MatchupState, tournamentId: string, startedAtOverride?: string) => {
     try {
       const res = await fetch(`/api/live-tournaments/${tournamentId}/games/${matchup.gameId}`);
       const data = await res.json();
       if (data.error) { setError(data.error); return; }
-      const startedAt = tournament?.startedAt;
+      const startedAt = startedAtOverride ?? tournament?.startedAt;
       if (!startedAt) { setError("Tournament not yet started"); return; }
       setViewingGame({
         gameId: matchup.gameId,
@@ -718,7 +718,7 @@ export default function TournamentPage() {
           (m) => m.status === "completed"
         );
         if (firstGame) {
-          await handleViewGameData(firstGame, id);
+          await handleViewGameData(firstGame, id, tData.startedAt ?? undefined);
         }
       }
     } catch {
