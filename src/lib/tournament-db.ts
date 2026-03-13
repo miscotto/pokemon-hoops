@@ -160,8 +160,12 @@ export async function isRosterInActiveTournament(rosterId: string): Promise<bool
   return rows.length > 0;
 }
 
-export async function completeTournament(tournamentId: string): Promise<void> {
-  await db
+export async function completeTournament(
+  tournamentId: string,
+  tx?: Parameters<Parameters<typeof db.transaction>[0]>[0]
+): Promise<void> {
+  const executor = tx ?? db;
+  await executor
     .update(liveTournaments)
     .set({ status: "completed" })
     .where(
@@ -173,36 +177,6 @@ export async function completeTournament(tournamentId: string): Promise<void> {
 }
 
 // ─── New: Tournament Games ────────────────────────────────────────────────────
-
-/** Create game rows for a set of round matchups */
-export async function createRoundGames(
-  tournamentId: string,
-  round: number,
-  matchups: Array<{
-    matchupIndex: number;
-    team1UserId: string;
-    team1Name: string;
-    team2UserId: string;
-    team2Name: string;
-  }>
-): Promise<string[]> {
-  const rows = await db
-    .insert(tournamentGames)
-    .values(
-      matchups.map((m) => ({
-        tournamentId,
-        round,
-        matchupIndex: m.matchupIndex,
-        team1UserId: m.team1UserId,
-        team1Name: m.team1Name,
-        team2UserId: m.team2UserId,
-        team2Name: m.team2Name,
-        status: "pending" as const,
-      }))
-    )
-    .returning({ id: tournamentGames.id });
-  return rows.map((r) => r.id);
-}
 
 /** Get all games for a tournament, ordered by round then matchup index */
 export async function getTournamentGames(tournamentId: string): Promise<
@@ -326,8 +300,9 @@ export async function getTeamRosterData(
 
 /**
  * Start a tournament:
- * - Creates round-1 tournamentGames rows
- * - Stores lightweight bracketData (structure only, no events)
+ * - Initializes empty bracketData with totalRounds
+ * - Marks participants as in_progress
+ * - Creates round-1 game rows via appendNextRound
  * - Sets status to "active"
  */
 export async function startTournament(
@@ -341,22 +316,12 @@ export async function startTournament(
   }>,
   totalRounds: number
 ): Promise<void> {
-  // Create game rows for round 1
-  const gameIds = await createRoundGames(tournamentId, 1, round1Matchups);
-
-  // Build lightweight bracketData (structure only)
-  const bracketData: BracketStructure = {
-    totalRounds,
-    matchups: round1Matchups.map((m, i) => ({
-      gameId: gameIds[i],
-      round: 1,
-      matchupIndex: m.matchupIndex,
-      team1UserId: m.team1UserId,
-      team1Name: m.team1Name,
-      team2UserId: m.team2UserId,
-      team2Name: m.team2Name,
-    })),
-  };
+  // Initialize empty bracket structure with totalRounds first,
+  // so appendNextRound can read-modify-write bracketData safely.
+  await db
+    .update(liveTournaments)
+    .set({ status: "active", startedAt: new Date(), bracketData: { totalRounds, matchups: [] } })
+    .where(eq(liveTournaments.id, tournamentId));
 
   // Mark all participants as in_progress
   await db
@@ -364,10 +329,8 @@ export async function startTournament(
     .set({ result: "in_progress", roundReached: 1 })
     .where(eq(liveTournamentTeams.tournamentId, tournamentId));
 
-  await db
-    .update(liveTournaments)
-    .set({ status: "active", startedAt: new Date(), bracketData })
-    .where(eq(liveTournaments.id, tournamentId));
+  // Create round 1 game rows and append to bracketData
+  await appendNextRound(tournamentId, 1, round1Matchups);
 }
 
 /** Append next-round matchups to bracketData after a round completes */
@@ -380,12 +343,37 @@ export async function appendNextRound(
     team1Name: string;
     team2UserId: string;
     team2Name: string;
-  }>
+  }>,
+  tx?: Parameters<Parameters<typeof db.transaction>[0]>[0]
 ): Promise<string[]> {
-  const gameIds = await createRoundGames(tournamentId, round, matchups);
+  const executor = tx ?? db;
 
-  const tournament = await getTournament(tournamentId);
-  const bracket = tournament!.bracket_data as BracketStructure;
+  // Create game rows
+  const rows = await executor
+    .insert(tournamentGames)
+    .values(
+      matchups.map((m) => ({
+        tournamentId,
+        round,
+        matchupIndex: m.matchupIndex,
+        team1UserId: m.team1UserId,
+        team1Name: m.team1Name,
+        team2UserId: m.team2UserId,
+        team2Name: m.team2Name,
+        status: "pending" as const,
+      }))
+    )
+    .returning({ id: tournamentGames.id });
+
+  const gameIds = rows.map((r) => r.id);
+
+  // Read current bracketData
+  const tRows = await executor
+    .select({ bracketData: liveTournaments.bracketData })
+    .from(liveTournaments)
+    .where(eq(liveTournaments.id, tournamentId));
+
+  const bracket = tRows[0]?.bracketData as BracketStructure;
 
   const newMatchups: BracketMatchup[] = matchups.map((m, i) => ({
     gameId: gameIds[i],
@@ -397,7 +385,7 @@ export async function appendNextRound(
     team2Name: m.team2Name,
   }));
 
-  await db
+  await executor
     .update(liveTournaments)
     .set({
       bracketData: {
@@ -408,6 +396,106 @@ export async function appendNextRound(
     .where(eq(liveTournaments.id, tournamentId));
 
   return gameIds;
+}
+
+export async function tryAdvanceRound(
+  tournamentId: string,
+  completedRound: number
+): Promise<void> {
+  await db.transaction(async (tx) => {
+    // Advisory lock — prevents concurrent advancement from two games finishing at the same time.
+    // The lock key is a 32-bit int derived from the tournament+round string.
+    await tx.execute(
+      sql`SELECT pg_advisory_xact_lock(hashtext(${tournamentId + ":" + completedRound}))`
+    );
+
+    // Check if all games in this round are completed
+    const result = await tx
+      .select({ count: sql<number>`COUNT(*)::int` })
+      .from(tournamentGames)
+      .where(
+        and(
+          eq(tournamentGames.tournamentId, tournamentId),
+          eq(tournamentGames.round, completedRound),
+          ne(tournamentGames.status, "completed")
+        )
+      );
+
+    if (result[0].count > 0) return; // other games still running
+
+    // Fetch tournament to check total rounds
+    const tRows = await tx
+      .select({ bracketData: liveTournaments.bracketData, totalRounds: sql<number>`(bracket_data->>'totalRounds')::int` })
+      .from(liveTournaments)
+      .where(eq(liveTournaments.id, tournamentId));
+
+    const totalRounds = tRows[0]?.totalRounds ?? 1;
+
+    // Fetch all completed games in this round to get winners
+    const roundGames = await tx
+      .select({
+        id: tournamentGames.id,
+        team1UserId: tournamentGames.team1UserId,
+        team1Name: tournamentGames.team1Name,
+        team2UserId: tournamentGames.team2UserId,
+        team2Name: tournamentGames.team2Name,
+        winnerId: tournamentGames.winnerId,
+      })
+      .from(tournamentGames)
+      .where(
+        and(
+          eq(tournamentGames.tournamentId, tournamentId),
+          eq(tournamentGames.round, completedRound)
+        )
+      );
+
+    const winners = roundGames.map((g) => ({
+      userId: g.winnerId!,
+      name: g.winnerId === g.team1UserId ? g.team1Name! : g.team2Name!,
+    }));
+
+    if (completedRound >= totalRounds) {
+      // Final round complete — mark champion and finalist
+      if (roundGames.length === 1) {
+        const finalGame = roundGames[0];
+        const champId = finalGame.winnerId!;
+        const finalistId = champId === finalGame.team1UserId
+          ? finalGame.team2UserId!
+          : finalGame.team1UserId!;
+        await tx
+          .update(liveTournamentTeams)
+          .set({ result: "champion", roundReached: completedRound })
+          .where(and(eq(liveTournamentTeams.tournamentId, tournamentId), eq(liveTournamentTeams.userId, champId)));
+        await tx
+          .update(liveTournamentTeams)
+          .set({ result: "finalist", roundReached: completedRound })
+          .where(and(eq(liveTournamentTeams.tournamentId, tournamentId), eq(liveTournamentTeams.userId, finalistId)));
+      }
+      await completeTournament(tournamentId, tx);
+    } else {
+      // Advance winners to next round
+      const nextRound = completedRound + 1;
+      for (const w of winners) {
+        await tx
+          .update(liveTournamentTeams)
+          .set({ result: "in_progress", roundReached: nextRound })
+          .where(and(eq(liveTournamentTeams.tournamentId, tournamentId), eq(liveTournamentTeams.userId, w.userId)));
+      }
+
+      // Pair winners: 0 vs 1, 2 vs 3, etc.
+      const nextMatchups = [];
+      for (let i = 0; i < Math.floor(winners.length / 2); i++) {
+        nextMatchups.push({
+          matchupIndex: i,
+          team1UserId: winners[i].userId,
+          team1Name: winners[i].name,
+          team2UserId: winners[winners.length - 1 - i].userId,
+          team2Name: winners[winners.length - 1 - i].name,
+        });
+      }
+      await appendNextRound(tournamentId, nextRound, nextMatchups, tx);
+    }
+  });
 }
 
 // ─── Updated: getAllTournaments with higher limit + winner name ───────────────
