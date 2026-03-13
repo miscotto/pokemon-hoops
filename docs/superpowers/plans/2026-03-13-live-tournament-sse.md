@@ -390,28 +390,40 @@ export async function appendNextRound(
 }
 ```
 
-Note: This inlines the logic from the old `appendNextRound` + `createRoundGames` into one function. Remove the now-redundant `createRoundGames` function.
+Note: This inlines the logic from the old `appendNextRound` + `createRoundGames` into one function.
 
-**Important:** `startTournament` currently calls `createRoundGames` directly. After deleting `createRoundGames`, update `startTournament` to use the new `appendNextRound` instead:
+- [ ] **Step 1b: Delete `createRoundGames` and replace `startTournament`**
 
-```ts
-// In startTournament, replace:
-//   const gameIds = await createRoundGames(tournamentId, 1, round1Matchups);
-// With:
-const gameIds = await appendNextRound(tournamentId, 1, round1Matchups);
-```
-
-Then remove the `buildBracketData` block that follows — `appendNextRound` now handles writing the bracketData. Update the `db.update(liveTournaments)` call in `startTournament` to only set `status`, `startedAt` (it no longer needs to set `bracketData` since `appendNextRound` does that). Keep the initial `bracketData` write in `startTournament` for the `totalRounds` field by initializing it first:
+Delete the entire `createRoundGames` function. Then replace `startTournament` with the following complete implementation (the old version called `createRoundGames` directly and built its own `bracketData` — the new version does an initial status/bracketData write, then delegates to `appendNextRound`):
 
 ```ts
-// Initialize empty bracket structure before calling appendNextRound
-await db
-  .update(liveTournaments)
-  .set({ status: "active", startedAt: new Date(), bracketData: { totalRounds, matchups: [] } })
-  .where(eq(liveTournaments.id, tournamentId));
+export async function startTournament(
+  tournamentId: string,
+  round1Matchups: Array<{
+    matchupIndex: number;
+    team1UserId: string;
+    team1Name: string;
+    team2UserId: string;
+    team2Name: string;
+  }>,
+  totalRounds: number
+): Promise<void> {
+  // Initialize empty bracket structure with totalRounds first,
+  // so appendNextRound can read-modify-write bracketData safely.
+  await db
+    .update(liveTournaments)
+    .set({ status: "active", startedAt: new Date(), bracketData: { totalRounds, matchups: [] } })
+    .where(eq(liveTournaments.id, tournamentId));
 
-// Then append round 1 games (this reads + updates bracketData)
-await appendNextRound(tournamentId, 1, round1Matchups);
+  // Mark all participants as in_progress
+  await db
+    .update(liveTournamentTeams)
+    .set({ result: "in_progress", roundReached: 1 })
+    .where(eq(liveTournamentTeams.tournamentId, tournamentId));
+
+  // Create round 1 game rows and append to bracketData
+  await appendNextRound(tournamentId, 1, round1Matchups);
+}
 ```
 
 - [ ] **Step 2: Update `completeTournament` to accept optional transaction**
@@ -1712,7 +1724,7 @@ npm run lint
 
 ```bash
 git add src/app/utils/tournamentEngine.ts
-git commit -m "refactor: remove generateGameEvents and simulateMatchup from tournamentEngine (superseded by createGameIterator)"
+git commit -m "refactor: remove generateGameEvents and simulateLiveGame from tournamentEngine (superseded by createGameIterator)"
 ```
 
 ---
