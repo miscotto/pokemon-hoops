@@ -1,6 +1,6 @@
-import { eq, and, asc, desc, inArray, sql } from "drizzle-orm";
+import { eq, and, asc, desc, inArray, sql, ne, gt } from "drizzle-orm";
 import { db } from "./db";
-import { liveTournaments, liveTournamentTeams, tournamentGames } from "./schema";
+import { liveTournaments, liveTournamentTeams, tournamentGames, tournamentGameEvents } from "./schema";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -529,4 +529,51 @@ export async function leaveTournament(
     );
 
   return "left";
+}
+
+// ─── New: Game Events ────────────────────────────────────────────────────────
+
+/**
+ * Insert a game event.
+ * Uses onConflictDoNothing() to handle retries safely
+ * (UNIQUE constraint on game_id, sequence prevents duplicates).
+ */
+export async function insertGameEvent(
+  gameId: string,
+  sequence: number,
+  type: string,
+  data: Record<string, unknown>
+): Promise<void> {
+  await db
+    .insert(tournamentGameEvents)
+    .values({ gameId, sequence, type, data })
+    .onConflictDoNothing();
+}
+
+/**
+ * Get all game events for a specific game after a given sequence.
+ * Default afterSequence is -1, so calling getGameEvents(gameId)
+ * returns all events for that game.
+ */
+export async function getGameEvents(gameId: string, afterSequence = -1) {
+  const rows = await db
+    .select()
+    .from(tournamentGameEvents)
+    .where(
+      and(
+        eq(tournamentGameEvents.gameId, gameId),
+        gt(tournamentGameEvents.sequence, afterSequence)
+      )
+    )
+    .orderBy(asc(tournamentGameEvents.sequence));
+  return rows;
+}
+
+/**
+ * Delete all events for a specific game.
+ */
+export async function deleteGameEvents(gameId: string): Promise<void> {
+  await db
+    .delete(tournamentGameEvents)
+    .where(eq(tournamentGameEvents.gameId, gameId));
 }
