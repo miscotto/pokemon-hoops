@@ -43,36 +43,56 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: "var(--color-bg)" }}>
+    <div
+      className="min-h-screen"
+      style={{ backgroundColor: "var(--color-bg)" }}
+    >
       {/* Nav */}
       <nav
         className="sticky top-0 z-50 border-b-3 border-[var(--color-shadow)] px-4 py-3"
         style={{ backgroundColor: "var(--color-primary)" }}
       >
         <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <span className="font-pixel text-[10px] sm:text-[12px]" style={{ color: "var(--color-primary-text)" }}>
+          <span
+            className="font-pixel text-[10px] sm:text-[12px]"
+            style={{ color: "var(--color-primary-text)" }}
+          >
             ⚡ POKEMON HOOPS
           </span>
           <div className="flex gap-2 items-center">
-            <Link href="/tournaments" className="font-pixel text-[7px] hidden sm:block" style={{ color: "var(--color-primary-text)", opacity: 0.85 }}>
+            <Link
+              href="/tournaments"
+              className="font-pixel text-[7px] hidden sm:block"
+              style={{ color: "var(--color-primary-text)", opacity: 0.85 }}
+            >
               TOURNAMENTS
             </Link>
             {session?.user ? (
               <>
-                <Link href="/profile" className="font-pixel text-[7px] hidden sm:block" style={{ color: "var(--color-primary-text)", opacity: 0.85 }}>
+                <Link
+                  href="/profile"
+                  className="font-pixel text-[7px] hidden sm:block"
+                  style={{ color: "var(--color-primary-text)", opacity: 0.85 }}
+                >
                   MY PROFILE
                 </Link>
                 <Link href="/dashboard">
-                  <PokeButton variant="primary" size="sm">DASHBOARD</PokeButton>
+                  <PokeButton variant="primary" size="sm">
+                    DASHBOARD
+                  </PokeButton>
                 </Link>
               </>
             ) : (
               <>
                 <Link href="/dashboard">
-                  <PokeButton variant="ghost" size="sm">SIGN IN</PokeButton>
+                  <PokeButton variant="ghost" size="sm">
+                    SIGN IN
+                  </PokeButton>
                 </Link>
                 <Link href="/dashboard">
-                  <PokeButton variant="primary" size="sm">SIGN UP</PokeButton>
+                  <PokeButton variant="primary" size="sm">
+                    SIGN UP
+                  </PokeButton>
                 </Link>
               </>
             )}
@@ -136,7 +156,10 @@ export default function HomePage() {
       </section>
 
       {/* Features */}
-      <section className="py-12 px-4 border-b-3 border-[var(--color-border)]" style={{ backgroundColor: "var(--color-surface)" }}>
+      <section
+        className="py-12 px-4 border-b-3 border-[var(--color-border)]"
+        style={{ backgroundColor: "var(--color-surface)" }}
+      >
         <div className="max-w-5xl mx-auto">
           <h2
             className="font-pixel text-[9px] text-center mb-8"
@@ -146,11 +169,27 @@ export default function HomePage() {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {[
-              { icon: "🏀", title: "BUILD YOUR ROSTER", desc: "Draft 6 Pokemon as your team. Each stat maps to real basketball skills." },
-              { icon: "⚡", title: "LIVE TOURNAMENTS", desc: "Compete against real players in bracket tournaments with live play-by-play." },
-              { icon: "🏆", title: "CLIMB THE RANKS", desc: "Refine your strategy, dominate brackets, become the Pokemon Hoops champion." },
+              {
+                icon: "🏀",
+                title: "BUILD YOUR ROSTER",
+                desc: "Draft 6 Pokemon as your team. Each stat maps to real basketball skills.",
+              },
+              {
+                icon: "⚡",
+                title: "LIVE TOURNAMENTS",
+                desc: "Compete against real players in bracket tournaments with live play-by-play.",
+              },
+              {
+                icon: "🏆",
+                title: "CLIMB THE RANKS",
+                desc: "Refine your strategy, dominate brackets, become the Pokemon Hoops champion.",
+              },
             ].map(({ icon, title, desc }) => (
-              <PokeCard key={title} variant="default" className="p-5 text-center">
+              <PokeCard
+                key={title}
+                variant="default"
+                className="p-5 text-center"
+              >
                 <div className="text-3xl mb-3">{icon}</div>
                 <h3
                   className="font-pixel text-[7px] mb-3"
@@ -181,7 +220,9 @@ export default function HomePage() {
               ACTIVE TOURNAMENTS
             </h2>
             <Link href="/dashboard">
-              <PokeButton variant="ghost" size="sm">JOIN ONE →</PokeButton>
+              <PokeButton variant="ghost" size="sm">
+                JOIN ONE →
+              </PokeButton>
             </Link>
           </div>
 
@@ -189,57 +230,188 @@ export default function HomePage() {
             <div className="text-center py-12">
               <div
                 className="inline-block w-6 h-6 border-2 border-t-transparent animate-spin"
-                style={{ borderColor: "var(--color-primary)", borderTopColor: "transparent" }}
+                style={{
+                  borderColor: "var(--color-primary)",
+                  borderTopColor: "transparent",
+                }}
               />
             </div>
-          ) : tournaments.length === 0 ? (
+          ) : tournaments.filter((t) => t.status === "in_progress").length ===
+            0 ? (
             <PokeCard variant="default" className="p-8 text-center">
-              <p className="font-pixel text-[7px] mb-2" style={{ color: "var(--color-text)" }}>
-                NO TOURNAMENTS YET
+              <p
+                className="font-pixel text-[7px] mb-2"
+                style={{ color: "var(--color-text)" }}
+              >
+                NO ACTIVE TOURNAMENTS YET
               </p>
-              <p className="font-pixel text-[6px]" style={{ color: "var(--color-text-muted)" }}>
+              <p
+                className="font-pixel text-[6px]"
+                style={{ color: "var(--color-text-muted)" }}
+              >
                 BE THE FIRST TO JOIN!
               </p>
             </PokeCard>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {tournaments.slice(0, 6).map((t) => (
-                <PokeCard
-                  key={t.id}
-                  variant={t.status === "active" ? "highlighted" : "default"}
-                  className="p-4"
-                >
-                  <div className="flex items-start justify-between mb-3">
-                    <span
-                      className="font-pixel text-[5px] px-2 py-1 border border-[var(--color-shadow)]"
-                      style={{ backgroundColor: statusColor(t.status), color: t.status === "waiting" ? "var(--color-shadow)" : "#fff" }}
-                    >
-                      {statusLabel(t.status)}
-                    </span>
-                    <span className="font-pixel text-[5px]" style={{ color: "var(--color-text-muted)" }}>
-                      {t.max_teams} TEAMS
-                    </span>
-                  </div>
-                  <h3
-                    className="font-pixel text-[7px] mb-2 truncate"
-                    style={{ color: "var(--color-text)" }}
+              {tournaments
+                .filter((t) => t.status === "in_progress")
+                .slice(0, 6)
+                .map((t) => (
+                  <PokeCard
+                    key={t.id}
+                    variant={t.status === "active" ? "highlighted" : "default"}
+                    className="p-4"
                   >
-                    {t.name.toUpperCase()}
-                  </h3>
-                  <div className="h-1.5 border border-[var(--color-shadow)] mb-2" style={{ backgroundColor: "var(--color-surface-alt)" }}>
+                    <div className="flex items-start justify-between mb-3">
+                      <span
+                        className="font-pixel text-[5px] px-2 py-1 border border-[var(--color-shadow)]"
+                        style={{
+                          backgroundColor: statusColor(t.status),
+                          color:
+                            t.status === "waiting"
+                              ? "var(--color-shadow)"
+                              : "#fff",
+                        }}
+                      >
+                        {statusLabel(t.status)}
+                      </span>
+                      <span
+                        className="font-pixel text-[5px]"
+                        style={{ color: "var(--color-text-muted)" }}
+                      >
+                        {t.max_teams} TEAMS
+                      </span>
+                    </div>
+                    <h3
+                      className="font-pixel text-[7px] mb-2 truncate"
+                      style={{ color: "var(--color-text)" }}
+                    >
+                      {t.name.toUpperCase()}
+                    </h3>
                     <div
-                      className="h-full"
-                      style={{
-                        width: `${Math.min((t.team_count / t.max_teams) * 100, 100)}%`,
-                        backgroundColor: statusColor(t.status),
-                      }}
-                    />
-                  </div>
-                  <p className="font-pixel text-[5px]" style={{ color: "var(--color-text-muted)" }}>
-                    {t.team_count}/{t.max_teams} TEAMS JOINED
-                  </p>
-                </PokeCard>
-              ))}
+                      className="h-1.5 border border-[var(--color-shadow)] mb-2"
+                      style={{ backgroundColor: "var(--color-surface-alt)" }}
+                    >
+                      <div
+                        className="h-full"
+                        style={{
+                          width: `${Math.min(
+                            ((t.status === "completed"
+                              ? t.max_teams
+                              : t.team_count) /
+                              t.max_teams) *
+                              100,
+                            100
+                          )}%`,
+                          backgroundColor: statusColor(t.status),
+                        }}
+                      />
+                    </div>
+                    <p
+                      className="font-pixel text-[5px]"
+                      style={{ color: "var(--color-text-muted)" }}
+                    >
+                      {t.status === "completed" ? t.max_teams : t.team_count}/
+                      {t.max_teams} TEAMS JOINED
+                    </p>
+                  </PokeCard>
+                ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Closed Tournaments Preview */}
+      <section className="py-12 px-4">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex items-center justify-between mb-6">
+            <h2
+              className="font-pixel text-[9px]"
+              style={{ color: "var(--color-text)" }}
+            >
+              PAST TOURNAMENTS
+            </h2>
+          </div>
+
+          {loadingTournaments ? (
+            <div className="text-center py-12">
+              <div
+                className="inline-block w-6 h-6 border-2 border-t-transparent animate-spin"
+                style={{
+                  borderColor: "var(--color-primary)",
+                  borderTopColor: "transparent",
+                }}
+              />
+            </div>
+          ) : tournaments.filter((t) => t.status === "completed").length ===
+            0 ? (
+            <></>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {tournaments
+                .filter((t) => t.status === "completed")
+                .slice(0, 6)
+                .map((t) => (
+                  <PokeCard
+                    key={t.id}
+                    variant={t.status === "active" ? "highlighted" : "default"}
+                    className="p-4"
+                  >
+                    <div className="flex items-start justify-between mb-3">
+                      <span
+                        className="font-pixel text-[5px] px-2 py-1 border border-[var(--color-shadow)]"
+                        style={{
+                          backgroundColor: statusColor(t.status),
+                          color:
+                            t.status === "waiting"
+                              ? "var(--color-shadow)"
+                              : "#fff",
+                        }}
+                      >
+                        {statusLabel(t.status)}
+                      </span>
+                      <span
+                        className="font-pixel text-[5px]"
+                        style={{ color: "var(--color-text-muted)" }}
+                      >
+                        {t.max_teams} TEAMS
+                      </span>
+                    </div>
+                    <h3
+                      className="font-pixel text-[7px] mb-2 truncate"
+                      style={{ color: "var(--color-text)" }}
+                    >
+                      {t.name.toUpperCase()}
+                    </h3>
+                    <div
+                      className="h-1.5 border border-[var(--color-shadow)] mb-2"
+                      style={{ backgroundColor: "var(--color-surface-alt)" }}
+                    >
+                      <div
+                        className="h-full"
+                        style={{
+                          width: `${Math.min(
+                            ((t.status === "completed"
+                              ? t.max_teams
+                              : t.team_count) /
+                              t.max_teams) *
+                              100,
+                            100
+                          )}%`,
+                          backgroundColor: statusColor(t.status),
+                        }}
+                      />
+                    </div>
+                    <p
+                      className="font-pixel text-[5px]"
+                      style={{ color: "var(--color-text-muted)" }}
+                    >
+                      {t.status === "completed" ? t.max_teams : t.team_count}/
+                      {t.max_teams} TEAMS JOINED
+                    </p>
+                  </PokeCard>
+                ))}
             </div>
           )}
         </div>
@@ -278,8 +450,12 @@ export default function HomePage() {
         className="py-4 px-4 text-center border-t-3 border-[var(--color-border)]"
         style={{ backgroundColor: "var(--color-surface)" }}
       >
-        <p className="font-pixel text-[5px]" style={{ color: "var(--color-text-muted)" }}>
-          © 2025 POKEMON HOOPS · NOT AFFILIATED WITH NINTENDO OR THE POKEMON COMPANY
+        <p
+          className="font-pixel text-[5px]"
+          style={{ color: "var(--color-text-muted)" }}
+        >
+          © 2025 POKEMON HOOPS · NOT AFFILIATED WITH NINTENDO OR THE POKEMON
+          COMPANY
         </p>
       </footer>
     </div>

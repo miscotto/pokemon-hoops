@@ -20,9 +20,9 @@ const variantStyles: Record<Variant, string> = {
 };
 
 const sizeStyles: Record<Size, string> = {
-  sm: "text-[6px] px-2 py-1",
-  md: "text-[7px] px-3 py-2",
-  lg: "text-[8px] px-5 py-3",
+  sm: "text-[7px] px-2 py-1 sm:text-[9px] sm:px-3 sm:py-1.5",
+  md: "text-[8px] px-3 py-1.5 sm:text-[11px] sm:px-4 sm:py-2.5",
+  lg: "text-[10px] px-4 py-2 sm:text-[13px] sm:px-6 sm:py-3.5",
 };
 
 export function PokeButton({

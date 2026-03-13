@@ -20,7 +20,7 @@ export interface TournamentPokemon {
   allies?: string[];
   physicalProfile?: PhysicalProfile;
   bball: BballAverages;
-  playstyle?: string;
+  playstyle?: string[];
   salary?: number;
 }
 
@@ -300,7 +300,7 @@ function calculateTeamFactors(
   let allyBonus = 0;
   for (const p of roster) {
     if (p.rivals?.some(r => opponent.roster.some(o => o.name === r))) rivalryBonus += 2;
-    if (p.allies?.some(a => opponent.roster.some(o => o.name === a))) allyBonus -= 1;
+    if (p.allies?.some(a => roster.some(o => o.name === a))) allyBonus += 1;
   }
 
   const headToHeadMatchup = typeAdv * 1.5 + rivalryBonus + allyBonus;
@@ -444,15 +444,15 @@ function generateGameEvents(
       const dr = Math.random();
       if (dr < 0.35) {
         eventType = "block"; statType = "block";
-        description = `${player.name} swats it away!`;
+        description = `${player.name} denies the shot!`;
         pStats.blocks++;
       } else if (dr < 0.65) {
         eventType = "steal"; statType = "steal";
-        description = `${player.name} picks the pocket for a steal!`;
+        description = `${player.name} steals the ball!`;
         pStats.steals++;
       } else {
         eventType = "rebound"; statType = "rebound";
-        description = `${player.name} rips down the rebound!`;
+        description = `${player.name} grabs the rebound!`;
         pStats.rebounds++;
       }
       if (side === "home") { homeMomentum += 0.5; awayMomentum = Math.max(0, awayMomentum - 0.3); }
@@ -461,7 +461,7 @@ function generateGameEvents(
     } else if (roll < 0.57) {
       // Assists (7%)
       eventType = "assist"; statType = "assist";
-      description = `${player.name} threads a beautiful pass!`;
+      description = `${player.name} with a beautiful pass!`;
       pStats.assists++;
 
     } else if (roll < 0.64) {
@@ -487,7 +487,7 @@ function generateGameEvents(
         if (side === "home") homeMomentum += 3; else awayMomentum += 3;
       } else if (sp < 0.45) {
         eventType = "cold_streak";
-        description = `${player.name} can't buy a bucket right now...`;
+        description = `${player.name} can't get bucket right now...`;
         if (side === "home") homeMomentum = Math.max(0, homeMomentum - 2);
         else awayMomentum = Math.max(0, awayMomentum - 2);
       } else if (sp < 0.65) {
@@ -521,11 +521,11 @@ function generateGameEvents(
         eventType = "ally_boost";
         const ally = player.allies?.find(a => activeTeam.roster.some(o => o.name === a));
         if (ally) {
-          description = `${player.name} and ${ally} connect for a beautiful play!`;
+          description = `${player.name} and ${ally} find eachother for the bucket`;
           if (side === "home") homeMomentum += 1.5; else awayMomentum += 1.5;
         } else {
           eventType = "momentum";
-          description = `Great team chemistry from ${activeTeam.name}!`;
+          description = `Great chemistry from ${activeTeam.name}!`;
           if (side === "home") homeMomentum += 1; else awayMomentum += 1;
         }
       }
@@ -540,7 +540,7 @@ function generateGameEvents(
         if (side === "home") homeMomentum -= 2; else awayMomentum -= 2;
       } else {
         eventType = "fatigue";
-        description = `${player.name} looks gassed, taking a breather.`;
+        description = `${player.name} looks gassed.`;
         if (side === "home") homeMomentum -= 0.5; else awayMomentum -= 0.5;
       }
 
@@ -549,13 +549,13 @@ function generateGameEvents(
       if (gameSec > GAME_DURATION * 0.85 && Math.abs(homeScore - awayScore) <= 10) {
         eventType = "clutch";
         points = Math.random() < 0.4 ? 3 : 2;
-        description = `CLUTCH! ${player.name} delivers when it matters most!`;
+        description = `${player.name} in the CLUTCH! ${player.name} delivers when it matters most!`;
         if (side === "home") { homeScore += points; homeMomentum += 5; }
         else { awayScore += points; awayMomentum += 5; }
         pStats.points += points;
       } else {
         eventType = "rebound"; statType = "rebound";
-        description = `${player.name} cleans up the glass!`;
+        description = `${player.name} rebounds.`;
         pStats.rebounds++;
       }
 
@@ -563,13 +563,13 @@ function generateGameEvents(
       // Momentum / narrative (20%)
       eventType = "momentum";
       const narratives = [
-        `${activeTeam.name} on a run here!`,
-        `The crowd is behind ${activeTeam.name}!`,
-        `${player.name} is fired up on the bench!`,
+        `The ${activeTeam.name} are on a run!`,
+        `The ${activeTeam.name} are going hard!`,
+        `${player.name} is firing up!`,
         `Coach calls a timeout to settle things down.`,
         `${activeTeam.name} with great ball movement!`,
-        `Defensive intensity picking up for ${activeTeam.name}!`,
-        `${player.name} energizing the team with hustle plays!`,
+        `${activeTeam.name} with the defense!`,
+        `${player.name} hustling!`,
       ];
       description = pick(narratives);
       if (side === "home") { homeMomentum += 1.5; awayMomentum = Math.max(0, awayMomentum - 0.5); }
@@ -670,7 +670,7 @@ export function toTournamentPokemon(p: {
   id: number; name: string; sprite: string; types: string[];
   stats: Pokemon["stats"]; height: number; weight: number;
   tag?: "ball handler" | "support"; ability?: string;
-  bball?: Pokemon["bball"]; playstyle?: string; salary?: number;
+  bball?: Pokemon["bball"]; playstyle?: string[]; salary?: number;
   rivals?: string[]; allies?: string[]; physicalProfile?: PhysicalProfile;
 }): TournamentPokemon {
   const pokemon: Pokemon = {

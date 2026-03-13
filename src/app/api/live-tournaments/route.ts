@@ -140,7 +140,7 @@ export async function POST(req: NextRequest) {
       allies: (full.allies as string[]) || [],
       physicalProfile: full.physicalProfile || undefined,
       bball: full.bball || undefined,
-      playstyle: (full.playstyle as string) || undefined,
+      playstyle: (full.playstyle as string[]) || undefined,
       salary: (full.salary as number) || undefined,
     };
   });

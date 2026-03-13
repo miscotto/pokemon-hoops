@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import Link from "next/link";
 import { signOut } from "@/lib/auth-client";
 import { PokeButton, PokeCard, PokeInput, ThemeToggle } from "./ui";
 
@@ -147,9 +148,9 @@ export default function RosterDashboard({
             ⚡ POKEMON HOOPS
           </span>
           <div className="flex items-center gap-2">
-            <span className="font-pixel text-[6px] hidden sm:block" style={{ color: "var(--color-primary-text)" }}>
+            <Link href="/profile" className="font-pixel text-[6px] hidden sm:block hover:underline" style={{ color: "var(--color-primary-text)" }}>
               {userName}
-            </span>
+            </Link>
             <ThemeToggle />
             <PokeButton variant="ghost" size="sm" onClick={() => signOut()}>
               SIGN OUT

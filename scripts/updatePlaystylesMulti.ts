@@ -1,9 +1,9 @@
 /**
  * Reads pokemon-bball-stats-augmented.json, recomputes each Pokémon's
- * playstyle using the weighted-archetype definePlayStyle function,
- * assigns balanced salaries, and writes the result back.
+ * playstyle as a string[] (up to 3 archetypes when scores are within 10%
+ * of the top), assigns balanced salaries, and writes the result back.
  *
- * Run: npx tsx scripts/updatePlaystyles.ts
+ * Run: npx tsx scripts/updatePlaystylesMulti.ts
  */
 
 import * as fs from "fs";
@@ -208,28 +208,17 @@ function getSalaryMultiplier(pokemon: Pokemon): number {
 
   let mult = 1.0;
 
-  // Premium for elite initiators / engines
   if (b.apg >= 5 && b.per >= 22) mult += 0.05;
   if (creationScore >= 290) mult += 0.04;
-
-  // Premium for true two-way monsters
   if (b.per >= 24 && defenseScore >= 140) mult += 0.04;
-
-  // Premium for elite bigs who also anchor defense/rebounding
   if (b.rpg >= 8 && (b.bpg >= 1.8 || sizeScore >= 300)) mult += 0.03;
 
-  // Legendary / mythical / UB premium
   const rarity = getLegendaryStatus(pokemon);
   if (rarity === "legendary") mult += 0.08;
   if (rarity === "mythical") mult += 0.10;
   if (rarity === "ultraBeast") mult += 0.06;
+  if (rarity !== "normal" && (b.per >= 24 || b.ppg >= 22)) mult += 0.03;
 
-  // Extra premium if the rare mon is also already elite
-  if (rarity !== "normal" && (b.per >= 24 || b.ppg >= 22)) {
-    mult += 0.03;
-  }
-
-  // Small discount for low-minute or low-impact players
   if (b.mpg <= 12 && b.per <= 10) mult -= 0.10;
   if (b.ppg <= 4 && b.apg <= 1.5 && b.rpg <= 2) mult -= 0.05;
 
@@ -254,20 +243,12 @@ function applySalarySanityRules(pokemon: Pokemon, salary: number): number {
   let adjusted = salary;
   const rarity = getLegendaryStatus(pokemon);
 
-  // Make stars cost real money
   if (b.ppg >= 24 || b.per >= 28) adjusted = Math.max(adjusted, 30);
   if (b.ppg >= 28 || b.per >= 32) adjusted = Math.max(adjusted, 35);
-
-  // Elite creators / engines should not be cheap
   if (b.apg >= 6 && b.per >= 24) adjusted = Math.max(adjusted, 31);
-
-  // Elite big anchor shouldn't be underpriced
   if (b.rpg >= 9 && b.bpg >= 2) adjusted = Math.max(adjusted, 28);
 
-  // Legendary floors
-  if (rarity === "ultraBeast") {
-    adjusted = Math.max(adjusted, 12);
-  }
+  if (rarity === "ultraBeast") adjusted = Math.max(adjusted, 12);
 
   if (rarity === "legendary") {
     adjusted = Math.max(adjusted, 16);
@@ -281,13 +262,11 @@ function applySalarySanityRules(pokemon: Pokemon, salary: number): number {
     if (b.per >= 24 || b.ppg >= 22) adjusted = Math.max(adjusted, 30);
   }
 
-  // True low-end players stay cheap — but not for legendaries/mythicals
   if (rarity === "normal") {
     if (b.mpg <= 12 && b.per <= 10) adjusted = Math.min(adjusted, 4);
     if (b.ppg <= 3 && b.apg <= 1 && b.rpg <= 1.5) adjusted = Math.min(adjusted, 3);
   }
 
-  // Very weak overall profiles shouldn't drift too high
   const weakProfile =
     s.hp < 50 &&
     s.attack < 60 &&
@@ -310,26 +289,20 @@ function assignBalancedSalaries(pokemonList: Pokemon[]) {
     return { pokemon, rawValue, adjustedValue };
   });
 
-  const sortedValues = withValue
-    .map((x) => x.adjustedValue)
-    .sort((a, b) => a - b);
+  const sortedValues = withValue.map((x) => x.adjustedValue).sort((a, b) => a - b);
 
   const p75 = percentileOfSorted(sortedValues, 0.75);
   const p90 = percentileOfSorted(sortedValues, 0.90);
   const p97 = percentileOfSorted(sortedValues, 0.97);
 
-  return withValue.map(({ pokemon, rawValue, adjustedValue }) => {
+  return withValue.map(({ pokemon, adjustedValue }) => {
     const percentile = getPercentileRank(sortedValues, adjustedValue);
 
     let salary = baseSalaryFromPercentile(percentile);
 
-    if (adjustedValue >= p97) {
-      salary += 2.5;
-    } else if (adjustedValue >= p90) {
-      salary += 1.5;
-    } else if (adjustedValue >= p75) {
-      salary += 0.5;
-    }
+    if (adjustedValue >= p97) salary += 2.5;
+    else if (adjustedValue >= p90) salary += 1.5;
+    else if (adjustedValue >= p75) salary += 0.5;
 
     salary = applySalarySanityRules(pokemon, salary);
     salary = roundToTenth(salary);
@@ -341,12 +314,15 @@ function assignBalancedSalaries(pokemonList: Pokemon[]) {
 
 // ── Playstyle Logic ──────────────────────────────────────────────────────────
 
-function definePlayStyle(pokemon: Pokemon): string[] {
+/**
+ * Returns 1–3 playstyle archetypes for a Pokémon.
+ * Secondary archetypes are included when their score is within 10% of the top.
+ */
+function definePlayStyles(pokemon: Pokemon): string[] {
   const b = pokemon.bball;
   const p = pokemon.physicalProfile ?? defaultPhysical();
   const s = pokemon.baseStats ?? defaultBaseStats();
 
-  // Identity axes
   const size = (p.sizeAndReach + p.strength + s.hp + s.defense) / 4;
   const mobility = (p.speedAndAgility + p.jumpingAbility + s.speed) / 3;
   const skill = (p.coordination + p.balance + s.specialAttack) / 3;
@@ -357,60 +333,20 @@ function definePlayStyle(pokemon: Pokemon): string[] {
   const scoring = (s.attack + s.specialAttack + mobility + b.ppg * 4 + b.per * 2) / 5;
   const motor = (p.stamina + p.speedAndAgility + b.mpg) / 3;
 
-  // Score every archetype
   const archetypes = [
-    {
-      name: "Point Forward",
-      score: size * 0.8 + creation * 1.4 + scoring * 1.25 + mobility * 1.0,
-    },
-    {
-      name: "Offensive Hub",
-      score: creation * 1.45 + scoring * 1.15 + skill * 1.1 + mobility * 0.85,
-    },
-    {
-      name: "Shot Creator",
-      score: scoring * 1.35 + creation * 0.95 + skill * 1.1 + mobility * 0.95,
-    },
-    {
-      name: "Floor General",
-      score: creation * 1.5 + skill * 1.15 + mobility * 0.9 - size * 0.1,
-    },
-    {
-      name: "Primary Scorer",
-      score: scoring * 1.5 + skill * 0.9 + mobility * 0.85 - creation * 0.2,
-    },
-    {
-      name: "Slasher",
-      score: mobility * 1.35 + scoring * 1.0 + p.jumpingAbility * 0.8 + s.attack * 0.3,
-    },
-    {
-      name: "3-and-D Wing",
-      score: perimeterDefense * 1.2 + mobility * 1.0 + skill * 0.7,
-    },
-    {
-      name: "Perimeter Stopper",
-      score: perimeterDefense * 1.35 + mobility * 1.05 + p.balance * 0.5,
-    },
-    {
-      name: "Stretch Big",
-      score: size * 0.95 + skill * 1.1 + scoring * 0.95 + rebounding * 0.35,
-    },
-    {
-      name: "Defensive Big",
-      score: size * 1.1 + interiorDefense * 1.3 + rebounding * 0.7 - creation * 0.3,
-    },
-    {
-      name: "Rim Protector",
-      score: size * 1.2 + interiorDefense * 1.35 - creation * 0.45 - mobility * 0.25,
-    },
-    {
-      name: "Glass Cleaner",
-      score: size * 1.1 + rebounding * 1.35 + interiorDefense * 0.45 - creation * 0.3,
-    },
-    {
-      name: "Glue Guy",
-      score: motor * 1.2 + perimeterDefense * 0.75 + creation * 0.55 + rebounding * 0.35,
-    },
+    { name: "Point Forward",    score: size * 0.8 + creation * 1.4 + scoring * 1.25 + mobility * 1.0 },
+    { name: "Offensive Hub",    score: creation * 1.45 + scoring * 1.15 + skill * 1.1 + mobility * 0.85 },
+    { name: "Shot Creator",     score: scoring * 1.35 + creation * 0.95 + skill * 1.1 + mobility * 0.95 },
+    { name: "Floor General",    score: creation * 1.5 + skill * 1.15 + mobility * 0.9 - size * 0.1 },
+    { name: "Primary Scorer",   score: scoring * 1.5 + skill * 0.9 + mobility * 0.85 - creation * 0.2 },
+    { name: "Slasher",          score: mobility * 1.35 + scoring * 1.0 + p.jumpingAbility * 0.8 + s.attack * 0.3 },
+    { name: "3-and-D Wing",     score: perimeterDefense * 1.2 + mobility * 1.0 + skill * 0.7 },
+    { name: "Perimeter Stopper",score: perimeterDefense * 1.35 + mobility * 1.05 + p.balance * 0.5 },
+    { name: "Stretch Big",      score: size * 0.95 + skill * 1.1 + scoring * 0.95 + rebounding * 0.35 },
+    { name: "Defensive Big",    score: size * 1.1 + interiorDefense * 1.3 + rebounding * 0.7 - creation * 0.3 },
+    { name: "Rim Protector",    score: size * 1.2 + interiorDefense * 1.35 - creation * 0.45 - mobility * 0.25 },
+    { name: "Glass Cleaner",    score: size * 1.1 + rebounding * 1.35 + interiorDefense * 0.45 - creation * 0.3 },
+    { name: "Glue Guy",         score: motor * 1.2 + perimeterDefense * 0.75 + creation * 0.55 + rebounding * 0.35 },
   ];
 
   archetypes.sort((a, b) => b.score - a.score);
@@ -418,9 +354,8 @@ function definePlayStyle(pokemon: Pokemon): string[] {
   const top = archetypes[0];
   const result: string[] = [top.name];
 
-  // Add secondary playstyle(s) if their score is within 10% of the top
-  for (let i = 1; i < archetypes.length && result.length < 3; i++) {
-    if (archetypes[i].score >= top.score * 0.90) {
+  for (let i = 1; i < archetypes.length && result.length < 2; i++) {
+    if (archetypes[i].score >= top.score * 0.97) {
       result.push(archetypes[i].name);
     } else {
       break;
@@ -430,7 +365,7 @@ function definePlayStyle(pokemon: Pokemon): string[] {
   return result;
 }
 
-// --- main ---
+// ── Main ─────────────────────────────────────────────────────────────────────
 
 function main() {
   const filePath = path.join(__dirname, "..", "public", "pokemon-bball-stats-augmented.json");
@@ -439,21 +374,19 @@ function main() {
 
   console.log(`Loaded ${pokemonList.length} Pokémon from augmented JSON\n`);
 
-  // 1. Update playstyles
+  // 1. Update playstyles (now string[])
   let playstyleChanged = 0;
   for (const mon of pokemonList) {
     const oldStyle = JSON.stringify(mon.playstyle);
-    const newStyle = definePlayStyle(mon);
-    if (oldStyle !== JSON.stringify(newStyle)) {
-      playstyleChanged++;
-    }
+    const newStyle = definePlayStyles(mon);
+    if (oldStyle !== JSON.stringify(newStyle)) playstyleChanged++;
     mon.playstyle = newStyle;
   }
 
-  // Print playstyle distribution (count each label across all pokemon)
+  // Print distribution by label
   const counts: Record<string, number> = {};
   for (const mon of pokemonList) {
-    for (const ps of mon.playstyle as string[]) {
+    for (const ps of mon.playstyle!) {
       counts[ps] = (counts[ps] || 0) + 1;
     }
   }
@@ -461,32 +394,26 @@ function main() {
   console.log("📊 Playstyle Distribution (by label):");
   Object.entries(counts)
     .sort((a, b) => b[1] - a[1])
-    .forEach(([style, count]) => {
-      console.log(`  ${style.padEnd(30)} ${count} Pokémon`);
-    });
+    .forEach(([style, count]) => console.log(`  ${style.padEnd(25)} ${count}`));
 
-  const multiCount = pokemonList.filter((m) => (m.playstyle as string[]).length > 1).length;
+  const multiCount = pokemonList.filter((m) => m.playstyle!.length > 1).length;
   console.log(`\n${multiCount} Pokémon have multiple playstyles`);
   console.log(`${playstyleChanged} Pokémon had their playstyle updated`);
 
   // 2. Assign salaries
-  let salaryChanged = 0;
   const beforeSalaries = new Map(pokemonList.map((p) => [p.name, p.salary]));
   assignBalancedSalaries(pokemonList);
-  for (const mon of pokemonList) {
-    if (beforeSalaries.get(mon.name) !== mon.salary) salaryChanged++;
-  }
-
+  const salaryChanged = pokemonList.filter((m) => beforeSalaries.get(m.name) !== m.salary).length;
   console.log(`\n💰 ${salaryChanged} Pokémon had their salary updated`);
 
-  // Print top 20 salaries
+  // Top 20
   const top20 = [...pokemonList]
     .sort((a, b) => (b.salary ?? 0) - (a.salary ?? 0))
     .slice(0, 20)
     .map((p) => ({
       name: p.name,
       salary: p.salary,
-      playstyle: (p.playstyle as string[]).join(" / "),
+      playstyle: p.playstyle!.join(" / "),
       ppg: p.bball.ppg,
       apg: p.bball.apg,
       rpg: p.bball.rpg,
@@ -496,11 +423,7 @@ function main() {
   console.log("\n🏆 Top 20 Salaries:");
   console.table(top20);
 
-  // Salary distribution check
-  const salaries = pokemonList
-    .map((p) => p.salary ?? 0)
-    .sort((a, b) => b - a);
-
+  const salaries = pokemonList.map((p) => p.salary ?? 0).sort((a, b) => b - a);
   const top6 = salaries.slice(0, 6).reduce((sum, x) => sum + x, 0);
   const top4plus2cheap =
     salaries.slice(0, 4).reduce((sum, x) => sum + x, 0) +

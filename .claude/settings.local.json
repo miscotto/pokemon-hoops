@@ -11,7 +11,24 @@
       "Bash(npm run:*)",
       "Bash(npx drizzle-kit:*)",
       "Bash(printf '0\\\\n')",
-      "Bash(npx @better-auth/cli migrate)"
+      "Bash(npx @better-auth/cli migrate)",
+      "Bash(grep -n \"userId\\\\|user_id\\\\|return\\\\|json\" /Users/rajanrahman/CascadeProjects/windsurf-project-4/src/app/api/rosters/[id]/route.ts)",
+      "Bash(grep -n \"db.execute\\\\|sql\\\\`\" /Users/rajanrahman/CascadeProjects/windsurf-project-4/src/lib/tournament-db.ts)",
+      "Bash(grep -n \"db.execute\\\\|sql\\\\`\" /Users/rajanrahman/CascadeProjects/windsurf-project-4/src/app/api/users/[id]/route.ts)",
+      "Bash(yes)",
+      "Bash(node -e \":*)",
+      "Bash(node -e \"const d=require\\(''/Users/rajanrahman/CascadeProjects/windsurf-project-4/public/abilities.json''\\); console.log\\(Object.keys\\(d\\).length, ''abilities''\\); const k=Object.keys\\(d\\)[0]; console.log\\(''sample key:'', k, ''fields:'', Object.keys\\(d[k]\\).join\\('', ''\\)\\);\")",
+      "Bash(node -e \"const t=require\\(''/Users/rajanrahman/CascadeProjects/windsurf-project-4/tsconfig.json''\\); console.log\\(JSON.stringify\\(t.compilerOptions?.module\\), JSON.stringify\\(t.compilerOptions?.moduleResolution\\), JSON.stringify\\(t.compilerOptions?.paths\\)\\)\")",
+      "Bash(git -C /Users/rajanrahman/CascadeProjects/windsurf-project-4 diff --stat HEAD)",
+      "Bash(npm install:*)",
+      "Bash(npm test:*)",
+      "Bash(node -e \"const v = require\\(''/Users/rajanrahman/CascadeProjects/windsurf-project-4/node_modules/vitest/package.json''\\).version; console.log\\(v\\)\")",
+      "Bash(python3:*)",
+      "Bash(node -e \"const d = JSON.parse\\(require\\(''fs''\\).readFileSync\\(''./public/abilities.json'',''utf8''\\)\\); const keys = Object.keys\\(d\\); console.log\\(''Total abilities:'', keys.length\\); const first = keys[0]; console.log\\(''Sample entry key:'', first\\); console.log\\(''Sample entry:'', JSON.stringify\\(d[first]\\)\\); console.log\\(''All field names:'', JSON.stringify\\(Object.keys\\(d[first]\\)\\)\\);\")",
+      "Bash(grep -r supportAbilities src/ --include=*.ts --include=*.tsx)",
+      "Bash(git rm:*)",
+      "Bash(node -e \"const a = require\\(''./public/abilities.json''\\); const keys = Object.keys\\(a\\); console.log\\(''Total:'', keys.length\\); console.log\\(''Sample key:'', keys[0]\\); console.log\\(''Sample value:'', JSON.stringify\\(a[keys[0]]\\)\\); const edgeTypes = [...new Set\\(keys.map\\(k => a[k][''edge type'']\\).filter\\(Boolean\\)\\)]; console.log\\(''Edge types:'', edgeTypes\\); const techni = a[''Technician'']; console.log\\(''Technician:'', JSON.stringify\\(techni\\)\\); const pressure = a[''Pressure'']; console.log\\(''Pressure:'', JSON.stringify\\(pressure\\)\\); const roughSkin = a[''Rough Skin'']; console.log\\(''Rough Skin:'', JSON.stringify\\(roughSkin\\)\\); const hadron = a[''Hadron Engine'']; console.log\\(''Hadron Engine:'', JSON.stringify\\(hadron\\)\\);\")",
+      "Bash(node -e \"const a = require\\(''./public/abilities.json''\\); const total = Object.keys\\(a\\).length; const withEdge = Object.keys\\(a\\).filter\\(k => a[k][''edge type'']\\).length; console.log\\(''Total abilities:'', total, ''| With edge type:'', withEdge, ''| Without:'', total - withEdge\\);\")"
     ]
   }
 }

@@ -101,38 +101,33 @@ export function computeSalary(avg: BballAverages, pokemon?: Pokemon): number {
 }
 
 // Fun archetype labels based on their basketball stat profile
-export function getPlaystyle(avg: BballAverages, pokemon?: Pokemon): string {
+export function getPlaystyle(avg: BballAverages, pokemon?: Pokemon): string[] {
   // Use pre-computed playstyle if available
-  if (pokemon?.playstyle) return pokemon.playstyle;
+  if (pokemon?.playstyle && pokemon.playstyle.length > 0) return pokemon.playstyle;
 
   const { ppg, rpg, apg, spg, bpg } = avg;
 
-  // Elite tier (top ~5%)
-  if (ppg >= 17 && apg >= 5) return "Floor General";
-  if (ppg >= 18) return "Scoring Machine";
-  if (rpg >= 8 && bpg >= 2.2) return "Defensive Anchor";
+  // Fallback: derive a single label from stats
+  let label: string;
+  if (ppg >= 17 && apg >= 5) label = "Floor General";
+  else if (ppg >= 18) label = "Scoring Machine";
+  else if (rpg >= 8 && bpg >= 2.2) label = "Defensive Anchor";
+  else if (ppg >= 15 && rpg >= 6) label = "Double-Double Threat";
+  else if (apg >= 5) label = "Playmaker";
+  else if (spg >= 1.3 && ppg >= 14) label = "Two-Way Star";
+  else if (bpg >= 2.2) label = "Shot Blocker";
+  else if (ppg >= 16) label = "Go-To Scorer";
+  else if (rpg >= 7) label = "Glass Cleaner";
+  else if (spg >= 1.2) label = "Lockdown Defender";
+  else if (ppg >= 13 && rpg >= 5.5 && apg >= 3.5) label = "Swiss Army Knife";
+  else if (ppg >= 14) label = "Reliable Starter";
+  else if (apg >= 4) label = "Sharpshooter";
+  else if (ppg >= 12 && rpg >= 5) label = "Stretch Big";
+  else if (rpg >= 5.5) label = "Hustle Rebounder";
+  else if (ppg >= 11) label = "Spark Plug";
+  else if (bpg >= 1.8) label = "Rim Protector";
+  else if (ppg < 8 && rpg < 4 && apg < 2.5) label = "Energy Guy";
+  else label = "Role Player";
 
-  // Star tier (top ~15%)
-  if (ppg >= 15 && rpg >= 6) return "Double-Double Threat";
-  if (apg >= 5) return "Playmaker";
-  if (spg >= 1.3 && ppg >= 14) return "Two-Way Star";
-  if (bpg >= 2.2) return "Shot Blocker";
-  if (ppg >= 16) return "Go-To Scorer";
-
-  // Solid tier (top ~40%)
-  if (rpg >= 7) return "Glass Cleaner";
-  if (spg >= 1.2) return "Lockdown Defender";
-  if (ppg >= 13 && rpg >= 5.5 && apg >= 3.5) return "Swiss Army Knife";
-  if (ppg >= 14) return "Reliable Starter";
-  if (apg >= 4) return "Sharpshooter";
-
-  // Rotation tier
-  if (ppg >= 12 && rpg >= 5) return "Stretch Big";
-  if (rpg >= 5.5) return "Hustle Rebounder";
-  if (ppg >= 11) return "Spark Plug";
-  if (bpg >= 1.8) return "Rim Protector";
-
-  // Bench tier
-  if (ppg < 8 && rpg < 4 && apg < 2.5) return "Energy Guy";
-  return "Role Player";
+  return [label];
 }

@@ -64,6 +64,8 @@ export default function RosterBuilder({
   const [typeFilters, setTypeFilters] = useState<Set<string>>(new Set());
   const [roleFilters, setRoleFilters] = useState<Set<string>>(new Set());
   const [salaryMax, setSalaryMax] = useState<number>(44);
+  const [showAlliesOnly, setShowAlliesOnly] = useState(false);
+  const [hideRivals, setHideRivals] = useState(false);
   const [sortBy, setSortBy] = useState<"id" | "name" | "stats">("id");
   const [filtersExpanded, setFiltersExpanded] = useState(false);
   const [roster, setRoster] = useState<RosterSlotType[]>([
@@ -214,7 +216,7 @@ export default function RosterBuilder({
           allies: d.allies as string[] | undefined,
           physicalProfile: d.physicalProfile as Pokemon["physicalProfile"],
           bball: d.bball as Pokemon["bball"],
-          playstyle: d.playstyle as string | undefined,
+          playstyle: d.playstyle as string[] | undefined,
           salary: d.salary as number | undefined,
         }));
         setAllPokemon(pokemon.filter((p: Pokemon) => p.tag !== "support"));
@@ -249,7 +251,7 @@ export default function RosterBuilder({
     const roles = new Set<string>();
     allPokemon.forEach((p) => {
       const avg = toBballAverages(p);
-      roles.add(getPlaystyle(avg, p));
+      getPlaystyle(avg, p).forEach((ps) => roles.add(ps));
     });
     return Array.from(roles).sort();
   }, [allPokemon]);
@@ -269,13 +271,24 @@ export default function RosterBuilder({
     setTypeFilters(new Set());
     setRoleFilters(new Set());
     setSalaryMax(44);
+    setShowAlliesOnly(false);
+    setHideRivals(false);
   }, []);
 
   const activeFilterCount =
-    typeFilters.size + roleFilters.size + (salaryMax < 44 ? 1 : 0);
+    typeFilters.size +
+    roleFilters.size +
+    (salaryMax < 44 ? 1 : 0) +
+    (showAlliesOnly ? 1 : 0) +
+    (hideRivals ? 1 : 0);
 
   const selectedIds = useMemo(
     () => new Set(roster.filter((s) => s.pokemon).map((s) => s.pokemon!.id)),
+    [roster]
+  );
+
+  const rosterPokemonNames = useMemo(
+    () => new Set(roster.filter((s) => s.pokemon).map((s) => s.pokemon!.name)),
     [roster]
   );
 
@@ -338,7 +351,7 @@ export default function RosterBuilder({
     if (roleFilters.size > 0) {
       list = list.filter((p) => {
         const avg = toBballAverages(p);
-        return roleFilters.has(getPlaystyle(avg, p));
+        return getPlaystyle(avg, p).some((ps) => roleFilters.has(ps));
       });
     }
 
@@ -347,6 +360,18 @@ export default function RosterBuilder({
         const avg = toBballAverages(p);
         return computeSalary(avg, p) <= salaryMax;
       });
+    }
+
+    if (showAlliesOnly && rosterPokemonNames.size > 0) {
+      list = list.filter((p) =>
+        p.allies?.some((a) => rosterPokemonNames.has(a))
+      );
+    }
+
+    if (hideRivals && rosterPokemonNames.size > 0) {
+      list = list.filter(
+        (p) => !p.rivals?.some((r) => rosterPokemonNames.has(r))
+      );
     }
 
     if (sortBy === "name") {
@@ -362,7 +387,7 @@ export default function RosterBuilder({
     }
 
     return list;
-  }, [allPokemon, search, typeFilters, roleFilters, salaryMax, sortBy]);
+  }, [allPokemon, search, typeFilters, roleFilters, salaryMax, showAlliesOnly, hideRivals, rosterPokemonNames, sortBy]);
 
   const handleSelect = useCallback(
     (pokemon: Pokemon) => {
@@ -1011,6 +1036,16 @@ export default function RosterBuilder({
                       {r}
                     </span>
                   ))}
+                  {showAlliesOnly && (
+                    <span className="text-[9px] px-1.5 py-0.5 rounded-full font-pixel" style={{ backgroundColor: "#16a34a", color: "#dcfce7" }}>
+                      ♥ ALLIES
+                    </span>
+                  )}
+                  {hideRivals && (
+                    <span className="text-[9px] px-1.5 py-0.5 rounded-full font-pixel" style={{ backgroundColor: "#dc2626", color: "#fee2e2" }}>
+                      ⚔ NO RIVALS
+                    </span>
+                  )}
                 </div>
               )}
             </div>
@@ -1124,6 +1159,42 @@ export default function RosterBuilder({
                     </span>
                   </div>
                 </div>
+
+                {/* Ally / Rival filters */}
+                {rosterPokemonNames.size > 0 && (
+                  <div>
+                    <p
+                      className="font-pixel text-[6px] uppercase mb-1"
+                      style={{ color: "var(--color-text-muted)" }}
+                    >
+                      TEAM CHEMISTRY
+                    </p>
+                    <div className="flex flex-wrap gap-1">
+                      <button
+                        onClick={() => setShowAlliesOnly((v) => !v)}
+                        className="font-pixel text-[5px] px-2 py-0.5 uppercase cursor-pointer whitespace-nowrap border-2 transition-all"
+                        style={{
+                          backgroundColor: showAlliesOnly ? "#16a34a" : "var(--color-surface-alt)",
+                          color: showAlliesOnly ? "#dcfce7" : "var(--color-text-muted)",
+                          borderColor: showAlliesOnly ? "#14532d" : "var(--color-border)",
+                        }}
+                      >
+                        ♥ ALLIES ONLY
+                      </button>
+                      <button
+                        onClick={() => setHideRivals((v) => !v)}
+                        className="font-pixel text-[5px] px-2 py-0.5 uppercase cursor-pointer whitespace-nowrap border-2 transition-all"
+                        style={{
+                          backgroundColor: hideRivals ? "#dc2626" : "var(--color-surface-alt)",
+                          color: hideRivals ? "#fee2e2" : "var(--color-text-muted)",
+                          borderColor: hideRivals ? "#7f1d1d" : "var(--color-border)",
+                        }}
+                      >
+                        ⚔ HIDE RIVALS
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -1199,6 +1270,14 @@ export default function RosterBuilder({
                     teamSalary +
                       computeSalary(toBballAverages(pokemon), pokemon) >
                       SALARY_CAP)
+                }
+                allyBonus={
+                  rosterPokemonNames.size > 0 &&
+                  !!pokemon.allies?.some((a) => rosterPokemonNames.has(a))
+                }
+                rivalDebuff={
+                  rosterPokemonNames.size > 0 &&
+                  !!pokemon.rivals?.some((r) => rosterPokemonNames.has(r))
                 }
               />
             ))}

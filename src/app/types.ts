@@ -37,7 +37,7 @@ export interface Pokemon {
     mpg: number;
     per: number;
   };
-  playstyle?: string;
+  playstyle?: string[];
   salary?: number;
 }
 

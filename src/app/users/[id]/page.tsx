@@ -1,6 +1,10 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ThemeToggle } from "@/app/components/ui";
+import { neon } from "@neondatabase/serverless";
+import { dbHttp } from "@/lib/db-http";
+import { rosters, rosterPokemon, liveTournamentTeams, liveTournaments } from "@/lib/schema";
+import { eq, and, asc, desc } from "drizzle-orm";
 
 interface TournamentHistoryEntry {
   tournamentId: string;
@@ -54,13 +58,67 @@ export default async function UserProfilePage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const baseUrl = process.env.BETTER_AUTH_URL ?? "http://localhost:3000";
-  const res = await fetch(`${baseUrl}/api/users/${id}`, { cache: "no-store" });
 
-  if (!res.ok) notFound();
+  const httpSql = neon(process.env.DATABASE_URL!);
+  const userRows = await httpSql`SELECT id, name, "createdAt" FROM "user" WHERE id = ${id} LIMIT 1`;
+  const userRow = userRows[0] as { id: string; name: string; createdAt: string } | undefined;
+  if (!userRow) notFound();
 
-  const data: UserProfileData = await res.json();
-  const { user, stats, tournamentRoster, tournamentHistory } = data;
+  const historyRows = await dbHttp
+    .select({
+      tournament_id: liveTournamentTeams.tournamentId,
+      tournament_name: liveTournaments.name,
+      result: liveTournamentTeams.result,
+      round_reached: liveTournamentTeams.roundReached,
+      joined_at: liveTournamentTeams.joinedAt,
+    })
+    .from(liveTournamentTeams)
+    .innerJoin(liveTournaments, eq(liveTournamentTeams.tournamentId, liveTournaments.id))
+    .where(eq(liveTournamentTeams.userId, id))
+    .orderBy(desc(liveTournamentTeams.joinedAt));
+
+  const played = historyRows.length;
+  const wins = historyRows.filter((h) => h.result === "champion").length;
+  const losses = historyRows.filter((h) => h.result === "eliminated" || h.result === "finalist").length;
+  const winRate = played > 0 ? Math.round((wins / played) * 100) : 0;
+
+  const rosterRows = await dbHttp
+    .select({ id: rosters.id, name: rosters.name, city: rosters.city })
+    .from(rosters)
+    .where(and(eq(rosters.userId, id), eq(rosters.isTournamentRoster, true)))
+    .limit(1);
+
+  let tournamentRoster: UserProfileData["tournamentRoster"] = null;
+  if (rosterRows[0]) {
+    const pokemon = await dbHttp
+      .select()
+      .from(rosterPokemon)
+      .where(eq(rosterPokemon.rosterId, rosterRows[0].id))
+      .orderBy(asc(rosterPokemon.slotPosition));
+    tournamentRoster = {
+      id: rosterRows[0].id,
+      name: rosterRows[0].name,
+      city: rosterRows[0].city,
+      pokemon: pokemon.map((p) => ({
+        slotPosition: p.slotPosition,
+        slotLabel: p.slotLabel ?? "",
+        pokemonId: p.pokemonId,
+        pokemonName: p.pokemonName,
+        pokemonSprite: p.pokemonSprite,
+        pokemonTypes: (p.pokemonTypes as string[]) ?? [],
+      })),
+    };
+  }
+
+  const user: UserProfileData["user"] = { id: userRow.id, name: userRow.name, createdAt: userRow.createdAt };
+  const stats: UserProfileData["stats"] = { played, wins, losses, winRate };
+  const tournamentHistory: UserProfileData["tournamentHistory"] = historyRows.map((h) => ({
+    tournamentId: h.tournament_id,
+    tournamentName: h.tournament_name,
+    result: h.result,
+    roundReached: h.round_reached,
+    joinedAt: h.joined_at ? (typeof h.joined_at === "string" ? h.joined_at : h.joined_at.toISOString()) : "",
+  }));
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "var(--color-bg)" }}>

@@ -22,12 +22,13 @@ export default function RosterBuilderPage() {
     }
 
     fetch(`/api/rosters/${rosterId}`)
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) { setUnauthorized(true); return null; }
+        return r.json();
+      })
       .then((data) => {
-        if (data.error || data.userId !== session.user.id) {
-          setUnauthorized(true);
-          return;
-        }
+        if (!data) return;
+        if (data.error) { setUnauthorized(true); return; }
         setRosterName(data.name || "Unnamed Roster");
         setRosterCity(data.city || "");
       })

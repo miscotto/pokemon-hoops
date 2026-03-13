@@ -13,9 +13,9 @@ export async function GET(
 
   // Fetch user from better-auth user table (not in Drizzle schema)
   const userRows = await db.execute(
-    sql`SELECT id, name, created_at FROM "user" WHERE id = ${userId} LIMIT 1`
+    sql`SELECT id, name, "createdAt" FROM "user" WHERE id = ${userId} LIMIT 1`
   );
-  const userRow = userRows.rows[0] as { id: string; name: string; created_at: string } | undefined;
+  const userRow = userRows.rows[0] as { id: string; name: string; createdAt: string } | undefined;
   if (!userRow) {
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
@@ -63,7 +63,7 @@ export async function GET(
     user: {
       id: userRow.id,
       name: userRow.name,
-      createdAt: userRow.created_at,
+      createdAt: userRow.createdAt,
     },
     stats: { played, wins, losses, winRate },
     tournamentRoster,

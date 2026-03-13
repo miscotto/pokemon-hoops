@@ -11,14 +11,18 @@ import {
 import { PokeButton, TypeBadge } from "./ui";
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const abilitiesData: Record<string, { "effect trigger"?: string; "effect desc"?: string }> =
-  require("../../../public/abilities.json");
+const abilitiesData: Record<
+  string,
+  { "effect trigger"?: string; "effect desc"?: string }
+> = require("../../../public/abilities.json");
 
 interface PokemonCardProps {
   pokemon: Pokemon;
   onSelect: (pokemon: Pokemon) => void;
   isSelected: boolean;
   disabled: boolean;
+  allyBonus?: boolean;
+  rivalDebuff?: boolean;
 }
 
 function AbilityBadge({ ability }: { ability: string }) {
@@ -51,10 +55,9 @@ function AbilityBadge({ ability }: { ability: string }) {
             backgroundColor: "var(--color-bg)",
           }}
         >
-          <span className="block font-bold">When:</span>{" "}
-          {trigger}
+          <span className="block font-bold">When:</span> {trigger}
           <span className="block font-bold mt-1">Effect:</span>{" "}
-          {desc}
+          <p className="first-letter:uppercase">{desc}</p>
         </span>
       )}
     </span>
@@ -66,6 +69,8 @@ export default function PokemonCard({
   onSelect,
   isSelected,
   disabled,
+  allyBonus = false,
+  rivalDebuff = false,
 }: PokemonCardProps) {
   const avg = toBballAverages(pokemon);
   const playstyle = getPlaystyle(avg, pokemon);
@@ -107,6 +112,32 @@ export default function PokemonCard({
           }}
         >
           ✓
+        </div>
+      )}
+
+      {allyBonus && !isSelected && (
+        <div
+          className="absolute -top-2 -left-2 px-1 flex items-center justify-center border-2 font-pixel text-[5px] whitespace-nowrap"
+          style={{
+            backgroundColor: "#16a34a",
+            borderColor: "#14532d",
+            color: "#dcfce7",
+          }}
+        >
+          ♥ ALLY
+        </div>
+      )}
+
+      {rivalDebuff && !isSelected && (
+        <div
+          className="absolute -bottom-2 -left-2 px-1 flex items-center justify-center border-2 font-pixel text-[5px] whitespace-nowrap"
+          style={{
+            backgroundColor: "#dc2626",
+            borderColor: "#7f1d1d",
+            color: "#fee2e2",
+          }}
+        >
+          ⚔ RIVAL
         </div>
       )}
 
@@ -162,12 +193,20 @@ export default function PokemonCard({
       </div>
 
       {/* Playstyle */}
-      <p
-        className="font-pixel text-[5px] mt-0.5 text-center"
-        style={{ color: "var(--color-text-muted)" }}
-      >
-        {playstyle}
-      </p>
+      <div className="flex flex-wrap gap-1 justify-center my-1">
+        {playstyle.map((ps) => (
+          <span
+            key={ps}
+            className="font-pixel text-[5px] px-1.5 py-0.5 uppercase leading-none rounded-full"
+            style={{
+              backgroundColor: "var(--color-shadow)",
+              color: "#ffffff",
+            }}
+          >
+            {ps}
+          </span>
+        ))}
+      </div>
 
       {/* Ability */}
       {pokemon.ability && <AbilityBadge ability={pokemon.ability} />}

@@ -12,8 +12,10 @@ import {
 import { PokeButton, TypeBadge } from "./ui";
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const abilitiesData: Record<string, { "effect trigger": string; "effect desc": string }> =
-  require("../../../public/abilities.json");
+const abilitiesData: Record<
+  string,
+  { "effect trigger": string; "effect desc": string }
+> = require("../../../public/abilities.json");
 
 interface RosterSlotProps {
   position: string;
@@ -71,10 +73,8 @@ function AbilityBadge({ ability }: { ability: string }) {
                 boxShadow: "3px 3px 0 var(--color-shadow)",
               }}
             >
-              <span className="block font-bold">When:</span>{" "}
-              {trigger}
-              <span className="block font-bold mt-1">Effect:</span>{" "}
-              {desc}
+              <span className="block font-bold">When:</span> {trigger}
+              <span className="block font-bold mt-1">Effect:</span> {desc}
             </span>
           </>,
           document.body
@@ -184,12 +184,20 @@ export default function RosterSlot({
 
                 {showStats && (
                   <div className="w-full pt-2 flex flex-col gap-1 items-center">
-                    <span
-                      className="font-pixel text-[5px]"
-                      style={{ color: "var(--color-text-muted)" }}
-                    >
-                      {playstyle}
-                    </span>
+                    <div className="flex flex-wrap gap-1 justify-center">
+                      {playstyle.map((ps) => (
+                        <span
+                          key={ps}
+                          className="font-pixel text-[5px] px-1.5 py-0.5 uppercase leading-none rounded-full"
+                          style={{
+                            backgroundColor: "var(--color-shadow)",
+                            color: "#ffffff",
+                          }}
+                        >
+                          {ps}
+                        </span>
+                      ))}
+                    </div>
                     {pokemon.ability && (
                       <AbilityBadge ability={pokemon.ability} />
                     )}
