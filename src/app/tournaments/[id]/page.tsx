@@ -48,7 +48,7 @@ interface GameEvent {
   pokemonSprite?: string;
   pointsScored?: number;
   statType?: string;
-  displayAtMs: number;
+  sequence?: number;
 }
 
 interface ViewingGame {
@@ -60,8 +60,6 @@ interface ViewingGame {
   winnerId: string | null;
   events: GameEvent[];
   tournamentId: string;
-  startedAt: string;
-  round: number;
 }
 
 // ─── Event Feed ───────────────────────────────────────────────────────────────
@@ -273,48 +271,50 @@ function BoxScore({ events, team1Name, team2Name }: { events: GameEvent[]; team1
 
 // ─── Game Detail View ─────────────────────────────────────────────────────────
 
-const ROUND_DURATION_MS = 300_000;
-const ROUND_BUFFER_MS = 15_000;
-
 function GameDetailView({ game, onBack }: { game: ViewingGame; onBack: () => void }) {
-  const [allEvents, setAllEvents] = useState<GameEvent[]>(game.events);
-  const [now, setNow] = useState(Date.now());
-
-  const gameVirtualStartMs =
-    new Date(game.startedAt).getTime() +
-    (game.round - 1) * (ROUND_DURATION_MS + ROUND_BUFFER_MS);
-
-  const elapsed = now - gameVirtualStartMs;
-  const isDone = elapsed >= ROUND_DURATION_MS;
-  const visibleEvents = allEvents.filter((e) => e.displayAtMs <= elapsed);
-  const currentEvent = visibleEvents[visibleEvents.length - 1];
-  const liveScore = currentEvent
-    ? { home: currentEvent.homeScore, away: currentEvent.awayScore }
-    : { home: 0, away: 0 };
+  const [allEvents, setAllEvents] = useState<GameEvent[]>(game.events ?? []);
+  const [liveScore, setLiveScore] = useState({ home: game.team1Score, away: game.team2Score });
+  const [isDone, setIsDone] = useState(
+    game.winnerId !== null || (game.events?.some((e) => e.type === "game_end") ?? false)
+  );
+  const [currentClock, setCurrentClock] = useState({ quarter: 1, clock: "12:00" });
 
   useEffect(() => {
     if (isDone) return;
-    const interval = setInterval(async () => {
-      setNow(Date.now());
-      try {
-        const res = await fetch(
-          `/api/live-tournaments/${game.tournamentId}/games/${game.gameId}`
-        );
-        if (res.ok) {
-          const data = await res.json();
-          if (Array.isArray(data.events) && data.events.length > allEvents.length) {
-            setAllEvents(data.events as GameEvent[]);
-          }
-        }
-      } catch {
-        // silent — clock still ticks
-      }
-    }, 750);
-    return () => clearInterval(interval);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDone, game.tournamentId, game.gameId]);
 
-  const team1Wins = game.team1Score > game.team2Score;
+    const es = new EventSource(
+      `/api/live-tournaments/${game.tournamentId}/games/${game.gameId}/stream`
+    );
+
+    es.addEventListener("game_state", (e) => {
+      const d = JSON.parse(e.data);
+      setLiveScore({ home: d.team1Score ?? 0, away: d.team2Score ?? 0 });
+      if (d.status === "completed") setIsDone(true);
+    });
+
+    es.addEventListener("game_event", (e) => {
+      const ev = JSON.parse(e.data) as GameEvent;
+      setAllEvents((prev) => {
+        if (prev.some((p) => p.sequence === ev.sequence)) return prev;
+        return [...prev, ev];
+      });
+      setLiveScore({ home: ev.homeScore, away: ev.awayScore });
+      setCurrentClock({ quarter: ev.quarter, clock: ev.clock });
+    });
+
+    es.addEventListener("game_end", (e) => {
+      const d = JSON.parse(e.data);
+      if (d.team1Score != null) setLiveScore({ home: d.team1Score, away: d.team2Score });
+      setIsDone(true);
+      es.close();
+    });
+
+    es.onerror = () => es.close();
+
+    return () => es.close();
+  }, [game.gameId, game.tournamentId, isDone]);
+
+  const team1Wins = liveScore.home > liveScore.away;
 
   return (
     <div className="max-w-6xl mx-auto space-y-4">
@@ -361,7 +361,7 @@ function GameDetailView({ game, onBack }: { game: ViewingGame; onBack: () => voi
                 className="font-pixel text-[6px] px-2 py-0.5"
                 style={{ backgroundColor: isDone ? "var(--color-danger)" : "var(--color-primary)", color: "#fff" }}
               >
-                {isDone ? "FINAL" : currentEvent ? `Q${currentEvent.quarter} ${currentEvent.clock}` : "LIVE"}
+                {isDone ? "FINAL" : `Q${currentClock.quarter} ${currentClock.clock}`}
               </span>
             </div>
           </div>
@@ -382,10 +382,10 @@ function GameDetailView({ game, onBack }: { game: ViewingGame; onBack: () => voi
       {/* Event Feed + Box Score */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
         <div className="lg:col-span-3">
-          <EventFeed events={visibleEvents} />
+          <EventFeed events={allEvents} />
         </div>
         <div className="lg:col-span-2">
-          <BoxScore events={visibleEvents} team1Name={game.team1Name} team2Name={game.team2Name} />
+          <BoxScore events={allEvents} team1Name={game.team1Name} team2Name={game.team2Name} />
         </div>
       </div>
     </div>
@@ -657,13 +657,11 @@ export default function TournamentPage() {
     return () => clearInterval(interval);
   }, [tournament?.status, viewingGame, fetchTournament]);
 
-  const handleViewGameData = async (matchup: MatchupState, tournamentId: string, startedAtOverride?: string) => {
+  const handleViewGameData = async (matchup: MatchupState, tournamentId: string) => {
     try {
       const res = await fetch(`/api/live-tournaments/${tournamentId}/games/${matchup.gameId}`);
       const data = await res.json();
       if (data.error) { setError(data.error); return; }
-      const startedAt = startedAtOverride ?? tournament?.startedAt;
-      if (!startedAt) { setError("Tournament not yet started"); return; }
       setViewingGame({
         gameId: matchup.gameId,
         team1Name: matchup.team1Name,
@@ -673,8 +671,6 @@ export default function TournamentPage() {
         winnerId: data.winnerId ?? matchup.winnerId,
         events: (data.events as GameEvent[]) ?? [],
         tournamentId,
-        startedAt,
-        round: matchup.round,
       });
     } catch {
       setError("Failed to load game");
@@ -718,7 +714,7 @@ export default function TournamentPage() {
           (m) => m.status === "completed"
         );
         if (firstGame) {
-          await handleViewGameData(firstGame, id, tData.startedAt ?? undefined);
+          await handleViewGameData(firstGame, id);
         }
       }
     } catch {
