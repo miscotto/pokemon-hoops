@@ -473,6 +473,13 @@ function MatchupCard({
           </PokeButton>
         </div>
       )}
+      {isLive && (
+        <div className="p-2" style={{ borderTop: "1px solid var(--color-border)" }}>
+          <PokeButton variant="primary" size="sm" className="w-full" onClick={() => onView(matchup.gameId)}>
+            ▶ WATCH LIVE
+          </PokeButton>
+        </div>
+      )}
       {isPending && (
         <div className="px-3 py-2 font-pixel text-[5px] text-center" style={{ color: "var(--color-text-muted)", borderTop: "1px solid var(--color-border)" }}>
           SIMULATING...
