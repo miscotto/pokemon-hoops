@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import AuthForm from "../components/AuthForm";
 import RosterDashboard from "../components/RosterDashboard";
 
+// H
+
 export default function DashboardPage() {
   const { data: session, isPending } = useSession();
   const router = useRouter();
@@ -26,7 +28,9 @@ export default function DashboardPage() {
       userName={session.user.name || session.user.email}
       onEditRoster={(rosterId) => router.push(`/rosters/${rosterId}/build`)}
       onJoinLiveTournament={(tournamentId) =>
-        router.push(tournamentId ? `/tournaments/${tournamentId}` : "/tournaments")
+        router.push(
+          tournamentId ? `/tournaments/${tournamentId}` : "/tournaments"
+        )
       }
     />
   );
