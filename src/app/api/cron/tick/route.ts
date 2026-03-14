@@ -1,0 +1,73 @@
+import { NextRequest, NextResponse } from "next/server";
+import { waitUntil } from "@vercel/functions";
+import { db } from "@/lib/db";
+import { liveTournaments, tournamentGames } from "@/lib/schema";
+import { eq, and, lt, sql } from "drizzle-orm";
+import { claimGame } from "@/lib/tournament-db";
+import { simulateGameLive } from "@/lib/simulate-game-live";
+
+export const maxDuration = 800;
+
+// How long each round lasts (seconds)
+const ROUND_DURATION_S = 300;
+const ROUND_BUFFER_S = 15;
+
+export async function GET(req: NextRequest) {
+  // Verify Vercel Cron authorization header in production
+  const authHeader = req.headers.get("authorization");
+  if (process.env.CRON_SECRET && authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  // 1. Reset stale in_progress games (claimed > 800s ago — function must have crashed)
+  await db
+    .update(tournamentGames)
+    .set({ status: "pending", claimedAt: null })
+    .where(
+      and(
+        eq(tournamentGames.status, "in_progress"),
+        lt(tournamentGames.claimedAt!, new Date(Date.now() - 800_000))
+      )
+    );
+
+  // 2. Find all active tournaments
+  const activeTournaments = await db
+    .select({ id: liveTournaments.id, startedAt: liveTournaments.startedAt })
+    .from(liveTournaments)
+    .where(eq(liveTournaments.status, "active"));
+
+  for (const tournament of activeTournaments) {
+    if (!tournament.startedAt) continue;
+    const startedAtMs = tournament.startedAt.getTime();
+    const now = Date.now();
+
+    // Find all pending games for this tournament
+    const pendingGames = await db
+      .select({
+        id: tournamentGames.id,
+        round: tournamentGames.round,
+      })
+      .from(tournamentGames)
+      .where(
+        and(
+          eq(tournamentGames.tournamentId, tournament.id),
+          eq(tournamentGames.status, "pending")
+        )
+      );
+
+    for (const game of pendingGames) {
+      // Check if this round's window has opened
+      const roundStartMs = startedAtMs + (game.round - 1) * (ROUND_DURATION_S + ROUND_BUFFER_S) * 1000;
+      if (now < roundStartMs) continue; // round hasn't started yet
+
+      // Atomically claim and dispatch
+      const claimed = await claimGame(game.id);
+      if (!claimed) continue; // already claimed by concurrent request
+
+      // Fire-and-forget background simulation
+      waitUntil(simulateGameLive(game.id));
+    }
+  }
+
+  return NextResponse.json({ ok: true });
+}

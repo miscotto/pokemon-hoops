@@ -2,7 +2,7 @@ import { Pokemon, PhysicalProfile } from "../types";
 import { toBballAverages, BballAverages, computeSalary, SALARY_CAP } from "./bballStats";
 import { calcTypeAdvantage } from "./typeChart";
 import { computeAbilityModifier } from "./abilityModifier";
-import abilitiesData from "../../../public/abilities.json";
+import { createGameIterator } from "../../lib/game-iterator";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -103,10 +103,7 @@ export interface TournamentBracketData {
 // ─── Constants ───────────────────────────────────────────────────────────────
 
 // NBA-style: 4 quarters × 12 minutes = 48 minutes (2880 game seconds)
-// ~150 events played back at 2s intervals = 5 min real time
-const QUARTER_DURATION = 720;
 const GAME_DURATION = 2880;
-const TARGET_EVENTS = 150;
 
 const WEST_TEAM_NAMES = [
   "LA Flamethrowers", "Bay Area Currents", "Pacific Dragonites",
@@ -121,32 +118,8 @@ const EAST_TEAM_NAMES = [
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-function rand(min: number, max: number): number {
-  return min + Math.random() * (max - min);
-}
-
 function pick<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
-}
-
-function clamp(v: number, lo: number, hi: number) {
-  return Math.max(lo, Math.min(hi, v));
-}
-
-function gameSecToQuarter(sec: number): 1 | 2 | 3 | 4 {
-  if (sec < QUARTER_DURATION) return 1;
-  if (sec < QUARTER_DURATION * 2) return 2;
-  if (sec < QUARTER_DURATION * 3) return 3;
-  return 4;
-}
-
-function gameSecToClock(sec: number): string {
-  const qIdx = Math.min(3, Math.floor(sec / QUARTER_DURATION));
-  const secInQ = sec - qIdx * QUARTER_DURATION;
-  const remaining = Math.max(0, QUARTER_DURATION - secInQ);
-  const mins = Math.floor(remaining / 60);
-  const secs = Math.floor(remaining % 60);
-  return `${mins}:${String(secs).padStart(2, "0")}`;
 }
 
 // ─── AI Opponent Generation ──────────────────────────────────────────────────
@@ -270,7 +243,7 @@ interface TeamFactors {
   foulOutInjuryChance: number;
 }
 
-function calculateTeamFactors(
+export function calculateTeamFactors(
   team: TournamentTeam,
   opponent: TournamentTeam,
   score: { home: number; away: number },
@@ -326,411 +299,75 @@ function calculateTeamFactors(
   return { teamBaseScore, headToHeadMatchup, clutchFatigue, abilityModifier, finalRating, foulOutInjuryChance };
 }
 
-// ─── Event Generation ───────────────────────────────────────────────────────
-
-function generateGameEvents(
-  homeTeam: TournamentTeam,
-  awayTeam: TournamentTeam,
-): { events: GameEvent[]; playerStats: PlayerGameStats[] } {
-  const events: GameEvent[] = [];
-  let homeScore = 0;
-  let awayScore = 0;
-  let homeMomentum = 0;
-  let awayMomentum = 0;
-
-  // Per-player stats
-  const statsMap = new Map<string, PlayerGameStats>();
-  for (const p of homeTeam.roster) {
-    statsMap.set(`home-${p.name}`, {
-      name: p.name, sprite: p.sprite, team: "home",
-      points: 0, rebounds: 0, assists: 0, steals: 0, blocks: 0, fouls: 0, injured: false,
-    });
-  }
-  for (const p of awayTeam.roster) {
-    statsMap.set(`away-${p.name}`, {
-      name: p.name, sprite: p.sprite, team: "away",
-      points: 0, rebounds: 0, assists: 0, steals: 0, blocks: 0, fouls: 0, injured: false,
-    });
-  }
-
-  // Timing cursor for displayAtMs
-  let cursorMs = 0;
-  let burstRemaining = 0;
-  let consecutiveScoringEvents = 0;
-
-  const getStepForEvent = (type: GameEventType, isBurst: boolean): number => {
-    if (isBurst) return rand(600, 1200);
-    if (type === "quarter_start" || type === "quarter_end" || type === "halftime") return 4000;
-    if (type === "score_2pt" || type === "score_3pt" || type === "dunk" || type === "layup" || type === "clutch") return rand(600, 1200);
-    if (type === "block" || type === "steal" || type === "rebound") return rand(800, 1500);
-    return rand(1500, 3500);
-  };
-
-  // Game start
-  events.push({
-    gameTimeSec: 0, quarter: 1, clock: "12:00",
-    type: "game_start", team: "home",
-    pokemonName: "Tip-off",
-    description: `${homeTeam.name} vs ${awayTeam.name} — Tip-off!`,
-    homeScore: 0, awayScore: 0,
-    displayAtMs: 0,
-  });
-
-  const spacing = GAME_DURATION / TARGET_EVENTS;
-  let halftimeDone = false;
-  const quarterStartsDone = new Set<number>();
-
-  for (let sec = spacing; sec < GAME_DURATION; sec += rand(spacing * 0.5, spacing * 1.5)) {
-    const gameSec = Math.round(sec);
-    const quarter = gameSecToQuarter(gameSec);
-    const clock = gameSecToClock(gameSec);
-
-    // Quarter start events
-    if (quarter > 1 && !quarterStartsDone.has(quarter)) {
-      quarterStartsDone.add(quarter);
-      cursorMs = Math.min(cursorMs + 4000, 299_000);
-      events.push({
-        gameTimeSec: (quarter - 1) * QUARTER_DURATION, quarter, clock: "12:00",
-        type: "quarter_start", team: "home",
-        pokemonName: `Q${quarter}`,
-        description: `Quarter ${quarter} begins!`,
-        homeScore, awayScore,
-        displayAtMs: cursorMs,
-      });
-    }
-
-    // Halftime
-    if (quarter >= 3 && !halftimeDone) {
-      halftimeDone = true;
-      cursorMs = Math.min(cursorMs + 4000, 299_000);
-      events.push({
-        gameTimeSec: QUARTER_DURATION * 2, quarter: 2, clock: "0:00",
-        type: "halftime", team: "home",
-        pokemonName: "Halftime",
-        description: `Halftime! ${homeTeam.name} ${homeScore} - ${awayScore} ${awayTeam.name}`,
-        homeScore, awayScore,
-        displayAtMs: cursorMs,
-      });
-    }
-
-    // Determine which side gets the event
-    const hFactors = calculateTeamFactors(homeTeam, awayTeam, { home: homeScore, away: awayScore }, gameSec, "home");
-    const aFactors = calculateTeamFactors(awayTeam, homeTeam, { home: homeScore, away: awayScore }, gameSec, "away");
-
-    const hPower = hFactors.finalRating + homeMomentum;
-    const aPower = aFactors.finalRating + awayMomentum;
-    const side: Side = Math.random() < hPower / (hPower + aPower) ? "home" : "away";
-    const activeTeam = side === "home" ? homeTeam : awayTeam;
-    const statsPrefix = side === "home" ? "home" : "away";
-
-    // Filter out injured players
-    const activeRoster = activeTeam.roster.filter(p => !statsMap.get(`${statsPrefix}-${p.name}`)?.injured);
-    if (activeRoster.length === 0) continue;
-
-    const player = pick(activeRoster);
-    const pKey = `${statsPrefix}-${player.name}`;
-    const pStats = statsMap.get(pKey)!;
-
-    const roll = Math.random();
-    let eventType: GameEventType;
-    let points = 0;
-    let description = "";
-    let statType: GameEvent["statType"] = undefined;
-
-    if (roll < 0.33) {
-      // Scoring (33%)
-      const sr = Math.random();
-      if (sr < 0.35) {
-        eventType = "score_2pt"; points = 2;
-        description = pick([
-          `${player.name} hits a mid-range jumper!`,
-          `${player.name} converts the tough floater!`,
-          `${player.name} rises up for the pull-up mid-range — good!`,
-        ]);
-      } else if (sr < 0.60) {
-        eventType = "score_3pt"; points = 3;
-        description = pick([
-          `${player.name} buries the corner three — ${activeTeam.name} extends the lead!`,
-          `${player.name} step-back three from the logo — ARE YOU KIDDING?!`,
-          `${player.name} catches and fires — GOOD!`,
-          `${player.name} off the screen, pulls up — BANG! Three-ball!`,
-        ]);
-      } else if (sr < 0.80) {
-        eventType = "dunk"; points = 2;
-        description = pick([
-          `${player.name} bulldozes baseline and throws it DOWN!`,
-          `${player.name} rises and finishes with AUTHORITY!`,
-          `${player.name} posterizes the defender! That's going on the highlight reel!`,
-        ]);
-      } else {
-        eventType = "layup"; points = 2;
-        description = pick([
-          `${player.name} with a beautiful layup.`,
-          `${player.name} uses the glass — and it falls!`,
-          `${player.name} splits the defense and lays it up softly!`,
-        ]);
-      }
-
-      if (side === "home") { homeScore += points; homeMomentum += points === 3 ? 2 : 1; }
-      else { awayScore += points; awayMomentum += points === 3 ? 2 : 1; }
-      pStats.points += points;
-
-    } else if (roll < 0.51) {
-      // Defense (18%)
-      const dr = Math.random();
-      if (dr < 0.35) {
-        eventType = "block"; statType = "block";
-        description = pick([
-          `${player.name} rises up and STUFFS the shot!`,
-          `${player.name} sends it into the stands!`,
-          `DENIED! ${player.name} with the emphatic block!`,
-        ]);
-        pStats.blocks++;
-      } else if (dr < 0.65) {
-        eventType = "steal"; statType = "steal";
-        description = pick([
-          `${player.name} reaches in and strips the ball!`,
-          `${player.name} tips the pass — turnover!`,
-          `${player.name} read the play perfectly — clean steal!`,
-          `${player.name} pickpockets the drive!`,
-        ]);
-        pStats.steals++;
-      } else {
-        eventType = "rebound"; statType = "rebound";
-        const isOffensive = Math.random() < 0.35;
-        description = isOffensive
-          ? pick([
-              `${player.name} crashes the glass for the offensive board!`,
-              `${player.name} tips it back in for the put-back opportunity!`,
-            ])
-          : pick([
-              `${player.name} secures the defensive board and pushes the pace!`,
-              `${player.name} grabs the rebound — possession change!`,
-            ]);
-        pStats.rebounds++;
-      }
-      if (side === "home") { homeMomentum += 0.5; awayMomentum = Math.max(0, awayMomentum - 0.3); }
-      else { awayMomentum += 0.5; homeMomentum = Math.max(0, homeMomentum - 0.3); }
-
-    } else if (roll < 0.60) {
-      // Assists (9%)
-      eventType = "assist"; statType = "assist";
-      const otherPlayers = activeRoster.filter(p => p.name !== player.name);
-      if (otherPlayers.length > 0) {
-        const scorer = pick(otherPlayers);
-        description = pick([
-          `${player.name} threads the needle to ${scorer.name} cutting to the rim!`,
-          `${player.name} fires the skip pass — ${scorer.name} is wide open!`,
-          `${player.name} with the no-look dime to ${scorer.name}!`,
-          `Beautiful ball movement — ${player.name} finds ${scorer.name} for the bucket!`,
-        ]);
-      } else {
-        description = `${player.name} with a beautiful pass!`;
-      }
-      pStats.assists++;
-
-    } else if (roll < 0.67) {
-      // Fouls (7%)
-      eventType = "foul"; statType = "foul";
-      if (pStats.fouls >= 5) {
-        eventType = "foul_out";
-        description = `${player.name} has fouled out! ${activeTeam.name} is playing shorthanded.`;
-        pStats.fouls++;
-        pStats.injured = true; // Remove from active play
-      } else if (gameSec > GAME_DURATION * 0.95 && (side === "home" ? awayScore - homeScore : homeScore - awayScore) >= 5) {
-        description = `Intentional foul by ${player.name} — ${activeTeam.name} trying to stop the clock. (${pStats.fouls + 1}/6)`;
-        pStats.fouls++;
-      } else {
-        pStats.fouls++;
-        description = `${player.name} commits a personal foul. (${pStats.fouls}/6)`;
-      }
-      if (side === "home") homeMomentum = Math.max(0, homeMomentum - 1);
-      else awayMomentum = Math.max(0, awayMomentum - 1);
-
-    } else if (roll < 0.77) {
-      // Special events (10%)
-      const sp = Math.random();
-      if (sp < 0.20) {
-        // Clutch (20% of special branch)
-        if (gameSec > GAME_DURATION * 0.9 && Math.abs(homeScore - awayScore) <= 8) {
-          eventType = "clutch";
-          points = Math.random() < 0.4 ? 3 : 2;
-          description = pick([
-            `${player.name} in the CLUTCH — hits the tough shot with ${clock} left!`,
-            `${player.name} draws the foul — and-1 opportunity! The crowd goes WILD!`,
-          ]);
-          if (side === "home") { homeScore += points; homeMomentum += 5; }
-          else { awayScore += points; awayMomentum += 5; }
-          pStats.points += points;
-        } else {
-          eventType = "rebound"; statType = "rebound";
-          description = `${player.name} rebounds.`;
-          pStats.rebounds++;
-        }
-      } else if (sp < 0.40) {
-        eventType = "hot_hand";
-        description = `${player.name} is heating up! Can't miss!`;
-        if (side === "home") homeMomentum += 3; else awayMomentum += 3;
-      } else if (sp < 0.55) {
-        eventType = "cold_streak";
-        description = `${player.name} can't get bucket right now...`;
-        if (side === "home") homeMomentum = Math.max(0, homeMomentum - 2);
-        else awayMomentum = Math.max(0, awayMomentum - 2);
-      } else if (sp < 0.70) {
-        eventType = "type_advantage";
-        const oppTeam = side === "home" ? awayTeam : homeTeam;
-        const matchup = pick(oppTeam.roster);
-        description = `${player.name}'s ${player.types[0]} typing exploits ${matchup.name}'s weakness!`;
-        if (side === "home") homeMomentum += 1.5; else awayMomentum += 1.5;
-      } else if (sp < 0.83) {
-        eventType = "ability_trigger";
-        const abilityName = player.ability || "Pressure";
-        const abilityInfo = (abilitiesData as Record<string, { "effect desc"?: string }>)[abilityName];
-        const effectDesc = abilityInfo?.["effect desc"];
-        description = effectDesc
-          ? `${player.name}'s ${abilityName} activates — ${effectDesc}`
-          : `${player.name}'s ability "${abilityName}" activates!`;
-        if (side === "home") homeMomentum += 2; else awayMomentum += 2;
-      } else if (sp < 0.92) {
-        eventType = "rivalry_clash";
-        const oppTeam = side === "home" ? awayTeam : homeTeam;
-        const rival = player.rivals?.find(r => oppTeam.roster.some(o => o.name === r));
-        if (rival) {
-          description = `Rivalry intensity! ${player.name} locks in against ${rival}!`;
-          if (side === "home") homeMomentum += 2; else awayMomentum += 2;
-        } else {
-          eventType = "momentum";
-          description = `${activeTeam.name} building momentum!`;
-          if (side === "home") homeMomentum += 1; else awayMomentum += 1;
-        }
-      } else {
-        eventType = "ally_boost";
-        const ally = player.allies?.find(a => activeTeam.roster.some(o => o.name === a));
-        if (ally) {
-          description = `${player.name} and ${ally} find eachother for the bucket`;
-          if (side === "home") homeMomentum += 1.5; else awayMomentum += 1.5;
-        } else {
-          eventType = "momentum";
-          description = `Great chemistry from ${activeTeam.name}!`;
-          if (side === "home") homeMomentum += 1; else awayMomentum += 1;
-        }
-      }
-
-    } else if (roll < 0.92) {
-      // Momentum / narrative (15%)
-      eventType = "momentum";
-      const opponent = side === "home" ? awayTeam : homeTeam;
-      const narratives = [
-        `${activeTeam.name} on a run — ${opponent.name} calls timeout!`,
-        `The energy is electric — ${activeTeam.name} feeding off the crowd!`,
-        `Great ball movement from ${activeTeam.name} — defense can't keep up!`,
-        `Coach ${activeTeam.name} calls a timeout to regroup.`,
-        `${player.name} firing up the sideline!`,
-        `${activeTeam.name} defense is suffocating right now!`,
-        `${player.name} is locked in — watch out!`,
-      ];
-      description = pick(narratives);
-      if (side === "home") { homeMomentum += 1.5; awayMomentum = Math.max(0, awayMomentum - 0.5); }
-      else { awayMomentum += 1.5; homeMomentum = Math.max(0, homeMomentum - 0.5); }
-
-    } else {
-      // Injury / fatigue (8%)
-      const injuryChance = side === "home" ? hFactors.foulOutInjuryChance : aFactors.foulOutInjuryChance;
-      if (Math.random() < injuryChance) {
-        eventType = "injury";
-        description = `${player.name} goes down with an injury! Trainer rushes out.`;
-        pStats.injured = true;
-        if (side === "home") homeMomentum -= 2; else awayMomentum -= 2;
-      } else {
-        eventType = "fatigue";
-        description = `${player.name} looks gassed.`;
-        if (side === "home") homeMomentum -= 0.5; else awayMomentum -= 0.5;
-      }
-    }
-
-    // Decay momentum
-    homeMomentum *= 0.97;
-    awayMomentum *= 0.97;
-
-    const isBurst = burstRemaining > 0;
-    if (isBurst) burstRemaining--;
-    const stepMs = getStepForEvent(eventType, isBurst);
-    cursorMs = Math.min(cursorMs + stepMs, 299_000);
-
-    if (eventType === "steal") {
-      burstRemaining = 2;
-      consecutiveScoringEvents = 0;
-    } else if (eventType === "block") {
-      burstRemaining = Math.floor(rand(2, 4));
-      consecutiveScoringEvents = 0;
-    } else if (["score_2pt", "score_3pt", "dunk", "layup", "clutch"].includes(eventType)) {
-      consecutiveScoringEvents++;
-      if (consecutiveScoringEvents >= 3) {
-        burstRemaining = 2;
-        consecutiveScoringEvents = 0;
-      }
-    } else {
-      consecutiveScoringEvents = 0;
-    }
-
-    events.push({
-      gameTimeSec: gameSec, quarter, clock,
-      type: eventType, team: side,
-      pokemonName: player.name,
-      pokemonSprite: player.sprite,
-      description,
-      pointsScored: points || undefined,
-      statType,
-      homeScore, awayScore,
-      displayAtMs: cursorMs,
-    });
-  }
-
-  // Ensure no tie — add a buzzer beater if tied
-  if (homeScore === awayScore) {
-    const clutchSide: Side = Math.random() < 0.5 ? "home" : "away";
-    const clutchTeam = clutchSide === "home" ? homeTeam : awayTeam;
-    const clutchPlayer = pick(clutchTeam.roster);
-    const pts = Math.random() < 0.5 ? 2 : 3;
-    if (clutchSide === "home") homeScore += pts; else awayScore += pts;
-    const pk = `${clutchSide}-${clutchPlayer.name}`;
-    statsMap.get(pk)!.points += pts;
-    events.push({
-      gameTimeSec: GAME_DURATION - 5, quarter: 4, clock: "0:05",
-      type: "clutch", team: clutchSide,
-      pokemonName: clutchPlayer.name,
-      pokemonSprite: clutchPlayer.sprite,
-      description: `BUZZER BEATER! ${clutchPlayer.name} wins it at the horn!`,
-      pointsScored: pts,
-      homeScore, awayScore,
-      displayAtMs: 299_000,
-    });
-  }
-
-  // Game end
-  const winner: Side = homeScore > awayScore ? "home" : "away";
-  const winnerTeam = winner === "home" ? homeTeam : awayTeam;
-  events.push({
-    gameTimeSec: GAME_DURATION, quarter: 4, clock: "0:00",
-    type: "game_end", team: winner,
-    pokemonName: "Final",
-    description: `Game Over! ${winnerTeam.name} wins ${winner === "home" ? homeScore : awayScore}-${winner === "home" ? awayScore : homeScore}!`,
-    homeScore, awayScore,
-    displayAtMs: 300_000,
-  });
-
-  return { events, playerStats: Array.from(statsMap.values()) };
-}
-
 // ─── Main Simulation ─────────────────────────────────────────────────────────
 
 export function simulateMatchup(
   homeTeam: TournamentTeam,
   awayTeam: TournamentTeam,
 ): LiveGameResult {
-  const { events, playerStats } = generateGameEvents(homeTeam, awayTeam);
+  const iterator = createGameIterator(homeTeam, awayTeam);
+  const events: GameEvent[] = [];
+  const playerStatsMap = new Map<string, PlayerGameStats>();
+
+  // Seed player stat entries
+  for (const p of homeTeam.roster) {
+    playerStatsMap.set(`home-${p.name}`, {
+      name: p.name, sprite: p.sprite, team: "home",
+      points: 0, rebounds: 0, assists: 0, steals: 0, blocks: 0, fouls: 0, injured: false,
+    });
+  }
+  for (const p of awayTeam.roster) {
+    playerStatsMap.set(`away-${p.name}`, {
+      name: p.name, sprite: p.sprite, team: "away",
+      points: 0, rebounds: 0, assists: 0, steals: 0, blocks: 0, fouls: 0, injured: false,
+    });
+  }
+
+  // Drain iterator
+  let cursor = 0;
+  let ev = iterator.next();
+  while (ev !== null) {
+    // Cap displayAtMs: game_end always at 300_000, others at most 299_000
+    const displayAtMs = ev.type === "game_end" ? 300_000 : Math.min(cursor, 299_000);
+    const gameEvent: GameEvent = {
+      gameTimeSec: ev.gameTimeSec,
+      quarter: ev.quarter,
+      clock: ev.clock,
+      type: ev.type,
+      team: ev.team,
+      pokemonName: ev.pokemonName,
+      pokemonSprite: ev.pokemonSprite,
+      description: ev.description,
+      pointsScored: ev.pointsScored,
+      statType: ev.statType,
+      homeScore: ev.homeScore,
+      awayScore: ev.awayScore,
+      displayAtMs,
+    };
+    cursor = Math.min(cursor + ev.sleepMs, 299_000);
+    events.push(gameEvent);
+
+    // Accumulate player stats
+    const side = ev.team;
+    const pKey = `${side}-${ev.pokemonName}`;
+    const ps = playerStatsMap.get(pKey);
+    if (ps && ev.pointsScored) ps.points += ev.pointsScored;
+    if (ps && ev.statType === "rebound") ps.rebounds++;
+    if (ps && ev.statType === "assist") ps.assists++;
+    if (ps && ev.statType === "steal") ps.steals++;
+    if (ps && ev.statType === "block") ps.blocks++;
+    if (ps && (ev.statType === "foul" || ev.type === "foul_out")) {
+      ps.fouls++;
+      if (ev.type === "foul_out") ps.injured = true;
+    }
+    if (ps && ev.type === "injury") ps.injured = true;
+
+    ev = iterator.next();
+  }
+
   const finalEvent = events[events.length - 1];
   const winner: Side = finalEvent.homeScore > finalEvent.awayScore ? "home" : "away";
+  const playerStats = Array.from(playerStatsMap.values());
 
   // MVP — highest points
   let mvp = { name: "None", sprite: "", points: 0, team: "home" as Side };
@@ -746,18 +383,6 @@ export function simulateMatchup(
     finalAwayScore: finalEvent.awayScore,
     winner, mvp, playerStats,
   };
-}
-
-// Legacy wrapper for backwards compatibility
-export function simulateLiveGame(
-  playerTeam: TournamentTeam,
-  allPokemon: TournamentPokemon[],
-): LiveGameResult {
-  const usedIds = new Set(playerTeam.roster.map(p => p.id));
-  const usedNames = new Set([playerTeam.name]);
-  const opponentCoast: Coast = playerTeam.coast === "west" ? "east" : "west";
-  const aiTeam = generateAITeam(allPokemon, usedIds, opponentCoast, 2, usedNames);
-  return simulateMatchup(playerTeam, aiTeam);
 }
 
 // ─── Utility Functions ───────────────────────────────────────────────────────
@@ -826,9 +451,6 @@ export function isTournamentComplete(matchups: BracketMatchup[]): boolean {
 
 // ─── Live Tournament (Server-Side Full Simulation) ──────────────────────────
 
-export const LIVE_GAME_REAL_SECONDS = 300; // 5 min per game
-export const LIVE_ROUND_BUFFER = 15; // 15s pause between rounds
-
 export interface SerializedMatchup {
   id: string;
   round: number;
@@ -891,14 +513,14 @@ function simulateConferenceRounds(
 
     currentTeams = roundWinners;
     round++;
-    timeOffset += LIVE_GAME_REAL_SECONDS + LIVE_ROUND_BUFFER;
+    timeOffset += 300 + 15; // LIVE_GAME_REAL_SECONDS + LIVE_ROUND_BUFFER
   }
 
   return {
     matchups: allMatchups,
     winner: currentTeams[0],
     finalRound: round - 1,
-    finalOffset: timeOffset - LIVE_GAME_REAL_SECONDS - LIVE_ROUND_BUFFER,
+    finalOffset: timeOffset - 300 - 15, // LIVE_GAME_REAL_SECONDS + LIVE_ROUND_BUFFER
   };
 }
 
@@ -936,7 +558,7 @@ export function simulateBracketForSize(
   const east = simulateConferenceRounds(eastTeams, "east", 1, 0);
 
   const finalsOffset =
-    Math.max(west.finalOffset, east.finalOffset) + LIVE_GAME_REAL_SECONDS + LIVE_ROUND_BUFFER;
+    Math.max(west.finalOffset, east.finalOffset) + 300 + 15; // LIVE_GAME_REAL_SECONDS + LIVE_ROUND_BUFFER
   const finalsRound = Math.max(west.finalRound, east.finalRound) + 1;
 
   const finalsResult = simulateMatchup(west.winner, east.winner);

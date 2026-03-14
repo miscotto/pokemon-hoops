@@ -87,8 +87,28 @@ export const tournamentGames = pgTable(
     team2Score: integer("team2_score"),
     winnerId: text("winner_id"),
     status: text("status").notNull().default("pending"), // "pending" | "in_progress" | "completed"
-    events: jsonb("events"),
+    startedAt: timestamp("started_at", { withTimezone: true }),
+    claimedAt: timestamp("claimed_at", { withTimezone: true }),
     playedAt: timestamp("played_at", { withTimezone: true }),
   },
   (t) => [index("tournament_games_tournament_id_idx").on(t.tournamentId)]
+);
+
+export const tournamentGameEvents = pgTable(
+  "tournament_game_events",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    gameId: uuid("game_id")
+      .notNull()
+      .references(() => tournamentGames.id, { onDelete: "cascade" }),
+    sequence: integer("sequence").notNull(),
+    type: text("type").notNull(),
+    data: jsonb("data").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [
+    unique("tournament_game_events_game_seq_uniq").on(t.gameId, t.sequence),
+    index("tournament_game_events_game_id_idx").on(t.gameId),
+    index("tournament_game_events_game_seq_idx").on(t.gameId, t.sequence),
+  ]
 );
