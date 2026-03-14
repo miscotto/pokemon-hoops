@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import AuthForm from "../components/AuthForm";
 import RosterDashboard from "../components/RosterDashboard";
 
-// H
+// Hs
 
 export default function DashboardPage() {
   const { data: session, isPending } = useSession();
