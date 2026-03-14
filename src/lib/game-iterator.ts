@@ -58,7 +58,7 @@ export function createGameIterator(
   homeTeam: TournamentTeam,
   awayTeam: TournamentTeam,
 ): { next(): IteratorEvent | null } {
-  // Mutable state (same as generateGameEvents)
+  // Mutable state
   let homeScore = 0;
   let awayScore = 0;
   let homeMomentum = 0;
@@ -221,7 +221,7 @@ export function createGameIterator(
       const isBurst = burstRemaining > 0;
       if (isBurst) burstRemaining--;
 
-      // ─── Event type selection (identical branching to generateGameEvents) ────
+      // ─── Event type selection ────────────────────────────────────────────────
       const roll = Math.random();
       let eventType: GameEventType;
       let points = 0;
