@@ -182,9 +182,12 @@ const STRUCTURAL_TYPES = new Set([
   "game_start", "game_end", "quarter_start", "quarter_end", "halftime",
 ]);
 
-function computeBoxScore(events: GameEvent[], side: "home" | "away"): PlayerStat[] {
+function computeBoxScore(visibleEvents: GameEvent[], side: "home" | "away", allEvents: GameEvent[]): PlayerStat[] {
   const map = new Map<string, PlayerStat>();
-  for (const e of events) {
+
+  // Pre-populate all players from the full event list so every Pokemon is shown
+  // even before they've appeared in visible events
+  for (const e of allEvents) {
     if (STRUCTURAL_TYPES.has(e.type)) continue;
     if (e.team !== side) continue;
     if (!map.has(e.pokemonName)) {
@@ -194,7 +197,17 @@ function computeBoxScore(events: GameEvent[], side: "home" | "away"): PlayerStat
         points: 0, rebounds: 0, assists: 0, steals: 0, blocks: 0, fouls: 0, injured: false,
       });
     }
+    // Capture sprite from any event (may not be on first visible event)
     const s = map.get(e.pokemonName)!;
+    if (e.pokemonSprite && !s.sprite) s.sprite = e.pokemonSprite;
+  }
+
+  // Apply stats only from visible events
+  for (const e of visibleEvents) {
+    if (STRUCTURAL_TYPES.has(e.type)) continue;
+    if (e.team !== side) continue;
+    const s = map.get(e.pokemonName);
+    if (!s) continue;
     if (e.pointsScored) s.points += e.pointsScored;
     if (e.statType === "rebound") s.rebounds++;
     if (e.statType === "assist") s.assists++;
@@ -202,14 +215,14 @@ function computeBoxScore(events: GameEvent[], side: "home" | "away"): PlayerStat
     if (e.statType === "block") s.blocks++;
     if (e.statType === "foul") s.fouls++;
     if (e.type === "injury" || e.type === "foul_out") s.injured = true;
-    if (e.pokemonSprite && !s.sprite) s.sprite = e.pokemonSprite;
   }
+
   return Array.from(map.values()).sort((a, b) => b.points - a.points);
 }
 
-function BoxScore({ events, team1Name, team2Name }: { events: GameEvent[]; team1Name: string; team2Name: string }) {
+function BoxScore({ events, allEvents, team1Name, team2Name }: { events: GameEvent[]; allEvents: GameEvent[]; team1Name: string; team2Name: string }) {
   const [tab, setTab] = useState<"home" | "away">("home");
-  const players = computeBoxScore(events, tab);
+  const players = computeBoxScore(events, tab, allEvents);
 
   return (
     <PokeCard variant="default" className="overflow-hidden">
@@ -279,6 +292,8 @@ function GameDetailView({ game, onBack }: { game: ViewingGame; onBack: () => voi
   );
   const [currentClock, setCurrentClock] = useState({ quarter: 1, clock: "12:00" });
 
+  // Fast ticker — updates the displayed clock every 200ms so the scoreboard counts down
+  // smoothly even between events
   useEffect(() => {
     if (isDone) return;
 
@@ -385,7 +400,7 @@ function GameDetailView({ game, onBack }: { game: ViewingGame; onBack: () => voi
           <EventFeed events={allEvents} />
         </div>
         <div className="lg:col-span-2">
-          <BoxScore events={allEvents} team1Name={game.team1Name} team2Name={game.team2Name} />
+          <BoxScore events={allEvents} allEvents={allEvents} team1Name={game.team1Name} team2Name={game.team2Name} />
         </div>
       </div>
     </div>
