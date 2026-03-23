@@ -5,6 +5,18 @@ import { useSession } from "@/lib/auth-client";
 import Link from "next/link";
 import { PokeButton, PokeCard, PokeInput } from "../components/ui";
 
+interface Season {
+  id: string;
+  name: string;
+  status: string;
+  teamCount: number;
+  maxTeams: number;
+  regularSeasonStart: string;
+  regularSeasonEnd: string;
+  playoffStart: string;
+  playoffEnd: string;
+}
+
 interface Tournament {
   id: string;
   name: string;
@@ -32,6 +44,17 @@ export default function AdminPage() {
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
 
+  // Season state
+  const [seasons, setSeasons] = useState<Season[]>([]);
+  const [seasonName, setSeasonName] = useState("");
+  const [regularSeasonStart, setRegularSeasonStart] = useState("");
+  const [regularSeasonEnd, setRegularSeasonEnd] = useState("");
+  const [playoffStart, setPlayoffStart] = useState("");
+  const [playoffEnd, setPlayoffEnd] = useState("");
+  const [creatingSeason, setCreatingSeason] = useState(false);
+  const [seasonError, setSeasonError] = useState("");
+  const [seasonSuccess, setSeasonSuccess] = useState("");
+
   const fetchTournaments = useCallback(async () => {
     const res = await fetch("/api/admin/tournaments");
     if (res.status === 401) {
@@ -45,14 +68,54 @@ export default function AdminPage() {
     setLoading(false);
   }, []);
 
+  const fetchSeasons = useCallback(async () => {
+    const res = await fetch("/api/seasons");
+    if (res.ok) {
+      const data = await res.json();
+      setSeasons(Array.isArray(data) ? data : []);
+    }
+  }, [setSeasons]);
+
   useEffect(() => {
     if (!isPending && session?.user) {
       fetchTournaments();
+      fetchSeasons();
     } else if (!isPending && !session?.user) {
       setAuthorized(false);
       setLoading(false);
     }
-  }, [isPending, session, fetchTournaments]);
+  }, [isPending, session, fetchTournaments, fetchSeasons]);
+
+  const handleCreateSeason = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setCreatingSeason(true);
+    setSeasonError("");
+    setSeasonSuccess("");
+    const res = await fetch("/api/seasons", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: seasonName.trim(),
+        regularSeasonStart: new Date(regularSeasonStart).toISOString(),
+        regularSeasonEnd: new Date(regularSeasonEnd).toISOString(),
+        playoffStart: new Date(playoffStart).toISOString(),
+        playoffEnd: new Date(playoffEnd).toISOString(),
+      }),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      setSeasonSuccess(`Season created! ID: ${data.id}`);
+      setSeasonName("");
+      setRegularSeasonStart("");
+      setRegularSeasonEnd("");
+      setPlayoffStart("");
+      setPlayoffEnd("");
+      fetchSeasons();
+    } else {
+      setSeasonError(data.error || "Failed to create season");
+    }
+    setCreatingSeason(false);
+  };
 
   const handleDelete = async (id: string) => {
     setDeleting(true);
@@ -264,6 +327,137 @@ export default function AdminPage() {
             </div>
           </form>
         </PokeCard>
+
+        {/* Create Season */}
+        <PokeCard variant="highlighted" className="p-6">
+          <h2 className="font-pixel text-[9px] mb-5" style={{ color: "var(--color-text)" }}>
+            + CREATE SEASON
+          </h2>
+          <form onSubmit={handleCreateSeason} className="space-y-4">
+            <div>
+              <label className="font-pixel text-[6px] block mb-1" style={{ color: "var(--color-text-muted)" }}>
+                SEASON NAME
+              </label>
+              <PokeInput
+                type="text"
+                value={seasonName}
+                onChange={(e) => setSeasonName(e.target.value)}
+                placeholder="Season 1..."
+                required
+              />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="font-pixel text-[6px] block mb-1" style={{ color: "var(--color-text-muted)" }}>
+                  REGULAR SEASON START
+                </label>
+                <PokeInput
+                  type="datetime-local"
+                  value={regularSeasonStart}
+                  onChange={(e) => setRegularSeasonStart(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <label className="font-pixel text-[6px] block mb-1" style={{ color: "var(--color-text-muted)" }}>
+                  REGULAR SEASON END
+                </label>
+                <PokeInput
+                  type="datetime-local"
+                  value={regularSeasonEnd}
+                  onChange={(e) => setRegularSeasonEnd(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <label className="font-pixel text-[6px] block mb-1" style={{ color: "var(--color-text-muted)" }}>
+                  PLAYOFF START
+                </label>
+                <PokeInput
+                  type="datetime-local"
+                  value={playoffStart}
+                  onChange={(e) => setPlayoffStart(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <label className="font-pixel text-[6px] block mb-1" style={{ color: "var(--color-text-muted)" }}>
+                  PLAYOFF END
+                </label>
+                <PokeInput
+                  type="datetime-local"
+                  value={playoffEnd}
+                  onChange={(e) => setPlayoffEnd(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <PokeButton
+                type="submit"
+                variant="primary"
+                size="md"
+                disabled={creatingSeason || !seasonName.trim()}
+              >
+                {creatingSeason ? "CREATING..." : "CREATE SEASON"}
+              </PokeButton>
+              {seasonError && (
+                <span className="font-pixel text-[6px]" style={{ color: "var(--color-danger)" }}>
+                  {seasonError}
+                </span>
+              )}
+              {seasonSuccess && (
+                <span className="font-pixel text-[6px]" style={{ color: "var(--color-primary)" }}>
+                  ✓ {seasonSuccess}
+                </span>
+              )}
+            </div>
+          </form>
+        </PokeCard>
+
+        {/* Seasons List */}
+        <div>
+          <h2 className="font-pixel text-[9px] mb-4" style={{ color: "var(--color-text)" }}>
+            ALL SEASONS ({seasons.length})
+          </h2>
+          {seasons.length === 0 ? (
+            <PokeCard variant="default" className="p-8 text-center">
+              <p className="font-pixel text-[7px]" style={{ color: "var(--color-text-muted)" }}>
+                NO SEASONS YET. CREATE ONE ABOVE.
+              </p>
+            </PokeCard>
+          ) : (
+            <div className="space-y-2">
+              {seasons.map((s) => {
+                const sColor = s.status === "active" ? "var(--color-primary)" : s.status === "playoffs" ? "var(--color-accent)" : s.status === "completed" ? "var(--color-text-muted)" : "var(--color-accent)";
+                const sLabel = s.status === "active" ? "⚡ REGULAR SEASON" : s.status === "playoffs" ? "🏆 PLAYOFFS" : s.status === "completed" ? "✓ COMPLETED" : "◉ REGISTRATION";
+                return (
+                  <PokeCard key={s.id} variant="default" className="p-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                      <span
+                        className="font-pixel text-[5px] px-2 py-1 self-start border border-(--color-shadow) shrink-0"
+                        style={{ backgroundColor: sColor, color: s.status === "registration" ? "var(--color-shadow)" : "#fff" }}
+                      >
+                        {sLabel}
+                      </span>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-pixel text-[8px] truncate" style={{ color: "var(--color-text)" }}>
+                          {s.name.toUpperCase()}
+                        </h3>
+                        <p className="font-pixel text-[5px] mt-1" style={{ color: "var(--color-text-muted)" }}>
+                          {s.teamCount}/{s.maxTeams} TEAMS · REG: {new Date(s.regularSeasonStart).toLocaleDateString()} – {new Date(s.regularSeasonEnd).toLocaleDateString()}
+                        </p>
+                      </div>
+                      <Link href={`/seasons/${s.id}`}>
+                        <PokeButton variant="ghost" size="sm">VIEW →</PokeButton>
+                      </Link>
+                    </div>
+                  </PokeCard>
+                );
+              })}
+            </div>
+          )}
+        </div>
 
         {/* Tournament List */}
         <div>
