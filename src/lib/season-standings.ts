@@ -42,7 +42,7 @@ export function computeStandings(teams: TeamRecord[], seasonId: string): TeamRec
     const diffB = b.pointsFor - b.pointsAgainst;
     if (diffB !== diffA) return diffB - diffA;
     if (b.pointsFor !== a.pointsFor) return b.pointsFor - a.pointsFor;
-    return tiebreakKey(a.userId) - tiebreakKey(b.userId);
+    return tiebreakKey(a.userId) - tiebreakKey(b.userId) || a.userId.localeCompare(b.userId);
   });
 }
 

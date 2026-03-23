@@ -58,7 +58,9 @@ export function generateSeasonSchedule(
     }
   }
 
-  // Distribute timestamps evenly across [startDate, endDate]
+  // Distribute timestamps evenly across the half-open interval [startDate, endDate).
+  // Game i lands at startDate + i * (totalMs / N), so the last game is strictly
+  // before endDate (approximately one interval-width before it).
   const totalMs = endDate.getTime() - startDate.getTime();
   const interval = totalMs / allGames.length;
 
