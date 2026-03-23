@@ -192,6 +192,7 @@ export const seasonGames = pgTable(
   (t) => [
     index("season_games_season_id_idx").on(t.seasonId),
     index("season_games_scheduled_at_idx").on(t.scheduledAt),
+    index("season_games_season_status_idx").on(t.seasonId, t.status),
   ]
 );
 

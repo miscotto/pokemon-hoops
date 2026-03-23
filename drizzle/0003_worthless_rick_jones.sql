@@ -1,0 +1,1 @@
+CREATE INDEX "season_games_season_status_idx" ON "season_games" USING btree ("season_id","status");
