@@ -1,4 +1,4 @@
-import { eq, and, lt, sql, asc, desc, ne, inArray, not, isNull } from "drizzle-orm";
+import { eq, and, lt, sql, asc, desc, ne, inArray, not, isNull, isNotNull } from "drizzle-orm";
 import { db } from "./db";
 import {
   seasons,
@@ -209,6 +209,10 @@ export async function startSeason(seasonId: string): Promise<void> {
 
   // Insert all games + update status in a transaction
   await db.transaction(async (tx) => {
+    // Re-read season status inside transaction to prevent double-start
+    const latestSeason = await tx.select({ status: seasons.status }).from(seasons).where(eq(seasons.id, seasonId));
+    if (!latestSeason[0] || latestSeason[0].status !== "registration") return;
+
     // Insert games in batches of 100
     for (let i = 0; i < schedule.length; i += 100) {
       const batch = schedule.slice(i, i + 100);
@@ -256,7 +260,8 @@ export async function resetStaleSeasonGames(): Promise<void> {
     .where(
       and(
         eq(seasonGames.status, "in_progress"),
-        lt(seasonGames.claimedAt!, new Date(Date.now() - 800_000))
+        isNotNull(seasonGames.claimedAt),
+        lt(seasonGames.claimedAt, new Date(Date.now() - 800_000))
       )
     );
 }
@@ -360,35 +365,62 @@ export async function writeSeasonGameResult(
  * If so, generate playoff bracket. Returns true if playoffs were started.
  */
 export async function tryStartPlayoffs(seasonId: string): Promise<boolean> {
+  // Quick pre-check outside transaction (cheap path for most calls)
   const season = await getSeason(seasonId);
   if (!season || season.status !== "active") return false;
   if (new Date() < season.regularSeasonEnd) return false;
 
-  // Check if any regular season games are still pending/in_progress
-  const incomplete = await db
-    .select({ count: sql<number>`COUNT(*)::int` })
-    .from(seasonGames)
-    .where(
-      and(
-        eq(seasonGames.seasonId, seasonId),
-        eq(seasonGames.gameType, "regular"),
-        ne(seasonGames.status, "completed")
-      )
-    );
-
-  if (incomplete[0].count > 0) return false;
-
-  // Compute standings — pass seasonId for deterministic tiebreaker
-  const teams = await getSeasonTeams(seasonId);
-  const standings = computeStandings(teams, seasonId);
-  const bracket = seedPlayoffBracket(standings);
-
-  // Distribute QF games across first third of playoff window
-  const windowMs = season.playoffEnd.getTime() - season.playoffStart.getTime();
-  const qfWindowEnd = new Date(season.playoffStart.getTime() + windowMs / 3);
-  const qfInterval = (qfWindowEnd.getTime() - season.playoffStart.getTime()) / 4;
+  let started = false;
 
   await db.transaction(async (tx) => {
+    // Advisory lock to serialize concurrent playoff-start attempts
+    await tx.execute(sql`SELECT pg_advisory_xact_lock(hashtext(${seasonId || ""}::text))`);
+
+    // Re-read season status inside transaction
+    const seasonRows = await tx.select().from(seasons).where(eq(seasons.id, seasonId));
+    const latestSeason = seasonRows[0];
+    if (!latestSeason || latestSeason.status !== "active") return;
+    if (new Date() < latestSeason.regularSeasonEnd) return;
+
+    // Check if any regular season games are still pending/in_progress
+    const incomplete = await tx
+      .select({ count: sql<number>`COUNT(*)::int` })
+      .from(seasonGames)
+      .where(
+        and(
+          eq(seasonGames.seasonId, seasonId),
+          eq(seasonGames.gameType, "regular"),
+          ne(seasonGames.status, "completed")
+        )
+      );
+
+    if (incomplete[0].count > 0) return;
+
+    // Compute standings — pass seasonId for deterministic tiebreaker
+    const teams = await tx
+      .select({
+        id: seasonTeams.id,
+        userId: seasonTeams.userId,
+        teamName: seasonTeams.teamName,
+        wins: seasonTeams.wins,
+        losses: seasonTeams.losses,
+        pointsFor: seasonTeams.pointsFor,
+        pointsAgainst: seasonTeams.pointsAgainst,
+        result: seasonTeams.result,
+        joinedAt: seasonTeams.joinedAt,
+      })
+      .from(seasonTeams)
+      .where(eq(seasonTeams.seasonId, seasonId))
+      .orderBy(asc(seasonTeams.joinedAt));
+
+    const standings = computeStandings(teams, seasonId);
+    const bracket = seedPlayoffBracket(standings);
+
+    // Distribute QF games across first third of playoff window
+    const windowMs = latestSeason.playoffEnd.getTime() - latestSeason.playoffStart.getTime();
+    const qfWindowEnd = new Date(latestSeason.playoffStart.getTime() + windowMs / 3);
+    const qfInterval = (qfWindowEnd.getTime() - latestSeason.playoffStart.getTime()) / 4;
+
     // Mark non-qualifiers
     const qualifiedIds = standings.slice(0, 8).map((t) => t.userId);
     await tx
@@ -411,7 +443,7 @@ export async function tryStartPlayoffs(seasonId: string): Promise<boolean> {
         team1Name: m.team1Name,
         team2UserId: m.team2UserId,
         team2Name: m.team2Name,
-        scheduledAt: new Date(season.playoffStart.getTime() + i * qfInterval),
+        scheduledAt: new Date(latestSeason.playoffStart.getTime() + i * qfInterval),
         round: 1,
         matchupIndex: m.matchupIndex,
         status: "pending",
@@ -419,9 +451,10 @@ export async function tryStartPlayoffs(seasonId: string): Promise<boolean> {
     }
 
     await tx.update(seasons).set({ status: "playoffs" }).where(eq(seasons.id, seasonId));
+    started = true;
   });
 
-  return true;
+  return started;
 }
 
 /**
