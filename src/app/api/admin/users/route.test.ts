@@ -5,8 +5,10 @@ vi.mock("next/headers", () => ({
   headers: vi.fn().mockResolvedValue(new Headers()),
 }));
 
-const mockGetSession = vi.fn();
-const mockListUsers = vi.fn();
+const { mockGetSession, mockListUsers } = vi.hoisted(() => ({
+  mockGetSession: vi.fn(),
+  mockListUsers: vi.fn(),
+}));
 
 vi.mock("@/lib/auth", () => ({
   auth: {
