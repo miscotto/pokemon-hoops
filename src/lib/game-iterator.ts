@@ -19,6 +19,16 @@ function pick<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
+function weightedPick<T>(arr: T[], weight: (item: T) => number): T {
+  const total = arr.reduce((sum, item) => sum + weight(item), 0);
+  let r = Math.random() * total;
+  for (const item of arr) {
+    r -= weight(item);
+    if (r <= 0) return item;
+  }
+  return arr[arr.length - 1];
+}
+
 function gameSecToQuarter(sec: number): 1 | 2 | 3 | 4 {
   if (sec < QUARTER_DURATION) return 1;
   if (sec < QUARTER_DURATION * 2) return 2;
@@ -214,9 +224,9 @@ export function createGameIterator(
       );
       if (activeRoster.length === 0) return this.next();
 
-      const player = pick(activeRoster);
-      const pKey = `${statsPrefix}-${player.name}`;
-      const pStats = statsMap.get(pKey)!;
+      let player = pick(activeRoster);
+      let pKey = `${statsPrefix}-${player.name}`;
+      let pStats = statsMap.get(pKey)!;
 
       const isBurst = burstRemaining > 0;
       if (isBurst) burstRemaining--;
@@ -265,10 +275,10 @@ export function createGameIterator(
         else { awayScore += points; awayMomentum += points === 3 ? 2 : 1; }
         pStats.points += points;
 
-      } else if (roll < 0.51) {
-        // Defense (18%)
+      } else if (roll < 0.55) {
+        // Defense (22% — increased from 18% to generate more rebound events)
         const dr = Math.random();
-        if (dr < 0.35) {
+        if (dr < 0.25) {
           eventType = "block"; statType = "block";
           description = pick([
             `${player.name} rises up and STUFFS the shot!`,
@@ -276,7 +286,7 @@ export function createGameIterator(
             `DENIED! ${player.name} with the emphatic block!`,
           ]);
           pStats.blocks++;
-        } else if (dr < 0.65) {
+        } else if (dr < 0.50) {
           eventType = "steal"; statType = "steal";
           description = pick([
             `${player.name} reaches in and strips the ball!`,
@@ -286,7 +296,12 @@ export function createGameIterator(
           ]);
           pStats.steals++;
         } else {
+          // Rebound (50% of defense events — up from 35%)
+          // Weight player selection by RPG so elite rebounders dominate the boards
           eventType = "rebound"; statType = "rebound";
+          player = weightedPick(activeRoster, p => p.bball.rpg);
+          pKey = `${statsPrefix}-${player.name}`;
+          pStats = statsMap.get(pKey)!;
           const isOffensive = Math.random() < 0.35;
           description = isOffensive
             ? pick([
@@ -302,7 +317,7 @@ export function createGameIterator(
         if (side === "home") { homeMomentum += 0.5; awayMomentum = Math.max(0, awayMomentum - 0.3); }
         else { awayMomentum += 0.5; homeMomentum = Math.max(0, homeMomentum - 0.3); }
 
-      } else if (roll < 0.60) {
+      } else if (roll < 0.64) {
         // Assists (9%)
         eventType = "assist"; statType = "assist";
         const otherPlayers = activeRoster.filter(p => p.name !== player.name);
@@ -319,7 +334,7 @@ export function createGameIterator(
         }
         pStats.assists++;
 
-      } else if (roll < 0.67) {
+      } else if (roll < 0.71) {
         // Fouls (7%)
         eventType = "foul"; statType = "foul";
         if (pStats.fouls >= 5) {
@@ -337,7 +352,7 @@ export function createGameIterator(
         if (side === "home") homeMomentum = Math.max(0, homeMomentum - 1);
         else awayMomentum = Math.max(0, awayMomentum - 1);
 
-      } else if (roll < 0.77) {
+      } else if (roll < 0.81) {
         // Special events (10%)
         const sp = Math.random();
         if (sp < 0.20) {

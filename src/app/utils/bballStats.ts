@@ -71,7 +71,7 @@ export function toBballAverages(pokemon: Pokemon): BballAverages {
 
 const SALARY_MIN = 1;   // $1M — rookie minimum
 const SALARY_MAX = 44;  // $44M — supermax
-export const SALARY_CAP = 175; // $160M per team of 6
+export const SALARY_CAP = 200; // $160M per team of 6
 
 // Raw score weights: scoring is king, playmaking next, defense rewarded, efficiency matters
 function salaryRaw(avg: BballAverages): number {

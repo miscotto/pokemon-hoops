@@ -22,6 +22,7 @@ export interface TournamentPokemon {
   bball: BballAverages;
   playstyle?: string[];
   salary?: number;
+  position?: string; // roster slot label: "Point Guard", "Shooting Guard", etc.
 }
 
 export type Coast = "west" | "east";
@@ -232,6 +233,41 @@ export function generateTournamentBracket(
   return { westTeams, eastTeams, matchups };
 }
 
+// ─── Role × Position Synergy ────────────────────────────────────────────────
+
+const ROLE_POSITION_SYNERGY: Record<string, Record<string, number>> = {
+  // Strong fits (+2)
+  "Floor General":      { "Point Guard": 2, "Center": -1 },
+  "Playmaker":          { "Point Guard": 2, "Center": -1 },
+  "Scoring Machine":    { "Shooting Guard": 2 },
+  "Go-To Scorer":       { "Shooting Guard": 2, "Small Forward": 1 },
+  "Sharpshooter":       { "Shooting Guard": 2 },
+  "Two-Way Star":       { "Small Forward": 2 },
+  "Swiss Army Knife":   { "Small Forward": 2, "Power Forward": 1 },
+  "Stretch Big":        { "Power Forward": 2 },
+  "Double-Double Threat": { "Power Forward": 2 },
+  "Hustle Rebounder":   { "Power Forward": 2, "Center": 1 },
+  "Defensive Anchor":   { "Center": 2, "Point Guard": -1 },
+  "Glass Cleaner":      { "Center": 2, "Point Guard": -1 },
+  "Shot Blocker":       { "Center": 2, "Point Guard": -1, "Shooting Guard": -1 },
+  "Rim Protector":      { "Center": 2, "Power Forward": 1, "Point Guard": -1, "Shooting Guard": -1 },
+  "Spark Plug":         { "6th Man (Reserve)": 2 },
+  "Energy Guy":         { "6th Man (Reserve)": 2 },
+  // Decent fits (+1)
+  "Lockdown Defender":  { "Shooting Guard": 1 },
+  "Reliable Starter":   { "Point Guard": 1, "Shooting Guard": 1 },
+};
+
+export function computeRolePositionSynergy(roster: TournamentPokemon[]): number {
+  let bonus = 0;
+  for (const p of roster) {
+    if (!p.position || !p.playstyle?.[0]) continue;
+    const roleMap = ROLE_POSITION_SYNERGY[p.playstyle[0]];
+    if (roleMap) bonus += roleMap[p.position] ?? 0;
+  }
+  return bonus;
+}
+
 // ─── Team Factors (MDX formula) ─────────────────────────────────────────────
 
 interface TeamFactors {
@@ -239,6 +275,7 @@ interface TeamFactors {
   headToHeadMatchup: number;
   clutchFatigue: number;
   abilityModifier: number;
+  rolePositionSynergy: number;
   finalRating: number;
   foulOutInjuryChance: number;
 }
@@ -294,9 +331,11 @@ export function calculateTeamFactors(
     opponent.roster.map(p => p.ability ?? ""),
   );
 
-  const finalRating = teamBaseScore + headToHeadMatchup + clutchFatigue + abilityModifier;
+  const rolePositionSynergy = computeRolePositionSynergy(roster);
 
-  return { teamBaseScore, headToHeadMatchup, clutchFatigue, abilityModifier, finalRating, foulOutInjuryChance };
+  const finalRating = teamBaseScore + headToHeadMatchup + clutchFatigue + abilityModifier + rolePositionSynergy;
+
+  return { teamBaseScore, headToHeadMatchup, clutchFatigue, abilityModifier, rolePositionSynergy, finalRating, foulOutInjuryChance };
 }
 
 // ─── Main Simulation ─────────────────────────────────────────────────────────
@@ -393,6 +432,7 @@ export function toTournamentPokemon(p: {
   tag?: "ball handler" | "support"; ability?: string;
   bball?: Pokemon["bball"]; playstyle?: string[]; salary?: number;
   rivals?: string[]; allies?: string[]; physicalProfile?: PhysicalProfile;
+  position?: string;
 }): TournamentPokemon {
   const pokemon: Pokemon = {
     id: p.id, name: p.name, sprite: p.sprite, types: p.types,
@@ -406,6 +446,7 @@ export function toTournamentPokemon(p: {
     rivals: p.rivals,
     allies: p.allies,
     physicalProfile: p.physicalProfile,
+    position: p.position,
   };
 }
 

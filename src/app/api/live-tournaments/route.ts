@@ -109,6 +109,7 @@ export async function POST(req: NextRequest) {
       pokemon_height: rosterPokemon.pokemonHeight,
       pokemon_weight: rosterPokemon.pokemonWeight,
       pokemon_tag: rosterPokemon.pokemonTag,
+      slot_label: rosterPokemon.slotLabel,
     })
     .from(rosterPokemon)
     .where(eq(rosterPokemon.rosterId, rosterId))
@@ -135,6 +136,7 @@ export async function POST(req: NextRequest) {
       height: p.pokemon_height,
       weight: p.pokemon_weight,
       tag: p.pokemon_tag || undefined,
+      position: p.slot_label || undefined,
       ability: (full.ability as string) || undefined,
       rivals: (full.rivals as string[]) || [],
       allies: (full.allies as string[]) || [],
