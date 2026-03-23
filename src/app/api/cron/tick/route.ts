@@ -1,10 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { waitUntil } from "@vercel/functions";
 import { db } from "@/lib/db";
-import { liveTournaments, tournamentGames } from "@/lib/schema";
+import { liveTournaments, tournamentGames, seasons } from "@/lib/schema";
 import { eq, and, lt, sql } from "drizzle-orm";
 import { claimGame } from "@/lib/tournament-db";
 import { simulateGameLive } from "@/lib/simulate-game-live";
+import {
+  resetStaleSeasonGames,
+  getPendingSeasonGames,
+  claimSeasonGame,
+  tryStartPlayoffs,
+  tryAdvancePlayoffRound,
+  getSeasonGames,
+} from "@/lib/season-db";
+import { simulateSeasonGameLive } from "@/lib/simulate-season-game-live";
 
 export const maxDuration = 800;
 
@@ -66,6 +75,46 @@ export async function GET(req: NextRequest) {
 
       // Fire-and-forget background simulation
       waitUntil(simulateGameLive(game.id));
+    }
+  }
+
+  // ── Season Game Processing ─────────────────────────────────────────────────
+
+  // 1. Reset stale season games
+  await resetStaleSeasonGames();
+
+  // 2. Process pending season games whose scheduledAt has passed
+  const pendingSeasonGames = await getPendingSeasonGames(new Date());
+  for (const game of pendingSeasonGames) {
+    const claimed = await claimSeasonGame(game.id);
+    if (!claimed) continue;
+    waitUntil(simulateSeasonGameLive(game.id));
+  }
+
+  // 3. Check if any active season is ready for playoff transition
+  const activeSeasons = await db
+    .select({ id: seasons.id })
+    .from(seasons)
+    .where(eq(seasons.status, "active"));
+
+  for (const season of activeSeasons) {
+    await tryStartPlayoffs(season.id);
+  }
+
+  // 4. Resilience: re-check playoff round advancement for seasons already in playoffs
+  //    (catches cases where simulateSeasonGameLive crashed after writing the result
+  //    but before calling tryAdvancePlayoffRound)
+  const playoffSeasons = await db
+    .select({ id: seasons.id })
+    .from(seasons)
+    .where(eq(seasons.status, "playoffs"));
+
+  for (const season of playoffSeasons) {
+    // Find the highest completed round to attempt advancement on
+    const allPlayoffGames = await getSeasonGames(season.id, { gameType: "playoff" });
+    const rounds = [...new Set(allPlayoffGames.map((g) => g.round).filter(Boolean))].sort();
+    for (const round of rounds) {
+      await tryAdvancePlayoffRound(season.id, round!);
     }
   }
 
