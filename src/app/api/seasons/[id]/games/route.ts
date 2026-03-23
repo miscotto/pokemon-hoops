@@ -13,7 +13,8 @@ export async function GET(
   const { id: seasonId } = await params;
   const { searchParams } = new URL(req.url);
   const gameType = searchParams.get("gameType") ?? undefined;
-  const round = searchParams.get("round") ? Number(searchParams.get("round")) : undefined;
+  const roundParam = searchParams.get("round");
+  const round = roundParam != null ? (Number.isFinite(Number(roundParam)) ? Number(roundParam) : undefined) : undefined;
 
   const games = await getSeasonGames(seasonId, { gameType, round });
   return NextResponse.json(games);

@@ -1,4 +1,6 @@
 import { NextRequest } from "next/server";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import { dbHttp } from "@/lib/db-http";
 import { seasonGames, seasonGameEvents } from "@/lib/schema";
 import { eq, and, gt, asc } from "drizzle-orm";
@@ -15,7 +17,13 @@ export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string; gameId: string }> }
 ) {
-  const { gameId } = await params;
+  // Auth must be resolved before entering the ReadableStream callback
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (!session?.user) {
+    return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { "Content-Type": "application/json" } });
+  }
+
+  const { id: seasonId, gameId } = await params;
   const encoder = new TextEncoder();
 
   const stream = new ReadableStream({
@@ -27,6 +35,7 @@ export async function GET(
       // Load current game state
       const gameRows = await dbHttp
         .select({
+          seasonId: seasonGames.seasonId,
           status: seasonGames.status,
           team1Score: seasonGames.team1Score,
           team2Score: seasonGames.team2Score,
@@ -40,7 +49,7 @@ export async function GET(
         .where(eq(seasonGames.id, gameId));
 
       const game = gameRows[0];
-      if (!game) { controller.close(); return; }
+      if (!game || game.seasonId !== seasonId) { controller.close(); return; }
 
       send("game_state", {
         status: game.status,

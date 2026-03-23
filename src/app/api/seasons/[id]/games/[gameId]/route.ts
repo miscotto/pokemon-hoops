@@ -10,9 +10,10 @@ export async function GET(
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session?.user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { gameId } = await params;
+  const { id: seasonId, gameId } = await params;
   const game = await getSeasonGame(gameId);
   if (!game) return NextResponse.json({ error: "Game not found" }, { status: 404 });
+  if (game.seasonId !== seasonId) return NextResponse.json({ error: "Game not found" }, { status: 404 });
 
   const events = await getSeasonGameEvents(gameId);
   return NextResponse.json({ game, events });

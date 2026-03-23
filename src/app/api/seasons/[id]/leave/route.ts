@@ -16,6 +16,9 @@ export async function POST(
   if (season.status !== "registration") {
     return NextResponse.json({ error: "Cannot leave a season that has already started" }, { status: 400 });
   }
+  if (season.registrationClosedAt) {
+    return NextResponse.json({ error: "Cannot leave after registration has been closed" }, { status: 400 });
+  }
 
   const team = await getUserSeasonTeam(seasonId, session.user.id);
   if (!team) return NextResponse.json({ error: "Not enrolled in this season" }, { status: 400 });
