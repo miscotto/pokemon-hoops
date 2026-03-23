@@ -100,7 +100,12 @@ export default async function SeasonDetailPage({ params }: { params: Promise<{ i
               {standings.map((t, i) => (
                 <tr key={t.userId} className={`border-b last:border-0 ${i < 8 && season.status !== "registration" ? "bg-blue-50/30" : ""}`}>
                   <td className="px-4 py-2 text-gray-500">{i + 1}</td>
-                  <td className="px-4 py-2 font-medium">{t.teamName}{t.userId === session.user.id && <span className="ml-2 text-xs text-blue-600">(You)</span>}</td>
+                  <td className="px-4 py-2 font-medium">
+                    <Link href={`/seasons/${id}/teams/${t.userId}`} className="hover:underline">
+                      {t.teamName}
+                    </Link>
+                    {t.userId === session.user.id && <span className="ml-2 text-xs text-blue-600">(You)</span>}
+                  </td>
                   <td className="text-center px-3 py-2">{t.wins}</td>
                   <td className="text-center px-3 py-2">{t.losses}</td>
                   <td className="text-center px-3 py-2">{t.pointsFor - t.pointsAgainst > 0 ? "+" : ""}{t.pointsFor - t.pointsAgainst}</td>
