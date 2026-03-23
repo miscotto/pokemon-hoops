@@ -166,9 +166,35 @@ export default async function TeamStatsPage({
         </section>
       )}
 
+      {/* Roster — always shown */}
+      {stats.roster.length > 0 && (
+        <section>
+          <h2 className="text-lg font-semibold mb-3">Roster</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+            {stats.roster.map((p) => (
+              <div key={p.id} className="border rounded-lg p-3 flex flex-col items-center gap-1 text-center">
+                {p.sprite ? (
+                  <img src={p.sprite} alt={p.name} className="w-16 h-16 object-contain" />
+                ) : (
+                  <div className="w-16 h-16 flex items-center justify-center text-3xl">?</div>
+                )}
+                <span className="text-xs font-semibold leading-tight">{p.name}</span>
+                {p.position && (
+                  <span className="text-[10px] text-gray-400 uppercase">{p.position}</span>
+                )}
+                <div className="flex gap-1 flex-wrap justify-center">
+                  {p.types.map((t) => (
+                    <span key={t} className="text-[9px] px-1.5 py-0.5 rounded bg-gray-100 text-gray-600 uppercase">{t}</span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       {stats.players.length === 0 && stats.gameLog.length === 0 && (
-        <div className="text-center py-16 text-gray-400">
-          <div className="text-4xl mb-3">📊</div>
+        <div className="text-center py-8 text-gray-400">
           <p className="text-sm">No game data yet. Stats will appear once games are played.</p>
         </div>
       )}

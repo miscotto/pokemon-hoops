@@ -28,6 +28,15 @@ export interface GameLogEntry {
   round: number | null;
 }
 
+export interface RosterPokemon {
+  id: number;
+  name: string;
+  sprite: string;
+  types: string[];
+  position?: string;
+  salary?: number;
+}
+
 export interface TeamSeasonStats {
   userId: string;
   teamName: string;
@@ -36,6 +45,7 @@ export interface TeamSeasonStats {
   pointsFor: number;
   pointsAgainst: number;
   result: string;
+  roster: RosterPokemon[];
   players: PlayerSeasonStats[];
   gameLog: GameLogEntry[];
 }
@@ -54,6 +64,17 @@ export async function getTeamSeasonStats(
 
   const team = teamRows[0];
   if (!team) return null;
+
+  const roster: RosterPokemon[] = Array.isArray(team.rosterData)
+    ? (team.rosterData as RosterPokemon[]).map((p) => ({
+        id: p.id,
+        name: p.name,
+        sprite: p.sprite,
+        types: p.types ?? [],
+        position: p.position,
+        salary: p.salary,
+      }))
+    : [];
 
   // 2. Load all completed games for this team
   const games = await db
@@ -76,6 +97,7 @@ export async function getTeamSeasonStats(
       pointsFor: team.pointsFor,
       pointsAgainst: team.pointsAgainst,
       result: team.result,
+      roster,
       players: [],
       gameLog: [],
     };
@@ -204,6 +226,7 @@ export async function getTeamSeasonStats(
     pointsFor: team.pointsFor,
     pointsAgainst: team.pointsAgainst,
     result: team.result,
+    roster,
     players,
     gameLog,
   };
