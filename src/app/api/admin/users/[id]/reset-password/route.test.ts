@@ -54,6 +54,8 @@ describe("POST /api/admin/users/[id]/reset-password", () => {
 
     const res = await POST(makeRequest("u2"), { params: makeParams("u2") });
     expect(res.status).toBe(401);
+    const body = await res.json();
+    expect(body).toEqual({ error: "Unauthorized" });
   });
 
   it("returns 400 when admin tries to reset their own password", async () => {
@@ -103,6 +105,7 @@ describe("POST /api/admin/users/[id]/reset-password", () => {
     const body = await res.json();
     expect(typeof body.tempPassword).toBe("string");
     expect(body.tempPassword.length).toBe(12);
+    expect(body.warning).toBeUndefined();
   });
 
   it("returns tempPassword with warning when session revocation fails", async () => {
