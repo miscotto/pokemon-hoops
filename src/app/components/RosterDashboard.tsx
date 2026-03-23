@@ -34,6 +34,13 @@ export default function RosterDashboard({
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [error, setError] = useState("");
 
+  // Season join state
+  const [showSeasonPicker, setShowSeasonPicker] = useState(false);
+  const [openSeasons, setOpenSeasons] = useState<{ id: string; name: string; teamCount: number; maxTeams: number }[]>([]);
+  const [loadingSeasons, setLoadingSeasons] = useState(false);
+  const [joiningSeasonId, setJoiningSeasonId] = useState<string | null>(null);
+  const [seasonJoinMsg, setSeasonJoinMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
+
   const fetchRosters = useCallback(async () => {
     try {
       const res = await fetch("/api/rosters");
@@ -134,6 +141,34 @@ export default function RosterDashboard({
     }
   };
 
+  const handleOpenSeasonPicker = async () => {
+    setShowSeasonPicker(true);
+    setSeasonJoinMsg(null);
+    setLoadingSeasons(true);
+    const res = await fetch("/api/seasons");
+    if (res.ok) {
+      const data = await res.json();
+      setOpenSeasons(
+        (Array.isArray(data) ? data : []).filter((s: { status: string }) => s.status === "registration")
+      );
+    }
+    setLoadingSeasons(false);
+  };
+
+  const handleJoinSeason = async (seasonId: string) => {
+    setJoiningSeasonId(seasonId);
+    setSeasonJoinMsg(null);
+    const res = await fetch(`/api/seasons/${seasonId}/join`, { method: "POST" });
+    const data = await res.json();
+    if (res.ok) {
+      setSeasonJoinMsg({ type: "ok", text: "Joined! Good luck this season." });
+      setShowSeasonPicker(false);
+    } else {
+      setSeasonJoinMsg({ type: "err", text: data.error || "Failed to join" });
+    }
+    setJoiningSeasonId(null);
+  };
+
   const tournamentRoster = rosters.find((r) => r.is_tournament_roster);
 
   return (
@@ -187,6 +222,9 @@ export default function RosterDashboard({
                 <PokeButton variant="danger" size="sm" onClick={() => onJoinLiveTournament()}>
                   ⚡ JOIN LIVE
                 </PokeButton>
+                <PokeButton variant="primary" size="sm" onClick={handleOpenSeasonPicker}>
+                  🏆 JOIN SEASON
+                </PokeButton>
                 <PokeButton variant="ghost" size="sm" onClick={() => onEditRoster(tournamentRoster.id)}>
                   VIEW
                 </PokeButton>
@@ -195,6 +233,70 @@ export default function RosterDashboard({
                 </PokeButton>
               </div>
             </div>
+
+            {/* Season join feedback */}
+            {seasonJoinMsg && (
+              <p
+                className="font-pixel text-[6px] mt-3"
+                style={{ color: seasonJoinMsg.type === "ok" ? "var(--color-primary)" : "var(--color-danger)" }}
+              >
+                {seasonJoinMsg.type === "ok" ? "✓ " : "✕ "}{seasonJoinMsg.text}
+              </p>
+            )}
+
+            {/* Season picker */}
+            {showSeasonPicker && (
+              <div className="mt-4 border-t pt-4" style={{ borderColor: "var(--color-border)" }}>
+                <div className="flex items-center justify-between mb-3">
+                  <span className="font-pixel text-[6px]" style={{ color: "var(--color-text-muted)" }}>
+                    SELECT OPEN SEASON
+                  </span>
+                  <PokeButton variant="ghost" size="sm" onClick={() => setShowSeasonPicker(false)}>
+                    ✕
+                  </PokeButton>
+                </div>
+                {loadingSeasons ? (
+                  <div className="flex items-center gap-2 py-2">
+                    <div
+                      className="inline-block w-4 h-4 border-2 border-t-transparent animate-spin"
+                      style={{ borderColor: "var(--color-primary)", borderTopColor: "transparent" }}
+                    />
+                    <span className="font-pixel text-[6px]" style={{ color: "var(--color-text-muted)" }}>LOADING...</span>
+                  </div>
+                ) : openSeasons.length === 0 ? (
+                  <p className="font-pixel text-[6px]" style={{ color: "var(--color-text-muted)" }}>
+                    NO OPEN SEASONS RIGHT NOW.
+                  </p>
+                ) : (
+                  <div className="space-y-2">
+                    {openSeasons.map((s) => (
+                      <div
+                        key={s.id}
+                        className="flex items-center justify-between p-3 border"
+                        style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-surface-alt)" }}
+                      >
+                        <div>
+                          <p className="font-pixel text-[7px]" style={{ color: "var(--color-text)" }}>
+                            {s.name.toUpperCase()}
+                          </p>
+                          <p className="font-pixel text-[5px] mt-0.5" style={{ color: "var(--color-text-muted)" }}>
+                            {s.teamCount}/{s.maxTeams} TEAMS
+                          </p>
+                        </div>
+                        <PokeButton
+                          variant="primary"
+                          size="sm"
+                          disabled={joiningSeasonId === s.id}
+                          onClick={() => handleJoinSeason(s.id)}
+                        >
+                          {joiningSeasonId === s.id ? "..." : "JOIN"}
+                        </PokeButton>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
           </PokeCard>
         )}
 
