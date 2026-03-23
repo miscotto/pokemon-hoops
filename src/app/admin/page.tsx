@@ -27,6 +27,12 @@ interface Tournament {
   started_at: string | null;
 }
 
+interface User {
+  id: string;
+  name: string;
+  email: string;
+}
+
 export default function AdminPage() {
   const { data: session, isPending } = useSession();
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
@@ -43,6 +49,17 @@ export default function AdminPage() {
   // Delete
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
+
+  // Users / reset password
+  const [users, setUsers] = useState<User[]>([]);
+  const [confirmResetId, setConfirmResetId] = useState<string | null>(null);
+  const [resetting, setResetting] = useState(false);
+  const [resetError, setResetError] = useState("");
+  const [resetResult, setResetResult] = useState<{
+    userId: string;
+    tempPassword: string;
+    warning?: string;
+  } | null>(null);
 
   // Season state
   const [seasons, setSeasons] = useState<Season[]>([]);
@@ -76,15 +93,24 @@ export default function AdminPage() {
     }
   }, [setSeasons]);
 
+  const fetchUsers = useCallback(async () => {
+    const res = await fetch("/api/admin/users");
+    if (res.ok) {
+      const data = await res.json();
+      setUsers(Array.isArray(data) ? data : []);
+    }
+  }, []);
+
   useEffect(() => {
     if (!isPending && session?.user) {
       fetchTournaments();
       fetchSeasons();
+      fetchUsers();
     } else if (!isPending && !session?.user) {
       setAuthorized(false);
       setLoading(false);
     }
-  }, [isPending, session, fetchTournaments, fetchSeasons]);
+  }, [isPending, session, fetchTournaments, fetchSeasons, fetchUsers]);
 
   const handleCreateSeason = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -125,6 +151,22 @@ export default function AdminPage() {
       setConfirmDeleteId(null);
     }
     setDeleting(false);
+  };
+
+  const handleResetPassword = async (id: string) => {
+    setResetting(true);
+    setResetError("");
+    const res = await fetch(`/api/admin/users/${id}/reset-password`, {
+      method: "POST",
+    });
+    const data = await res.json();
+    if (res.ok) {
+      setResetResult({ userId: id, tempPassword: data.tempPassword, warning: data.warning });
+      setConfirmResetId(null);
+    } else {
+      setResetError(data.error || "Failed to reset password");
+    }
+    setResetting(false);
   };
 
   const handleCreate = async (e: React.FormEvent) => {
@@ -455,6 +497,142 @@ export default function AdminPage() {
                   </PokeCard>
                 );
               })}
+            </div>
+          )}
+        </div>
+
+        {/* Users List */}
+        <div>
+          <h2
+            className="font-pixel text-[9px] mb-4"
+            style={{ color: "var(--color-text)" }}
+          >
+            ALL USERS ({users.length})
+          </h2>
+
+          {/* Temp password reveal */}
+          {resetResult && (
+            <div
+              className="mb-4 p-4 border-2 border-(--color-primary)"
+              style={{ backgroundColor: "var(--color-surface-alt)" }}
+            >
+              <p
+                className="font-pixel text-[6px] mb-2"
+                style={{ color: "var(--color-danger)" }}
+              >
+                ⚠ THIS PASSWORD WILL NOT BE SHOWN AGAIN. SHARE IT WITH THE USER NOW.
+              </p>
+              {resetResult.warning && (
+                <p
+                  className="font-pixel text-[5px] mb-2"
+                  style={{ color: "var(--color-accent)" }}
+                >
+                  ⚠ {resetResult.warning.toUpperCase()}
+                </p>
+              )}
+              <div className="flex items-center gap-3">
+                <span
+                  className="font-pixel text-[8px] tracking-widest px-3 py-1 border border-(--color-shadow)"
+                  style={{
+                    backgroundColor: "var(--color-bg)",
+                    color: "var(--color-primary)",
+                  }}
+                >
+                  {resetResult.tempPassword}
+                </span>
+                <PokeButton
+                  variant="ghost"
+                  size="sm"
+                  onClick={() =>
+                    navigator.clipboard.writeText(resetResult.tempPassword)
+                  }
+                >
+                  COPY
+                </PokeButton>
+                <PokeButton
+                  variant="primary"
+                  size="sm"
+                  onClick={() => setResetResult(null)}
+                >
+                  DONE
+                </PokeButton>
+              </div>
+            </div>
+          )}
+
+          {users.length === 0 ? (
+            <PokeCard variant="default" className="p-8 text-center">
+              <p
+                className="font-pixel text-[7px]"
+                style={{ color: "var(--color-text-muted)" }}
+              >
+                NO USERS FOUND.
+              </p>
+            </PokeCard>
+          ) : (
+            <div className="space-y-2">
+              {users.map((u) => (
+                <PokeCard key={u.id} variant="default" className="p-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                    <div className="flex-1 min-w-0">
+                      <h3
+                        className="font-pixel text-[8px] truncate"
+                        style={{ color: "var(--color-text)" }}
+                      >
+                        {u.name.toUpperCase()}
+                      </h3>
+                      <p
+                        className="font-pixel text-[5px] mt-1"
+                        style={{ color: "var(--color-text-muted)" }}
+                      >
+                        {u.email}
+                      </p>
+                    </div>
+                    <div className="shrink-0 flex gap-2 items-center">
+                      {confirmResetId === u.id ? (
+                        <>
+                          <PokeButton
+                            variant="danger"
+                            size="sm"
+                            disabled={resetting}
+                            onClick={() => handleResetPassword(u.id)}
+                          >
+                            {resetting ? "..." : "CONFIRM?"}
+                          </PokeButton>
+                          <PokeButton
+                            variant="ghost"
+                            size="sm"
+                            disabled={resetting}
+                            onClick={() => setConfirmResetId(null)}
+                          >
+                            CANCEL
+                          </PokeButton>
+                        </>
+                      ) : (
+                        <PokeButton
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            setResetResult(null);
+                            setResetError("");
+                            setConfirmResetId(u.id);
+                          }}
+                        >
+                          RESET PASSWORD
+                        </PokeButton>
+                      )}
+                      {confirmResetId === u.id && resetError && (
+                        <span
+                          className="font-pixel text-[5px]"
+                          style={{ color: "var(--color-danger)" }}
+                        >
+                          {resetError}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </PokeCard>
+              ))}
             </div>
           )}
         </div>
