@@ -81,7 +81,7 @@ export default function SeasonGameViewer({
     es.onerror = () => es.close();
 
     return () => es.close();
-  }, [streamUrl, isDone]);
+  }, [streamUrl]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Scroll event feed to top on new events
   useEffect(() => {
@@ -138,7 +138,7 @@ export default function SeasonGameViewer({
         <div ref={containerRef} className="h-96 overflow-y-auto">
           {reversedEvents.map((event, idx) => (
             <div
-              key={event.sequence ?? idx}
+              key={event.sequence != null ? `seq-${event.sequence}` : `${event.type}-${event.quarter}-${event.clock}-${idx}`}
               className="px-4 py-3 flex gap-3 border-b last:border-0"
               style={{ opacity: idx === 0 ? 1 : 0.55 }}
             >

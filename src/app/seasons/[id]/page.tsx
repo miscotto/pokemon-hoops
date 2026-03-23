@@ -52,7 +52,7 @@ export default async function SeasonDetailPage({ params }: { params: Promise<{ i
               </button>
             </form>
           )}
-          {season.status === "registration" && userTeam && (
+          {season.status === "registration" && userTeam && !season.registrationClosedAt && (
             <>
               <span className="px-3 py-1 bg-green-100 text-green-700 rounded text-sm font-medium">Joined</span>
               <form action={`/api/seasons/${id}/leave`} method="POST">
