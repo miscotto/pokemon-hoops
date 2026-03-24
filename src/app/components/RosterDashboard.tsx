@@ -162,6 +162,9 @@ export default function RosterDashboard({
 
       if (res.ok) {
         const data = await res.json();
+        setShowCreateTournamentForm(false);
+        setNewTournamentName("");
+        setNewTournamentMaxTeams(8);
         onJoinLiveTournament(data.id);
       } else {
         const data = await res.json();
