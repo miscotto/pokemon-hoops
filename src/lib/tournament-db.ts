@@ -482,6 +482,18 @@ export async function tryAdvanceRound(
           .where(and(eq(liveTournamentTeams.tournamentId, tournamentId), eq(liveTournamentTeams.userId, w.userId)));
       }
 
+      // Guard: if next round games already exist, another concurrent call already advanced
+      const existingNextRound = await tx
+        .select({ count: sql<number>`COUNT(*)::int` })
+        .from(tournamentGames)
+        .where(
+          and(
+            eq(tournamentGames.tournamentId, tournamentId),
+            eq(tournamentGames.round, nextRound)
+          )
+        );
+      if (existingNextRound[0].count > 0) return;
+
       // Pair winners: 0 vs 1, 2 vs 3, etc.
       const nextMatchups = [];
       for (let i = 0; i < Math.floor(winners.length / 2); i++) {
