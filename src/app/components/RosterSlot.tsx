@@ -4,11 +4,6 @@ import { useState } from "react";
 import { createPortal } from "react-dom";
 import { Pokemon } from "../types";
 import Image from "next/image";
-import {
-  toBballAverages,
-  getPlaystyle,
-  computeSalary,
-} from "../utils/bballStats";
 import { PokeButton, TypeBadge } from "./ui";
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -148,130 +143,125 @@ export default function RosterSlot({
           >
             {pokemon.name}
           </p>
-          {(() => {
-            const avg = toBballAverages(pokemon);
-            const playstyle = getPlaystyle(avg, pokemon);
-            const salary = computeSalary(avg, pokemon);
-            return (
-              <>
-                <span
-                  className="font-pixel text-[6px] px-1.5 py-0.5 border mt-1"
-                  style={{
-                    backgroundColor:
-                      salary >= 35
-                        ? "var(--color-accent)"
-                        : "var(--color-surface-alt)",
-                    borderColor: "var(--color-shadow)",
-                    color:
-                      salary >= 35
-                        ? "var(--color-shadow)"
-                        : "var(--color-text-muted)",
-                  }}
-                >
-                  ${salary}M
-                </span>
+          {pokemon.bball && pokemon.salary !== undefined && (
+            <>
+              <span
+                className="font-pixel text-[6px] px-1.5 py-0.5 border mt-1"
+                style={{
+                  backgroundColor:
+                    pokemon.salary >= 35
+                      ? "var(--color-accent)"
+                      : "var(--color-surface-alt)",
+                  borderColor: "var(--color-shadow)",
+                  color:
+                    pokemon.salary >= 35
+                      ? "var(--color-shadow)"
+                      : "var(--color-text-muted)",
+                }}
+              >
+                ${pokemon.salary}M
+              </span>
 
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setShowStats(!showStats);
-                  }}
-                  className="mt-1.5 font-pixel text-[6px] cursor-pointer"
-                  style={{ color: "var(--color-text-muted)" }}
-                >
-                  {showStats ? "HIDE" : "STATS"}
-                </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowStats(!showStats);
+                }}
+                className="mt-1.5 font-pixel text-[6px] cursor-pointer"
+                style={{ color: "var(--color-text-muted)" }}
+              >
+                {showStats ? "HIDE" : "STATS"}
+              </button>
 
-                {showStats && (
-                  <div className="w-full pt-2 flex flex-col gap-1 items-center">
-                    <div className="flex flex-wrap gap-1 justify-center">
-                      {playstyle.map((ps) => (
-                        <span
-                          key={ps}
-                          className="font-pixel text-[5px] px-1.5 py-0.5 uppercase leading-none rounded-full"
-                          style={{
-                            backgroundColor: "var(--color-shadow)",
-                            color: "#ffffff",
-                          }}
-                        >
-                          {ps}
-                        </span>
-                      ))}
-                    </div>
-                    {pokemon.ability && (
-                      <AbilityBadge ability={pokemon.ability} />
-                    )}
-                    <div className="flex gap-1 mt-1 flex-wrap justify-center">
-                      {pokemon.types.map((type) => (
-                        <TypeBadge key={type} type={type} />
-                      ))}
-                    </div>
-                    <div className="grid grid-cols-3 gap-x-3 gap-y-1 mt-2 text-center w-full">
-                      {[
-                        { label: "PPG", val: avg.ppg, color: "#f08030" },
-                        { label: "RPG", val: avg.rpg, color: "#6890f0" },
-                        { label: "APG", val: avg.apg, color: "#78c850" },
-                        { label: "SPG", val: avg.spg, color: "#f8d030" },
-                        { label: "BPG", val: avg.bpg, color: "#cc0000" },
-                        { label: "MPG", val: avg.mpg, color: "#a040a0" },
-                      ].map(({ label, val, color }) => (
-                        <div key={label} className="flex flex-col items-center">
-                          <span
-                            className="font-pixel text-[8px] font-bold"
-                            style={{ color }}
-                          >
-                            {val}
-                          </span>
-                          <span
-                            className="font-pixel text-[5px]"
-                            style={{ color: "var(--color-text-muted)" }}
-                          >
-                            {label}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                    {/* PER bar */}
-                    <div className="flex items-center gap-1 mt-1.5 w-full font-pixel text-[5px]">
-                      <span style={{ color: "var(--color-text-muted)" }}>
-                        PER
-                      </span>
-                      <div
-                        className="flex-1 h-1.5 border"
+              {showStats && (
+                <div className="w-full pt-2 flex flex-col gap-1 items-center">
+                  <div className="flex flex-wrap gap-1 justify-center">
+                    {pokemon.playstyle?.map((ps: string) => (
+                      <span
+                        key={ps}
+                        className="font-pixel text-[5px] px-1.5 py-0.5 uppercase leading-none rounded-full"
                         style={{
-                          borderColor: "var(--color-shadow)",
-                          backgroundColor: "var(--color-surface-alt)",
+                          backgroundColor: "var(--color-shadow)",
+                          color: "#ffffff",
                         }}
                       >
-                        <div
-                          className="h-full"
-                          style={{
-                            width: `${(avg.per / 35) * 100}%`,
-                            backgroundColor:
-                              avg.per >= 25
-                                ? "var(--color-accent)"
-                                : avg.per >= 18
-                                ? "#78c850"
-                                : "var(--color-text-muted)",
-                          }}
-                        />
+                        {ps}
+                      </span>
+                    ))}
+                  </div>
+                  {pokemon.ability && (
+                    <AbilityBadge ability={pokemon.ability} />
+                  )}
+                  <div className="flex gap-1 mt-1 flex-wrap justify-center">
+                    {pokemon.types.map((type) => (
+                      <TypeBadge key={type} type={type} />
+                    ))}
+                  </div>
+                  <div className="grid grid-cols-3 gap-x-3 gap-y-1 mt-2 text-center w-full">
+                    {[
+                      { label: "PPG", val: pokemon.bball.ppg, color: "#f08030" },
+                      { label: "RPG", val: pokemon.bball.rpg, color: "#6890f0" },
+                      { label: "APG", val: pokemon.bball.apg, color: "#78c850" },
+                      { label: "SPG", val: pokemon.bball.spg, color: "#f8d030" },
+                      { label: "BPG", val: pokemon.bball.bpg, color: "#cc0000" },
+                      { label: "MPG", val: pokemon.bball.mpg, color: "#a040a0" },
+                    ].map(({ label, val, color }) => (
+                      <div key={label} className="flex flex-col items-center">
+                        <span
+                          className="font-pixel text-[8px] font-bold"
+                          style={{ color }}
+                        >
+                          {val}
+                        </span>
+                        <span
+                          className="font-pixel text-[5px]"
+                          style={{ color: "var(--color-text-muted)" }}
+                        >
+                          {label}
+                        </span>
                       </div>
-                      <span
+                    ))}
+                  </div>
+                  {/* PER bar */}
+                  <div className="flex items-center gap-1 mt-1.5 w-full font-pixel text-[5px]">
+                    <span style={{ color: "var(--color-text-muted)" }}>
+                      PER
+                    </span>
+                    <div
+                      className="flex-1 h-1.5 border"
+                      style={{
+                        borderColor: "var(--color-shadow)",
+                        backgroundColor: "var(--color-surface-alt)",
+                      }}
+                    >
+                      <div
+                        className="h-full"
                         style={{
-                          color:
-                            avg.per >= 25
+                          width: `${(pokemon.bball.per / 35) * 100}%`,
+                          backgroundColor:
+                            pokemon.bball.per >= 25
                               ? "var(--color-accent)"
+                              : pokemon.bball.per >= 18
+                              ? "#78c850"
                               : "var(--color-text-muted)",
                         }}
-                      >
-                        {avg.per}
-                      </span>
+                      />
                     </div>
+                    <span
+                      style={{
+                        color:
+                          pokemon.bball.per >= 25
+                            ? "var(--color-accent)"
+                            : "var(--color-text-muted)",
+                      }}
+                    >
+                      {pokemon.bball.per}
+                    </span>
                   </div>
-                )}
-              </>
-            );
-          })()}
+                </div>
+              )}
+            </>
+          )}
 
           <PokeButton
             variant="danger"

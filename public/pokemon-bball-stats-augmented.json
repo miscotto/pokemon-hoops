@@ -46,7 +46,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -94,7 +94,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 22.8
   },
@@ -139,7 +139,8 @@
       "per": 18
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Double-Double Threat"
     ],
     "salary": 28.1
   },
@@ -189,7 +190,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 20.8
   },
@@ -233,7 +234,8 @@
       "per": 18.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator",
+      "Reliable Starter"
     ],
     "salary": 27.2
   },
@@ -282,7 +284,7 @@
       "per": 25
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 39.3
   },
@@ -332,7 +334,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -376,7 +378,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 22.9
   },
@@ -424,8 +426,8 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter",
+      "Double-Double Threat"
     ],
     "salary": 30.8
   },
@@ -469,8 +471,7 @@
       "per": 12
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -519,7 +520,8 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Point Forward",
+      "Defensive Big"
     ],
     "salary": 1.2
   },
@@ -569,7 +571,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -616,7 +618,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Slasher"
     ],
     "salary": 1.2
   },
@@ -661,7 +663,8 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Go-To Scorer",
+      "Defensive Big"
     ],
     "salary": 1.1
   },
@@ -706,8 +709,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -758,7 +760,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -803,8 +805,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -854,8 +855,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -901,7 +901,8 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Slasher",
+      "Spark Plug"
     ],
     "salary": 3
   },
@@ -949,7 +950,8 @@
       "per": 18.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator",
+      "Spark Plug"
     ],
     "salary": 25.9
   },
@@ -996,7 +998,8 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Spark Plug",
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -1041,7 +1044,7 @@
       "per": 8
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -1090,8 +1093,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -1135,8 +1137,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -1185,7 +1186,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Slasher"
     ],
     "salary": 3
   },
@@ -1231,7 +1232,7 @@
       "per": 18.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 28.9
   },
@@ -1275,7 +1276,8 @@
       "per": 8
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter",
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -1319,7 +1321,8 @@
       "per": 15
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter",
+      "Swiss Army Knife"
     ],
     "salary": 23.4
   },
@@ -1368,7 +1371,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -1417,7 +1420,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 21.9
   },
@@ -1467,8 +1470,8 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter",
+      "Double-Double Threat"
     ],
     "salary": 29.9
   },
@@ -1516,7 +1519,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -1564,7 +1567,7 @@
       "per": 8
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -1613,7 +1616,7 @@
       "per": 22
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 34.2
   },
@@ -1659,7 +1662,8 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Point Forward",
+      "Stretch Big"
     ],
     "salary": 3
   },
@@ -1703,7 +1707,7 @@
       "per": 18
     },
     "playstyle": [
-      "Offensive Hub"
+      "Playmaker"
     ],
     "salary": 24.5
   },
@@ -1747,7 +1751,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -1791,7 +1795,8 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator",
+      "Reliable Starter"
     ],
     "salary": 29.8
   },
@@ -1836,7 +1841,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 2
   },
@@ -1881,7 +1886,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -1926,7 +1931,8 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter",
+      "Spark Plug"
     ],
     "salary": 2.8
   },
@@ -1971,7 +1977,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -2016,7 +2022,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 2.5
   },
@@ -2061,7 +2067,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Stretch Big"
     ],
     "salary": 3
   },
@@ -2106,7 +2112,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -2151,7 +2157,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Stretch Big"
     ],
     "salary": 1.8
   },
@@ -2196,8 +2202,8 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Point Forward",
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -2242,7 +2248,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -2287,7 +2293,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -2331,7 +2337,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Slasher"
     ],
     "salary": 3
   },
@@ -2375,8 +2381,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Slasher"
     ],
     "salary": 3
   },
@@ -2426,7 +2431,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Playmaker"
     ],
     "salary": 22.3
   },
@@ -2472,7 +2477,7 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 29.1
   },
@@ -2518,7 +2523,7 @@
       "per": 12
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 18.3
   },
@@ -2562,7 +2567,8 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Shot Creator"
     ],
     "salary": 32.9
   },
@@ -2608,7 +2614,7 @@
       "per": 18
     },
     "playstyle": [
-      "Offensive Hub",
+      "Spark Plug",
       "Shot Creator"
     ],
     "salary": 23.6
@@ -2653,8 +2659,7 @@
       "per": 22
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 32.6
   },
@@ -2698,7 +2703,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -2742,8 +2747,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 37.2
   },
@@ -2787,8 +2791,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Slasher"
     ],
     "salary": 3
   },
@@ -2832,8 +2835,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 23.2
   },
@@ -2878,8 +2880,8 @@
       "per": 20.5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Hustle Rebounder",
+      "Double-Double Threat"
     ],
     "salary": 32.3
   },
@@ -2923,7 +2925,8 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Sharpshooter",
+      "Slasher"
     ],
     "salary": 3
   },
@@ -2971,7 +2974,7 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub"
+      "Playmaker"
     ],
     "salary": 28
   },
@@ -3021,7 +3024,7 @@
       "per": 22
     },
     "playstyle": [
-      "Offensive Hub"
+      "Playmaker"
     ],
     "salary": 33.9
   },
@@ -3065,8 +3068,7 @@
       "per": 15
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Hustle Rebounder"
     ],
     "salary": 21.7
   },
@@ -3116,8 +3118,8 @@
       "per": 18
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Double-Double Threat",
+      "Hustle Rebounder"
     ],
     "salary": 24.6
   },
@@ -3161,8 +3163,7 @@
       "per": 22
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Double-Double Threat"
     ],
     "salary": 33.2
   },
@@ -3209,7 +3210,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -3254,7 +3255,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -3299,8 +3300,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -3345,7 +3345,7 @@
       "per": 8
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -3390,7 +3390,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -3441,7 +3441,8 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Defensive Big",
+      "Rim Protector"
     ],
     "salary": 2.7
   },
@@ -3486,7 +3487,8 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Swiss Army Knife",
+      "Defensive Big"
     ],
     "salary": 3
   },
@@ -3531,6 +3533,7 @@
       "per": 10
     },
     "playstyle": [
+      "Defensive Big",
       "Point Forward"
     ],
     "salary": 3
@@ -3575,7 +3578,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -3619,8 +3622,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -3665,7 +3667,7 @@
       "per": 10
     },
     "playstyle": [
-      "Stretch Big",
+      "Swiss Army Knife",
       "Point Forward"
     ],
     "salary": 3
@@ -3712,7 +3714,7 @@
     },
     "playstyle": [
       "Point Forward",
-      "Stretch Big"
+      "Defensive Big"
     ],
     "salary": 3
   },
@@ -3757,7 +3759,8 @@
       "per": 8
     },
     "playstyle": [
-      "Offensive Hub"
+      "Sharpshooter",
+      "Stretch Big"
     ],
     "salary": 3
   },
@@ -3802,7 +3805,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -3851,7 +3854,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 22.2
   },
@@ -3896,8 +3899,8 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter",
+      "Slasher"
     ],
     "salary": 3
   },
@@ -3942,8 +3945,7 @@
       "per": 12
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -3987,8 +3989,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -4033,7 +4034,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -4079,7 +4080,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -4123,8 +4124,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -4172,7 +4172,8 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter",
+      "Defensive Big"
     ],
     "salary": 2.5
   },
@@ -4217,7 +4218,8 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Defensive Big",
+      "Defensive Anchor"
     ],
     "salary": 3
   },
@@ -4267,7 +4269,8 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Slasher",
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -4317,7 +4320,8 @@
       "per": 18
     },
     "playstyle": [
-      "Offensive Hub"
+      "Offensive Hub",
+      "Shot Creator"
     ],
     "salary": 25
   },
@@ -4368,7 +4372,8 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub"
+      "Offensive Hub",
+      "Shot Creator"
     ],
     "salary": 28.6
   },
@@ -4419,8 +4424,7 @@
       "per": 8
     },
     "playstyle": [
-      "Defensive Big",
-      "Point Forward"
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -4464,7 +4468,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -4512,7 +4516,8 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub"
+      "Playmaker",
+      "Reliable Starter"
     ],
     "salary": 28.3
   },
@@ -4556,8 +4561,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -4601,7 +4605,7 @@
       "per": 8
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -4645,7 +4649,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Slasher"
     ],
     "salary": 3
   },
@@ -4689,8 +4693,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Slasher"
     ],
     "salary": 3
   },
@@ -4738,7 +4741,8 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Stretch Big",
+      "Go-To Scorer"
     ],
     "salary": 2.1
   },
@@ -4783,7 +4787,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 24.7
   },
@@ -4829,7 +4833,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -4877,8 +4881,8 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Hustle Rebounder",
+      "Double-Double Threat"
     ],
     "salary": 22.9
   },
@@ -4926,8 +4930,7 @@
       "per": 20
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 26.5
   },
@@ -4976,8 +4979,8 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter",
+      "Shot Creator"
     ],
     "salary": 29.7
   },
@@ -5021,8 +5024,8 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter",
+      "Point Forward"
     ],
     "salary": 3
   },
@@ -5066,7 +5069,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Go-To Scorer"
     ],
     "salary": 2.5
   },
@@ -5114,7 +5117,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -5159,7 +5162,7 @@
       "per": 8
     },
     "playstyle": [
-      "Point Forward"
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -5204,7 +5207,8 @@
       "per": 18
     },
     "playstyle": [
-      "Point Forward"
+      "Hustle Rebounder",
+      "Glass Cleaner"
     ],
     "salary": 28
   },
@@ -5248,7 +5252,8 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Glue Guy",
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -5292,7 +5297,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 23.8
   },
@@ -5336,8 +5341,7 @@
       "per": 22
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 33.9
   },
@@ -5381,7 +5385,7 @@
       "per": 8
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -5425,7 +5429,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -5469,7 +5473,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -5513,7 +5517,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -5557,7 +5561,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -5602,8 +5606,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -5648,7 +5651,7 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub"
+      "Playmaker"
     ],
     "salary": 30.3
   },
@@ -5693,7 +5696,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -5787,7 +5790,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 33.8
   },
@@ -5833,6 +5836,7 @@
       "per": 20
     },
     "playstyle": [
+      "Shot Creator",
       "Offensive Hub"
     ],
     "salary": 30.6
@@ -5882,7 +5886,8 @@
       "per": 20.5
     },
     "playstyle": [
-      "Point Forward"
+      "Shot Creator",
+      "Double-Double Threat"
     ],
     "salary": 29.3
   },
@@ -5926,7 +5931,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -5970,7 +5975,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Slasher"
     ],
     "salary": 1.3
   },
@@ -6021,7 +6026,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -6068,7 +6073,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -6112,7 +6117,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 2.7
   },
@@ -6160,7 +6165,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -6210,7 +6215,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -6258,7 +6263,7 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 31.6
   },
@@ -6302,6 +6307,7 @@
       "per": 18.5
     },
     "playstyle": [
+      "Go-To Scorer",
       "Offensive Hub"
     ],
     "salary": 26.2
@@ -6346,7 +6352,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -6395,7 +6401,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Point Forward"
     ],
     "salary": 2.9
   },
@@ -6455,7 +6461,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Point Forward"
     ],
     "salary": 3
   },
@@ -6500,8 +6506,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -6546,7 +6551,8 @@
       "per": 18.5
     },
     "playstyle": [
-      "Point Forward"
+      "Shot Creator",
+      "Go-To Scorer"
     ],
     "salary": 26.2
   },
@@ -6591,7 +6597,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -6635,7 +6641,6 @@
       "per": 10
     },
     "playstyle": [
-      "Stretch Big",
       "Point Forward"
     ],
     "salary": 3
@@ -6685,8 +6690,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 21.2
   },
@@ -6735,7 +6739,7 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 34.8
   },
@@ -6784,8 +6788,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 21.9
   },
@@ -6831,8 +6834,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -6881,8 +6883,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -6933,8 +6934,7 @@
       "per": 28
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 40
   },
@@ -6980,6 +6980,7 @@
       "per": 32
     },
     "playstyle": [
+      "Shot Creator",
       "Offensive Hub"
     ],
     "salary": 40
@@ -7031,7 +7032,7 @@
       "per": 25
     },
     "playstyle": [
-      "Offensive Hub"
+      "Playmaker"
     ],
     "salary": 40
   },
@@ -7081,7 +7082,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -7128,7 +7129,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 22.6
   },
@@ -7172,8 +7173,7 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 33.1
   },
@@ -7221,7 +7221,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -7265,7 +7265,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 23
   },
@@ -7309,7 +7309,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 34.7
   },
@@ -7361,7 +7361,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 21.1
   },
@@ -7405,8 +7405,7 @@
       "per": 17.5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 23.2
   },
@@ -7455,8 +7454,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 37.6
   },
@@ -7500,7 +7498,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -7544,8 +7542,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -7590,7 +7587,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -7635,7 +7632,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -7680,7 +7677,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -7725,7 +7722,8 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Spark Plug"
     ],
     "salary": 22.2
   },
@@ -7770,7 +7768,7 @@
       "per": 8
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 2.9
   },
@@ -7815,7 +7813,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -7860,7 +7858,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -7905,8 +7903,7 @@
       "per": 8
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -7951,7 +7948,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -7998,7 +7995,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Slasher"
     ],
     "salary": 3
   },
@@ -8044,8 +8041,8 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Stretch Big",
+      "Go-To Scorer"
     ],
     "salary": 1
   },
@@ -8090,7 +8087,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Stretch Big"
     ],
     "salary": 1.3
   },
@@ -8136,6 +8133,7 @@
       "per": 10
     },
     "playstyle": [
+      "Playmaker",
       "Point Forward"
     ],
     "salary": 1.8
@@ -8181,7 +8179,8 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Point Forward"
     ],
     "salary": 4
   },
@@ -8226,7 +8225,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -8271,7 +8270,7 @@
       "per": 18.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Playmaker"
     ],
     "salary": 28
   },
@@ -8315,7 +8314,7 @@
       "per": 8
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 2.4
   },
@@ -8359,7 +8358,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -8403,7 +8402,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 24.5
   },
@@ -8447,7 +8446,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -8492,8 +8491,8 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter",
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -8538,8 +8537,7 @@
       "per": 15
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 22
   },
@@ -8583,7 +8581,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -8627,7 +8625,8 @@
       "per": 18
     },
     "playstyle": [
-      "Offensive Hub"
+      "Playmaker",
+      "Reliable Starter"
     ],
     "salary": 26.1
   },
@@ -8672,8 +8671,8 @@
       "per": 8
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Slasher",
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -8718,8 +8717,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Slasher"
     ],
     "salary": 3
   },
@@ -8767,8 +8765,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -8812,7 +8809,8 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator",
+      "Spark Plug"
     ],
     "salary": 27.3
   },
@@ -8856,7 +8854,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Go-To Scorer"
     ],
     "salary": 1.1
   },
@@ -8900,7 +8898,8 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Stretch Big"
     ],
     "salary": 3
   },
@@ -8945,7 +8944,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -8990,7 +8989,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Go-To Scorer"
     ],
     "salary": 1.3
   },
@@ -9048,8 +9047,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Hustle Rebounder"
     ],
     "salary": 23.4
   },
@@ -9096,7 +9094,8 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub"
+      "Offensive Hub",
+      "Shot Creator"
     ],
     "salary": 32
   },
@@ -9144,7 +9143,7 @@
       "per": 15
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 24
   },
@@ -9191,7 +9190,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -9236,7 +9235,8 @@
       "per": 18
     },
     "playstyle": [
-      "Offensive Hub"
+      "Playmaker",
+      "Point Forward"
     ],
     "salary": 25.8
   },
@@ -9280,7 +9280,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -9324,7 +9324,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Go-To Scorer"
     ],
     "salary": 1.9
   },
@@ -9368,7 +9368,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Glue Guy"
     ],
     "salary": 3
   },
@@ -9418,7 +9418,8 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator",
+      "Reliable Starter"
     ],
     "salary": 30.5
   },
@@ -9462,8 +9463,8 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Stretch Big"
+      "Defensive Big",
+      "Rim Protector"
     ],
     "salary": 3
   },
@@ -9515,6 +9516,7 @@
       "per": 10
     },
     "playstyle": [
+      "Swiss Army Knife",
       "Point Forward"
     ],
     "salary": 3
@@ -9561,7 +9563,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -9606,7 +9608,8 @@
       "per": 20
     },
     "playstyle": [
-      "Point Forward"
+      "Shot Creator",
+      "Swiss Army Knife"
     ],
     "salary": 26.7
   },
@@ -9651,7 +9654,8 @@
       "per": 10
     },
     "playstyle": [
-      "Defensive Big"
+      "Defensive Anchor",
+      "Rim Protector"
     ],
     "salary": 3
   },
@@ -9695,8 +9699,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -9740,8 +9743,7 @@
       "per": 18
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Double-Double Threat"
     ],
     "salary": 24.3
   },
@@ -9786,7 +9788,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Go-To Scorer"
     ],
     "salary": 3
   },
@@ -9838,8 +9840,7 @@
       "per": 20.5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Double-Double Threat"
     ],
     "salary": 27.9
   },
@@ -9884,7 +9885,8 @@
       "per": 10
     },
     "playstyle": [
-      "Defensive Big"
+      "Defensive Anchor",
+      "Rim Protector"
     ],
     "salary": 3
   },
@@ -9933,8 +9935,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 34.7
   },
@@ -9979,7 +9980,7 @@
       "per": 22
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 32.5
   },
@@ -10026,7 +10027,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -10072,8 +10073,7 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Double-Double Threat"
     ],
     "salary": 29
   },
@@ -10117,7 +10117,8 @@
       "per": 8
     },
     "playstyle": [
-      "Offensive Hub"
+      "Stretch Big",
+      "Point Forward"
     ],
     "salary": 2.2
   },
@@ -10162,8 +10163,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Point Forward"
     ],
     "salary": 3
   },
@@ -10208,8 +10208,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 1.6
   },
@@ -10254,7 +10253,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -10299,7 +10298,6 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
       "Point Forward"
     ],
     "salary": 3
@@ -10346,7 +10344,7 @@
       "per": 8
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 2.8
   },
@@ -10390,7 +10388,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Point Forward"
     ],
     "salary": 4
   },
@@ -10435,7 +10433,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -10484,7 +10482,8 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Swiss Army Knife",
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -10536,7 +10535,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -10581,7 +10580,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -10626,7 +10625,7 @@
       "per": 18.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 29.3
   },
@@ -10676,8 +10675,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -10721,8 +10719,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -10766,7 +10763,8 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Swiss Army Knife",
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -10810,7 +10808,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -10854,7 +10852,7 @@
       "per": 18.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 27.8
   },
@@ -10898,7 +10896,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -10942,7 +10940,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 6
   },
@@ -10991,7 +10989,8 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Playmaker",
+      "Reliable Starter"
     ],
     "salary": 30.9
   },
@@ -11036,7 +11035,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Sharpshooter"
     ],
     "salary": 3
   },
@@ -11084,7 +11083,8 @@
       "per": 18
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator",
+      "Spark Plug"
     ],
     "salary": 25.6
   },
@@ -11128,7 +11128,8 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Spark Plug"
     ],
     "salary": 21.6
   },
@@ -11176,7 +11177,8 @@
       "per": 20
     },
     "playstyle": [
-      "Point Forward"
+      "Hustle Rebounder",
+      "Reliable Starter"
     ],
     "salary": 31
   },
@@ -11223,8 +11225,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -11273,7 +11274,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 38.4
   },
@@ -11322,8 +11323,7 @@
       "per": 28
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 40
   },
@@ -11372,8 +11372,7 @@
       "per": 20
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 36.2
   },
@@ -11418,7 +11417,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -11463,7 +11462,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -11510,8 +11509,7 @@
       "per": 22
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Double-Double Threat"
     ],
     "salary": 37.2
   },
@@ -11561,7 +11559,7 @@
       "per": 28
     },
     "playstyle": [
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 40
   },
@@ -11612,8 +11610,7 @@
       "per": 25
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 40
   },
@@ -11661,7 +11658,8 @@
       "per": 22
     },
     "playstyle": [
-      "Offensive Hub"
+      "Offensive Hub",
+      "Playmaker"
     ],
     "salary": 37.9
   },
@@ -11710,7 +11708,8 @@
       "per": 18.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Spark Plug",
+      "3-and-D Wing"
     ],
     "salary": 26.3
   },
@@ -11754,7 +11753,7 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 30.2
   },
@@ -11798,7 +11797,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 37.5
   },
@@ -11842,7 +11841,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -11887,7 +11886,7 @@
       "per": 18.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 24.9
   },
@@ -11932,7 +11931,7 @@
       "per": 25
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 39
   },
@@ -11982,7 +11981,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -12027,8 +12026,7 @@
       "per": 18.5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 24
   },
@@ -12073,8 +12071,7 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Double-Double Threat"
     ],
     "salary": 31.8
   },
@@ -12118,7 +12115,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -12162,8 +12159,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -12207,7 +12203,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -12251,8 +12247,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -12300,7 +12295,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 1.4
   },
@@ -12344,7 +12339,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Rim Protector"
     ],
     "salary": 1.1
   },
@@ -12391,7 +12386,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -12435,7 +12430,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Rim Protector"
     ],
     "salary": 1.1
   },
@@ -12485,7 +12480,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -12530,7 +12525,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 1.6
   },
@@ -12575,7 +12570,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 21.3
   },
@@ -12625,7 +12620,8 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Playmaker"
     ],
     "salary": 29.5
   },
@@ -12676,8 +12672,7 @@
       "per": 8
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 2.1
   },
@@ -12722,7 +12717,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 21.8
   },
@@ -12773,7 +12768,8 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator",
+      "Reliable Starter"
     ],
     "salary": 29.4
   },
@@ -12818,7 +12814,8 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Slasher",
+      "Spark Plug"
     ],
     "salary": 3
   },
@@ -12863,7 +12860,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Slasher"
     ],
     "salary": 3
   },
@@ -12908,7 +12905,8 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Slasher"
     ],
     "salary": 3
   },
@@ -12953,7 +12951,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -13003,7 +13001,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 2.8
   },
@@ -13053,7 +13051,7 @@
       "per": 12
     },
     "playstyle": [
-      "Offensive Hub"
+      "Playmaker"
     ],
     "salary": 20.3
   },
@@ -13103,7 +13101,8 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Offensive Hub",
+      "Playmaker"
     ],
     "salary": 32.2
   },
@@ -13150,7 +13149,8 @@
       "per": 8
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "3-and-D Wing"
     ],
     "salary": 3
   },
@@ -13195,7 +13195,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -13239,7 +13239,8 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Stretch Big",
+      "Reliable Starter"
     ],
     "salary": 1.7
   },
@@ -13291,7 +13292,7 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 28.3
   },
@@ -13335,7 +13336,8 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Defensive Big",
+      "Stretch Big"
     ],
     "salary": 2.6
   },
@@ -13379,8 +13381,8 @@
       "per": 20.5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter",
+      "Spark Plug"
     ],
     "salary": 30.2
   },
@@ -13424,7 +13426,7 @@
       "per": 12
     },
     "playstyle": [
-      "Point Forward"
+      "Double-Double Threat"
     ],
     "salary": 24.2
   },
@@ -13469,7 +13471,8 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Swiss Army Knife",
+      "Reliable Starter"
     ],
     "salary": 2.8
   },
@@ -13514,8 +13517,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Slasher"
     ],
     "salary": 3
   },
@@ -13560,8 +13562,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Shot Creator"
+      "Go-To Scorer"
     ],
     "salary": 1.4
   },
@@ -13605,7 +13606,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Stretch Big"
     ],
     "salary": 2.1
   },
@@ -13649,7 +13650,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 20.6
   },
@@ -13693,8 +13694,7 @@
       "per": 18.5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 26.6
   },
@@ -13738,8 +13738,7 @@
       "per": 12
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Hustle Rebounder"
     ],
     "salary": 19.3
   },
@@ -13788,7 +13787,7 @@
       "per": 20
     },
     "playstyle": [
-      "Point Forward"
+      "Hustle Rebounder"
     ],
     "salary": 27.7
   },
@@ -13833,7 +13832,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 1.2
   },
@@ -13877,8 +13876,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Stretch Big"
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -13922,7 +13920,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -13966,7 +13964,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 23.3
   },
@@ -14015,7 +14013,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -14060,8 +14058,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -14151,7 +14148,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -14196,7 +14193,7 @@
       "per": 18.5
     },
     "playstyle": [
-      "Point Forward",
+      "Defensive Anchor",
       "Defensive Big"
     ],
     "salary": 29
@@ -14242,7 +14239,8 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "3-and-D Wing",
+      "Reliable Starter"
     ],
     "salary": 21.8
   },
@@ -14287,7 +14285,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 33.1
   },
@@ -14331,7 +14329,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -14375,7 +14373,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -14421,7 +14419,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -14467,7 +14465,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -14513,8 +14511,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -14562,7 +14559,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -14607,7 +14604,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Sharpshooter"
     ],
     "salary": 4
   },
@@ -14651,7 +14648,7 @@
       "per": 8
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 2.8
   },
@@ -14695,8 +14692,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -14745,8 +14741,8 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Shot Creator"
+      "Reliable Starter",
+      "Spark Plug"
     ],
     "salary": 3
   },
@@ -14791,8 +14787,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -14839,7 +14834,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -14887,7 +14882,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -14919,7 +14914,7 @@
       "per": 18.6
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 22.4,
     "tag": "support",
@@ -14966,7 +14961,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Point Forward"
     ],
     "salary": 3
   },
@@ -15015,7 +15010,7 @@
       "per": 10
     },
     "playstyle": [
-      "Stretch Big"
+      "Point Forward"
     ],
     "salary": 3
   },
@@ -15063,7 +15058,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -15107,7 +15102,7 @@
       "per": 18
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 27.9
   },
@@ -15151,7 +15146,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -15197,8 +15192,8 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Stretch Big"
+      "Scoring Machine",
+      "Go-To Scorer"
     ],
     "salary": 2.3
   },
@@ -15243,7 +15238,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -15288,8 +15283,7 @@
       "per": 22
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 34.4
   },
@@ -15333,7 +15327,8 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Stretch Big"
     ],
     "salary": 3
   },
@@ -15412,7 +15407,7 @@
       "per": 8
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -15457,8 +15452,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -15504,7 +15498,7 @@
       "per": 22
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 33
   },
@@ -15550,7 +15544,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -15599,8 +15593,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -15647,7 +15640,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -15692,7 +15685,8 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter",
+      "Go-To Scorer"
     ],
     "salary": 1.7
   },
@@ -15737,8 +15731,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -15782,8 +15775,8 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter",
+      "Stretch Big"
     ],
     "salary": 3
   },
@@ -15828,8 +15821,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -15874,8 +15866,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 2.7
   },
@@ -15920,8 +15911,8 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Swiss Army Knife",
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -15966,7 +15957,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Point Forward"
     ],
     "salary": 3
   },
@@ -16011,7 +16002,6 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
       "Point Forward"
     ],
     "salary": 3
@@ -16057,8 +16047,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -16103,8 +16092,7 @@
       "per": 20
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Double-Double Threat"
     ],
     "salary": 26.6
   },
@@ -16148,7 +16136,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Slasher"
     ],
     "salary": 1.2
   },
@@ -16192,8 +16180,7 @@
       "per": 12
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -16237,7 +16224,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -16281,7 +16268,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 22
   },
@@ -16325,7 +16312,7 @@
       "per": 8
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 2.9
   },
@@ -16369,7 +16356,8 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Go-To Scorer"
     ],
     "salary": 22.2
   },
@@ -16413,7 +16401,8 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Defensive Anchor",
+      "Rim Protector"
     ],
     "salary": 2.2
   },
@@ -16462,7 +16451,8 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Defensive Big",
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -16507,8 +16497,8 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter",
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -16552,7 +16542,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -16598,7 +16588,7 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 28.6
   },
@@ -16642,7 +16632,7 @@
       "per": 8
     },
     "playstyle": [
-      "Point Forward"
+      "Glue Guy"
     ],
     "salary": 2.3
   },
@@ -16686,7 +16676,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -16730,8 +16720,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -16776,8 +16765,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -16822,8 +16810,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -16868,7 +16855,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -16912,7 +16899,6 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
       "Point Forward"
     ],
     "salary": 2.7
@@ -16957,7 +16943,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Go-To Scorer"
     ],
     "salary": 3
   },
@@ -17003,8 +16989,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Go-To Scorer"
     ],
     "salary": 3
   },
@@ -17049,7 +17034,8 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Defensive Big",
+      "Defensive Anchor"
     ],
     "salary": 3
   },
@@ -17093,7 +17079,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Slasher"
     ],
     "salary": 4
   },
@@ -17137,8 +17123,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -17182,7 +17167,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -17235,8 +17220,7 @@
       "per": 27
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 39.5
   },
@@ -17287,7 +17271,8 @@
       "per": 8
     },
     "playstyle": [
-      "Point Forward"
+      "Defensive Big",
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -17333,7 +17318,7 @@
     },
     "playstyle": [
       "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -17388,7 +17373,7 @@
     },
     "playstyle": [
       "Offensive Hub",
-      "Point Forward"
+      "Double-Double Threat"
     ],
     "salary": 34.2
   },
@@ -17438,8 +17423,8 @@
       "per": 8
     },
     "playstyle": [
-      "Point Forward",
-      "Defensive Big"
+      "Defensive Anchor",
+      "Swiss Army Knife"
     ],
     "salary": 18.8
   },
@@ -17488,7 +17473,8 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Swiss Army Knife",
+      "Defensive Big"
     ],
     "salary": 19
   },
@@ -17539,7 +17525,8 @@
       "per": 18
     },
     "playstyle": [
-      "Point Forward"
+      "Hustle Rebounder",
+      "Glass Cleaner"
     ],
     "salary": 31.4
   },
@@ -17590,7 +17577,7 @@
       "per": 12
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 24.6
   },
@@ -17637,7 +17624,7 @@
       "per": 22
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 38
   },
@@ -17687,8 +17674,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 21.2
   },
@@ -17736,8 +17722,7 @@
       "per": 25
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Double-Double Threat"
     ],
     "salary": 40
   },
@@ -17786,7 +17771,7 @@
       "per": 28
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 40
   },
@@ -17837,7 +17822,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 19.4
   },
@@ -17883,7 +17868,7 @@
       "per": 25
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 39.2
   },
@@ -17933,7 +17918,8 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Point Forward"
     ],
     "salary": 3
   },
@@ -17977,8 +17963,7 @@
       "per": 8
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -18023,6 +18008,7 @@
       "per": 10
     },
     "playstyle": [
+      "Swiss Army Knife",
       "Point Forward"
     ],
     "salary": 3
@@ -18072,7 +18058,8 @@
       "per": 18.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Spark Plug",
+      "Playmaker"
     ],
     "salary": 25.2
   },
@@ -18117,7 +18104,7 @@
       "per": 21.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 31.4
   },
@@ -18168,7 +18155,7 @@
       "per": 25
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 38.6
   },
@@ -18219,7 +18206,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -18263,7 +18250,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -18308,6 +18295,7 @@
       "per": 20.5
     },
     "playstyle": [
+      "Reliable Starter",
       "Offensive Hub"
     ],
     "salary": 32.4
@@ -18353,7 +18341,8 @@
       "per": 8
     },
     "playstyle": [
-      "Slasher"
+      "Slasher",
+      "Spark Plug"
     ],
     "salary": 3
   },
@@ -18398,7 +18387,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
+      "Reliable Starter",
       "Slasher"
     ],
     "salary": 3
@@ -18444,7 +18433,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -18488,8 +18477,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 2.5
   },
@@ -18534,8 +18522,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 22.7
   },
@@ -18579,8 +18566,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 1.3
   },
@@ -18624,8 +18610,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 21.5
   },
@@ -18669,7 +18654,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -18713,7 +18698,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -18757,7 +18742,8 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Shot Creator"
     ],
     "salary": 30.9
   },
@@ -18802,7 +18788,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 2.3
   },
@@ -18893,7 +18879,8 @@
       "per": 15
     },
     "playstyle": [
-      "Point Forward"
+      "Go-To Scorer",
+      "Double-Double Threat"
     ],
     "salary": 21
   },
@@ -18939,7 +18926,8 @@
       "per": 18.5
     },
     "playstyle": [
-      "Point Forward"
+      "Go-To Scorer",
+      "Double-Double Threat"
     ],
     "salary": 24.3
   },
@@ -18990,7 +18978,7 @@
     },
     "playstyle": [
       "Point Forward",
-      "Offensive Hub"
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -19037,7 +19025,8 @@
       "per": 10
     },
     "playstyle": [
-      "Defensive Big"
+      "Defensive Anchor",
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -19081,7 +19070,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Go-To Scorer"
     ],
     "salary": 1.1
   },
@@ -19126,7 +19115,8 @@
       "per": 8
     },
     "playstyle": [
-      "Offensive Hub"
+      "Point Forward",
+      "Stretch Big"
     ],
     "salary": 3
   },
@@ -19173,7 +19163,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -19220,8 +19210,8 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Spark Plug",
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -19268,7 +19258,8 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Point Forward"
     ],
     "salary": 4
   },
@@ -19316,7 +19307,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -19360,7 +19351,7 @@
       "per": 18.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Spark Plug"
     ],
     "salary": 25.1
   },
@@ -19406,7 +19397,7 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 32.1
   },
@@ -19452,7 +19443,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 2
   },
@@ -19496,7 +19487,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -19540,8 +19531,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Stretch Big"
     ],
     "salary": 2.2
   },
@@ -19586,8 +19576,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -19633,7 +19622,7 @@
       "per": 22
     },
     "playstyle": [
-      "Offensive Hub"
+      "Playmaker"
     ],
     "salary": 36.4
   },
@@ -19678,8 +19667,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -19724,8 +19712,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -19771,7 +19758,8 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Spark Plug",
+      "Slasher"
     ],
     "salary": 23.9
   },
@@ -19819,8 +19807,7 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 31.8
   },
@@ -19864,7 +19851,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -19911,8 +19898,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -19960,7 +19946,8 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Spark Plug",
+      "Reliable Starter"
     ],
     "salary": 22.1
   },
@@ -20004,7 +19991,8 @@
       "per": 18.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator",
+      "Reliable Starter"
     ],
     "salary": 27.4
   },
@@ -20048,7 +20036,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -20097,7 +20085,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -20151,8 +20139,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -20197,7 +20184,7 @@
       "per": 10
     },
     "playstyle": [
-      "Defensive Big"
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -20242,8 +20229,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Point Forward"
     ],
     "salary": 3
   },
@@ -20287,7 +20273,7 @@
       "per": 8
     },
     "playstyle": [
-      "Defensive Big"
+      "Rim Protector"
     ],
     "salary": 2.6
   },
@@ -20334,7 +20320,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Sharpshooter"
     ],
     "salary": 4
   },
@@ -20381,7 +20367,7 @@
       "per": 12
     },
     "playstyle": [
-      "Point Forward"
+      "Glass Cleaner"
     ],
     "salary": 3
   },
@@ -20426,7 +20412,7 @@
       "per": 8
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -20471,8 +20457,8 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Point Forward",
+      "Stretch Big"
     ],
     "salary": 3
   },
@@ -20517,8 +20503,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -20568,8 +20553,8 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter",
+      "Shot Creator"
     ],
     "salary": 26.5
   },
@@ -20619,7 +20604,7 @@
       "per": 28
     },
     "playstyle": [
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 39.6
   },
@@ -20663,7 +20648,7 @@
       "per": 5
     },
     "playstyle": [
-      "Stretch Big"
+      "Point Forward"
     ],
     "salary": 3
   },
@@ -20709,7 +20694,8 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Spark Plug",
+      "Reliable Starter"
     ],
     "salary": 21.7
   },
@@ -20754,7 +20740,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 36.3
   },
@@ -20798,7 +20784,8 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter",
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -20846,7 +20833,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -20891,8 +20878,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -20939,8 +20925,7 @@
       "per": 20.5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 32.5
   },
@@ -20985,7 +20970,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 20.8
   },
@@ -21030,7 +21015,7 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 31.2
   },
@@ -21074,8 +21059,7 @@
       "per": 12
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -21123,7 +21107,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Go-To Scorer"
     ],
     "salary": 1.7
   },
@@ -21169,8 +21153,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -21217,7 +21200,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -21266,7 +21249,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 18.8
   },
@@ -21315,8 +21298,7 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Double-Double Threat"
     ],
     "salary": 31.9
   },
@@ -21366,8 +21348,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 37.6
   },
@@ -21412,7 +21393,8 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Point Forward",
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -21456,8 +21438,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -21508,8 +21489,8 @@
       "per": 18
     },
     "playstyle": [
-      "Point Forward",
-      "Stretch Big"
+      "Glass Cleaner",
+      "Hustle Rebounder"
     ],
     "salary": 28
   },
@@ -21553,8 +21534,7 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Double-Double Threat"
     ],
     "salary": 32.1
   },
@@ -21602,7 +21582,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 36.9
   },
@@ -21648,7 +21628,7 @@
       "per": 18.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 29.5
   },
@@ -21693,8 +21673,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -21739,8 +21718,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -21787,8 +21765,7 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 31.2
   },
@@ -21835,7 +21812,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -21886,7 +21863,7 @@
       "per": 22
     },
     "playstyle": [
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 36.7
   },
@@ -21931,7 +21908,8 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter",
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -21975,7 +21953,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -22024,7 +22002,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 36.8
   },
@@ -22069,7 +22047,8 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Point Forward",
+      "Defensive Big"
     ],
     "salary": 3
   },
@@ -22113,7 +22092,7 @@
       "per": 18
     },
     "playstyle": [
-      "Point Forward"
+      "Defensive Big"
     ],
     "salary": 24.8
   },
@@ -22158,7 +22137,7 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 28.5
   },
@@ -22207,7 +22186,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -22254,7 +22233,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 20.1
   },
@@ -22301,7 +22280,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 20
   },
@@ -22348,7 +22327,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 21.1
   },
@@ -22398,8 +22377,7 @@
       "per": 25
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 40
   },
@@ -22449,6 +22427,7 @@
       "per": 28
     },
     "playstyle": [
+      "Shot Creator",
       "Offensive Hub"
     ],
     "salary": 40
@@ -22494,8 +22473,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 18.5
   },
@@ -22543,7 +22521,7 @@
       "per": 20
     },
     "playstyle": [
-      "Point Forward"
+      "Double-Double Threat"
     ],
     "salary": 38.3
   },
@@ -22593,7 +22571,8 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Swiss Army Knife",
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -22639,7 +22618,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 17.9
   },
@@ -22685,8 +22664,7 @@
       "per": 8
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 18
   },
@@ -22732,7 +22710,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 19.9
   },
@@ -22778,7 +22756,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 38.7
   },
@@ -22822,8 +22800,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -22872,8 +22849,8 @@
       "per": 30
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator",
+      "Offensive Hub"
     ],
     "salary": 40
   },
@@ -22918,7 +22895,7 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 36.8
   },
@@ -22962,7 +22939,7 @@
       "per": 8
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -23006,7 +22983,8 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Playmaker"
     ],
     "salary": 27.5
   },
@@ -23050,8 +23028,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -23102,7 +23079,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -23147,8 +23124,8 @@
       "per": 18.5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter",
+      "Double-Double Threat"
     ],
     "salary": 25.1
   },
@@ -23199,8 +23176,8 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator",
+      "Offensive Hub"
     ],
     "salary": 34.8
   },
@@ -23246,7 +23223,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -23290,7 +23267,7 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub"
+      "Playmaker"
     ],
     "salary": 26.1
   },
@@ -23382,7 +23359,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -23426,7 +23403,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 23.1
   },
@@ -23470,7 +23447,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -23514,7 +23491,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -23558,7 +23535,7 @@
       "per": 20.5
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 26.4
   },
@@ -23604,7 +23581,8 @@
       "per": 12
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Spark Plug"
     ],
     "salary": 19.2
   },
@@ -23650,7 +23628,7 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 29.4
   },
@@ -23700,7 +23678,7 @@
       "per": 18
     },
     "playstyle": [
-      "Offensive Hub"
+      "Playmaker"
     ],
     "salary": 22.8
   },
@@ -23747,7 +23725,7 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 32.8
   },
@@ -23796,7 +23774,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 21.4
   },
@@ -23840,7 +23818,7 @@
       "per": 22
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 36
   },
@@ -23887,7 +23865,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 21.4
   },
@@ -23931,7 +23909,7 @@
       "per": 22
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 33.8
   },
@@ -23975,8 +23953,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Stretch Big"
     ],
     "salary": 1.4
   },
@@ -24020,7 +23997,6 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
       "Point Forward"
     ],
     "salary": 3
@@ -24066,8 +24042,7 @@
       "per": 8
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -24112,8 +24087,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -24158,7 +24132,7 @@
       "per": 8
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -24202,7 +24176,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -24246,8 +24220,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -24294,7 +24267,8 @@
       "per": 5
     },
     "playstyle": [
-      "Stretch Big"
+      "Swiss Army Knife",
+      "Point Forward"
     ],
     "salary": 3
   },
@@ -24338,7 +24312,7 @@
       "per": 5
     },
     "playstyle": [
-      "Stretch Big"
+      "Point Forward"
     ],
     "salary": 3
   },
@@ -24382,8 +24356,7 @@
       "per": 10
     },
     "playstyle": [
-      "Stretch Big",
-      "Point Forward"
+      "Defensive Big"
     ],
     "salary": 3
   },
@@ -24428,8 +24401,7 @@
       "per": 8
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -24474,8 +24446,8 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Slasher",
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -24519,7 +24491,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -24564,7 +24536,8 @@
       "per": 20
     },
     "playstyle": [
-      "Point Forward"
+      "Go-To Scorer",
+      "Reliable Starter"
     ],
     "salary": 25.6
   },
@@ -24608,7 +24581,7 @@
       "per": 12
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 19.2
   },
@@ -24652,7 +24625,7 @@
       "per": 15
     },
     "playstyle": [
-      "Point Forward"
+      "Hustle Rebounder"
     ],
     "salary": 20.8
   },
@@ -24701,7 +24674,8 @@
       "per": 18.5
     },
     "playstyle": [
-      "Point Forward"
+      "Double-Double Threat",
+      "Hustle Rebounder"
     ],
     "salary": 24.9
   },
@@ -24747,7 +24721,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Point Forward"
+      "Double-Double Threat"
     ],
     "salary": 33.7
   },
@@ -24791,8 +24765,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 1.9
   },
@@ -24837,8 +24810,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -24883,8 +24855,8 @@
       "per": 18.5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter",
+      "Double-Double Threat"
     ],
     "salary": 29
   },
@@ -24930,7 +24902,8 @@
       "per": 18.5
     },
     "playstyle": [
-      "Point Forward"
+      "Hustle Rebounder",
+      "Double-Double Threat"
     ],
     "salary": 25.3
   },
@@ -24976,8 +24949,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 34.6
   },
@@ -25022,8 +24994,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -25068,7 +25039,7 @@
       "per": 8
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -25116,7 +25087,7 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 30.1
   },
@@ -25161,8 +25132,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 2.4
   },
@@ -25207,8 +25177,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -25255,7 +25224,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -25300,8 +25269,7 @@
       "per": 8
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -25346,7 +25314,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -25390,7 +25358,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 2.8
   },
@@ -25437,7 +25405,8 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Offensive Hub",
+      "Playmaker"
     ],
     "salary": 30.4
   },
@@ -25483,8 +25452,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -25529,7 +25497,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -25574,7 +25542,8 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Two-Way Star"
     ],
     "salary": 22.8
   },
@@ -25619,8 +25588,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 36.5
   },
@@ -25664,8 +25632,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -25709,7 +25676,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 32.6
   },
@@ -25753,7 +25720,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 23.3
   },
@@ -25801,8 +25768,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -25859,7 +25825,8 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Swiss Army Knife",
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -25906,8 +25873,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 20.7
   },
@@ -25952,8 +25918,8 @@
       "per": 18.5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Double-Double Threat",
+      "Swiss Army Knife"
     ],
     "salary": 25.4
   },
@@ -25998,7 +25964,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -26042,7 +26008,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Rim Protector"
     ],
     "salary": 1.5
   },
@@ -26086,8 +26052,8 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Stretch Big"
+      "Defensive Big",
+      "Rim Protector"
     ],
     "salary": 3
   },
@@ -26132,7 +26098,7 @@
       "per": 8
     },
     "playstyle": [
-      "Point Forward"
+      "Defensive Big"
     ],
     "salary": 3
   },
@@ -26180,7 +26146,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Defensive Big"
     ],
     "salary": 3
   },
@@ -26225,7 +26191,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -26270,7 +26236,7 @@
       "per": 18.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 32.2
   },
@@ -26319,8 +26285,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -26366,8 +26331,8 @@
       "per": 15
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter",
+      "Hustle Rebounder"
     ],
     "salary": 23.9
   },
@@ -26411,7 +26376,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -26455,7 +26420,8 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Offensive Hub",
+      "Shot Creator"
     ],
     "salary": 38.2
   },
@@ -26499,7 +26465,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -26543,7 +26509,8 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator",
+      "Spark Plug"
     ],
     "salary": 28.5
   },
@@ -26587,7 +26554,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -26631,7 +26598,7 @@
       "per": 18
     },
     "playstyle": [
-      "Offensive Hub"
+      "Playmaker"
     ],
     "salary": 22.6
   },
@@ -26675,8 +26642,7 @@
       "per": 19
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 24.4
   },
@@ -26720,7 +26686,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Sharpshooter"
     ],
     "salary": 1.7
   },
@@ -26766,7 +26732,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Stretch Big"
     ],
     "salary": 2.7
   },
@@ -26816,7 +26782,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Point Forward"
     ],
     "salary": 4
   },
@@ -26861,8 +26827,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -26909,7 +26874,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -26953,7 +26918,8 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Stretch Big"
     ],
     "salary": 2.1
   },
@@ -26997,7 +26963,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -27043,7 +27009,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -27088,7 +27054,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -27133,8 +27099,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -27183,7 +27148,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Slasher"
     ],
     "salary": 3
   },
@@ -27229,7 +27194,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -27277,7 +27242,7 @@
     },
     "playstyle": [
       "Point Forward",
-      "Stretch Big"
+      "Defensive Big"
     ],
     "salary": 3
   },
@@ -27322,8 +27287,8 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Go-To Scorer",
+      "Scoring Machine"
     ],
     "salary": 1.6
   },
@@ -27368,8 +27333,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -27414,8 +27378,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -27460,8 +27423,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -27505,7 +27467,7 @@
       "per": 12
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -27554,7 +27516,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -27603,7 +27565,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -27648,8 +27610,8 @@
       "per": 10
     },
     "playstyle": [
-      "Stretch Big",
-      "Defensive Big"
+      "Defensive Big",
+      "Rim Protector"
     ],
     "salary": 3
   },
@@ -27699,7 +27661,8 @@
       "per": 10
     },
     "playstyle": [
-      "Stretch Big"
+      "Defensive Big",
+      "Rim Protector"
     ],
     "salary": 3
   },
@@ -27743,7 +27706,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Playmaker"
     ],
     "salary": 2.2
   },
@@ -27787,7 +27750,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -27845,7 +27808,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -27889,7 +27852,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -27933,8 +27896,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -27978,7 +27940,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -28022,7 +27984,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Stretch Big"
     ],
     "salary": 3
   },
@@ -28066,7 +28028,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Playmaker"
     ],
     "salary": 23.1
   },
@@ -28111,7 +28073,7 @@
       "per": 12
     },
     "playstyle": [
-      "Offensive Hub"
+      "Stretch Big"
     ],
     "salary": 3
   },
@@ -28156,7 +28118,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -28201,7 +28163,8 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Sharpshooter",
+      "Stretch Big"
     ],
     "salary": 3
   },
@@ -28245,8 +28208,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 20.9
   },
@@ -28290,7 +28252,7 @@
       "per": 19
     },
     "playstyle": [
-      "Point Forward"
+      "Go-To Scorer"
     ],
     "salary": 23.4
   },
@@ -28338,8 +28300,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 36.1
   },
@@ -28383,7 +28344,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -28433,8 +28394,7 @@
       "per": 20.5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Double-Double Threat"
     ],
     "salary": 29.8
   },
@@ -28478,7 +28438,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -28570,7 +28530,7 @@
       "per": 22
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 31
   },
@@ -28616,7 +28576,7 @@
     },
     "playstyle": [
       "Point Forward",
-      "Offensive Hub"
+      "Stretch Big"
     ],
     "salary": 3
   },
@@ -28660,7 +28620,8 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub"
+      "Spark Plug",
+      "Playmaker"
     ],
     "salary": 26.4
   },
@@ -28704,7 +28665,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 36.4
   },
@@ -28748,7 +28709,7 @@
       "per": 18
     },
     "playstyle": [
-      "Point Forward"
+      "Double-Double Threat"
     ],
     "salary": 24.8
   },
@@ -28793,8 +28754,7 @@
       "per": 15
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Hustle Rebounder"
     ],
     "salary": 21.4
   },
@@ -28839,7 +28799,8 @@
       "per": 20
     },
     "playstyle": [
-      "Point Forward"
+      "Double-Double Threat",
+      "Hustle Rebounder"
     ],
     "salary": 29.7
   },
@@ -28888,8 +28849,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -28938,8 +28898,8 @@
       "per": 20
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Shot Creator",
+      "Reliable Starter"
     ],
     "salary": 27.5
   },
@@ -28983,7 +28943,8 @@
       "per": 14
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter",
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -29030,8 +28991,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -29078,7 +29038,8 @@
       "per": 22
     },
     "playstyle": [
-      "Point Forward"
+      "Double-Double Threat",
+      "Shot Creator"
     ],
     "salary": 33
   },
@@ -29127,7 +29088,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -29176,7 +29137,7 @@
       "per": 18
     },
     "playstyle": [
-      "Point Forward"
+      "Swiss Army Knife"
     ],
     "salary": 25.5
   },
@@ -29222,7 +29183,8 @@
       "per": 19
     },
     "playstyle": [
-      "Offensive Hub"
+      "Offensive Hub",
+      "Reliable Starter"
     ],
     "salary": 25
   },
@@ -29269,8 +29231,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -29315,8 +29276,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 2.9
   },
@@ -29361,8 +29321,8 @@
       "per": 19
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter",
+      "Go-To Scorer"
     ],
     "salary": 23.5
   },
@@ -29407,8 +29367,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -29453,8 +29412,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -29499,7 +29457,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -29548,8 +29506,7 @@
       "per": 25
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 40
   },
@@ -29598,8 +29555,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 38.9
   },
@@ -29649,8 +29605,7 @@
       "per": 22
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 38.1
   },
@@ -29698,7 +29653,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 37.5
   },
@@ -29747,7 +29702,7 @@
       "per": 24.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 38.4
   },
@@ -29797,8 +29752,7 @@
       "per": 28
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 40
   },
@@ -29846,8 +29800,7 @@
       "per": 28
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 40
   },
@@ -29895,8 +29848,7 @@
       "per": 25
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 38.5
   },
@@ -29946,8 +29898,7 @@
       "per": 25
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 40
   },
@@ -29996,7 +29947,7 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 33.4
   },
@@ -30041,7 +29992,8 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub"
+      "Offensive Hub",
+      "Playmaker"
     ],
     "salary": 32.4
   },
@@ -30137,7 +30089,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -30181,8 +30133,7 @@
       "per": 15
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 22.5
   },
@@ -30227,8 +30178,8 @@
       "per": 20.5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Double-Double Threat",
+      "Hustle Rebounder"
     ],
     "salary": 33.5
   },
@@ -30272,7 +30223,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -30316,7 +30267,8 @@
       "per": 18.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Playmaker",
+      "Reliable Starter"
     ],
     "salary": 26.1
   },
@@ -30405,7 +30357,8 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Spark Plug",
+      "Slasher"
     ],
     "salary": 21.6
   },
@@ -30453,7 +30406,7 @@
       "per": 22
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 30.4
   },
@@ -30498,7 +30451,7 @@
       "per": 25
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 39.4
   },
@@ -30542,7 +30495,8 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Spark Plug"
     ],
     "salary": 4
   },
@@ -30587,8 +30541,8 @@
       "per": 18.5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter",
+      "Hustle Rebounder"
     ],
     "salary": 25.6
   },
@@ -30633,7 +30587,8 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Slasher",
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -30678,8 +30633,8 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter",
+      "Slasher"
     ],
     "salary": 3
   },
@@ -30724,8 +30679,8 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Slasher",
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -30769,8 +30724,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 1.3
   },
@@ -30814,7 +30768,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 1.5
   },
@@ -30859,7 +30813,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -30904,7 +30858,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -30949,7 +30903,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -30993,7 +30947,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Playmaker"
     ],
     "salary": 2.3
   },
@@ -31037,7 +30991,8 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Playmaker"
     ],
     "salary": 4
   },
@@ -31081,7 +31036,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -31125,7 +31080,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -31169,7 +31124,7 @@
       "per": 18.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 28.7
   },
@@ -31217,8 +31172,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 21.3
   },
@@ -31265,8 +31219,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Double-Double Threat"
     ],
     "salary": 36.5
   },
@@ -31310,7 +31263,8 @@
       "per": 18.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator",
+      "Reliable Starter"
     ],
     "salary": 28.1
   },
@@ -31354,7 +31308,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -31398,7 +31352,7 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub"
+      "Playmaker"
     ],
     "salary": 28.4
   },
@@ -31443,7 +31397,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Rim Protector"
     ],
     "salary": 1.9
   },
@@ -31488,7 +31442,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Rim Protector"
     ],
     "salary": 3
   },
@@ -31533,7 +31487,8 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Swiss Army Knife",
+      "Defensive Big"
     ],
     "salary": 3
   },
@@ -31577,7 +31532,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Playmaker"
     ],
     "salary": 2.4
   },
@@ -31621,7 +31576,8 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Point Forward"
     ],
     "salary": 4
   },
@@ -31667,8 +31623,7 @@
       "per": 12
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -31712,7 +31667,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -31757,7 +31712,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -31802,8 +31757,7 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 30.5
   },
@@ -31848,8 +31802,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -31894,7 +31847,8 @@
       "per": 18.5
     },
     "playstyle": [
-      "Point Forward"
+      "Double-Double Threat",
+      "Reliable Starter"
     ],
     "salary": 27.3
   },
@@ -31941,7 +31895,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Go-To Scorer"
     ],
     "salary": 1.4
   },
@@ -31988,8 +31942,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -32037,7 +31990,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -32081,8 +32034,8 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter",
+      "Stretch Big"
     ],
     "salary": 3
   },
@@ -32127,7 +32080,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -32172,7 +32125,7 @@
       "per": 22
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 35.9
   },
@@ -32217,7 +32170,7 @@
       "per": 12
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 15.1
   },
@@ -32264,7 +32217,8 @@
       "per": 20
     },
     "playstyle": [
-      "Point Forward"
+      "Double-Double Threat",
+      "Hustle Rebounder"
     ],
     "salary": 30
   },
@@ -32311,7 +32265,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -32356,8 +32310,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -32405,7 +32358,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -32456,7 +32409,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 36.3
   },
@@ -32504,7 +32457,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -32551,7 +32504,8 @@
       "per": 12
     },
     "playstyle": [
-      "Point Forward"
+      "Defensive Anchor",
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -32597,7 +32551,8 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Stretch Big",
+      "Reliable Starter"
     ],
     "salary": 1.9
   },
@@ -32641,8 +32596,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -32686,7 +32640,8 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Offensive Hub",
+      "Reliable Starter"
     ],
     "salary": 33.1
   },
@@ -32734,8 +32689,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -32780,7 +32734,7 @@
       "per": 8
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -32827,8 +32781,8 @@
       "per": 15
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Hustle Rebounder",
+      "Double-Double Threat"
     ],
     "salary": 23.7
   },
@@ -32873,7 +32827,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -32918,8 +32872,7 @@
       "per": 15
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 24.1
   },
@@ -32967,7 +32920,7 @@
       "per": 8
     },
     "playstyle": [
-      "Point Forward"
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -33011,7 +32964,8 @@
       "per": 10
     },
     "playstyle": [
-      "Defensive Big"
+      "Rim Protector",
+      "Defensive Anchor"
     ],
     "salary": 3
   },
@@ -33056,7 +33010,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -33101,8 +33055,7 @@
       "per": 22
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 34.5
   },
@@ -33150,8 +33103,7 @@
       "per": 25
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 40
   },
@@ -33199,8 +33151,7 @@
       "per": 28
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 40
   },
@@ -33248,7 +33199,8 @@
       "per": 22
     },
     "playstyle": [
-      "Point Forward"
+      "Swiss Army Knife",
+      "Hustle Rebounder"
     ],
     "salary": 36.2
   },
@@ -33297,8 +33249,8 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Point Forward",
+      "Stretch Big"
     ],
     "salary": 18
   },
@@ -33349,7 +33301,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Sharpshooter"
     ],
     "salary": 20.5
   },
@@ -33394,7 +33346,8 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Offensive Hub",
+      "Reliable Starter"
     ],
     "salary": 34.5
   },
@@ -33439,7 +33392,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -33484,7 +33437,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 22.1
   },
@@ -33529,7 +33482,8 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Offensive Hub",
+      "Reliable Starter"
     ],
     "salary": 32.7
   },
@@ -33575,7 +33529,8 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Spark Plug",
+      "Reliable Starter"
     ],
     "salary": 21.5
   },
@@ -33619,7 +33574,7 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 27.8
   },
@@ -33670,7 +33625,7 @@
     },
     "playstyle": [
       "Offensive Hub",
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 37.8
   },
@@ -33717,7 +33672,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -33761,7 +33716,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -33806,7 +33761,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -33851,7 +33806,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -33896,8 +33851,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -33942,8 +33896,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -33990,7 +33943,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -34039,8 +33992,7 @@
       "per": 15
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 21.5
   },
@@ -34086,7 +34038,8 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Stretch Big"
     ],
     "salary": 2.5
   },
@@ -34135,8 +34088,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Point Forward"
     ],
     "salary": 4
   },
@@ -34186,7 +34138,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Stretch Big"
     ],
     "salary": 3
   },
@@ -34232,8 +34184,7 @@
       "per": 8
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -34281,7 +34232,7 @@
       "per": 20
     },
     "playstyle": [
-      "Point Forward"
+      "Double-Double Threat"
     ],
     "salary": 26
   },
@@ -34326,7 +34277,8 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator",
+      "Reliable Starter"
     ],
     "salary": 29.6
   },
@@ -34371,7 +34323,8 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Spark Plug"
     ],
     "salary": 3
   },
@@ -34416,7 +34369,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Slasher"
     ],
     "salary": 3
   },
@@ -34462,7 +34415,8 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Spark Plug"
     ],
     "salary": 20.7
   },
@@ -34506,7 +34460,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 33.6
   },
@@ -34550,7 +34504,8 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Go-To Scorer",
+      "Reliable Starter"
     ],
     "salary": 1
   },
@@ -34597,8 +34552,7 @@
       "per": 8
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -34643,7 +34597,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Rim Protector"
     ],
     "salary": 3
   },
@@ -34687,7 +34641,8 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter",
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -34731,7 +34686,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -34776,7 +34731,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Stretch Big"
     ],
     "salary": 1.8
   },
@@ -34821,7 +34776,7 @@
       "per": 8
     },
     "playstyle": [
-      "Point Forward"
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -34865,7 +34820,8 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Go-To Scorer",
+      "Reliable Starter"
     ],
     "salary": 1.7
   },
@@ -34909,7 +34865,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 22.4
   },
@@ -34956,7 +34912,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Stretch Big"
     ],
     "salary": 1.5
   },
@@ -35003,7 +34959,8 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Point Forward",
+      "Stretch Big"
     ],
     "salary": 3
   },
@@ -35048,7 +35005,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -35097,7 +35054,7 @@
       "per": 18.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 28.2
   },
@@ -35142,8 +35099,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -35192,7 +35148,8 @@
       "per": 20
     },
     "playstyle": [
-      "Point Forward"
+      "Double-Double Threat",
+      "Hustle Rebounder"
     ],
     "salary": 29.1
   },
@@ -35236,8 +35193,7 @@
       "per": 8
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 1.8
   },
@@ -35281,7 +35237,8 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Spark Plug"
     ],
     "salary": 21
   },
@@ -35325,8 +35282,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 33.4
   },
@@ -35370,7 +35326,7 @@
       "per": 12
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 13.8
   },
@@ -35417,7 +35373,8 @@
       "per": 18
     },
     "playstyle": [
-      "Offensive Hub"
+      "Playmaker",
+      "Floor General"
     ],
     "salary": 26
   },
@@ -35464,7 +35421,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 37.1
   },
@@ -35509,8 +35466,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Slasher"
     ],
     "salary": 3
   },
@@ -35559,7 +35515,7 @@
       "per": 15
     },
     "playstyle": [
-      "Point Forward"
+      "Defensive Big"
     ],
     "salary": 23.5
   },
@@ -35604,7 +35560,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Point Forward"
     ],
     "salary": 2.3
   },
@@ -35652,7 +35608,6 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
       "Point Forward"
     ],
     "salary": 3
@@ -35697,7 +35652,7 @@
       "per": 5
     },
     "playstyle": [
-      "Stretch Big"
+      "Rim Protector"
     ],
     "salary": 3
   },
@@ -35743,8 +35698,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -35788,8 +35742,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 39.2
   },
@@ -35834,7 +35787,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -35878,7 +35831,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Stretch Big"
     ],
     "salary": 3
   },
@@ -35923,8 +35876,8 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Point Forward",
+      "Defensive Big"
     ],
     "salary": 3
   },
@@ -35971,8 +35924,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -36021,7 +35973,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -36066,7 +36018,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -36111,7 +36063,8 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub"
+      "Point Forward",
+      "Playmaker"
     ],
     "salary": 27.7
   },
@@ -36159,7 +36112,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Defensive Big"
     ],
     "salary": 3
   },
@@ -36203,7 +36156,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -36248,8 +36201,8 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Double-Double Threat",
+      "Shot Creator"
     ],
     "salary": 26.3
   },
@@ -36300,8 +36253,8 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator",
+      "Offensive Hub"
     ],
     "salary": 37.9
   },
@@ -36350,8 +36303,7 @@
       "per": 25
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 38.3
   },
@@ -36400,7 +36352,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -36449,8 +36401,8 @@
       "per": 20.5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Double-Double Threat",
+      "Shot Creator"
     ],
     "salary": 31.3
   },
@@ -36495,8 +36447,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -36540,7 +36491,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Playmaker"
     ],
     "salary": 16
   },
@@ -36587,6 +36538,7 @@
       "per": 5
     },
     "playstyle": [
+      "Defensive Anchor",
       "Defensive Big"
     ],
     "salary": 16
@@ -36636,8 +36588,7 @@
       "per": 28
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 40
   },
@@ -36686,8 +36637,7 @@
       "per": 22
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 38.8
   },
@@ -36732,7 +36682,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 19.7
   },
@@ -36781,7 +36731,8 @@
       "per": 25
     },
     "playstyle": [
-      "Point Forward"
+      "Double-Double Threat",
+      "Shot Creator"
     ],
     "salary": 39.7
   },
@@ -36830,7 +36781,7 @@
       "per": 25
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 40
   },
@@ -36874,7 +36825,7 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 34
   },
@@ -36931,8 +36882,7 @@
       "per": 22
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Double-Double Threat"
     ],
     "salary": 34.3
   },
@@ -36977,8 +36927,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 19.3
   },
@@ -37023,7 +36972,8 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Point Forward",
+      "Reliable Starter"
     ],
     "salary": 17.6
   },
@@ -37070,8 +37020,8 @@
       "per": 25
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator",
+      "Offensive Hub"
     ],
     "salary": 40
   },
@@ -37121,7 +37071,8 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Stretch Big",
+      "Reliable Starter"
     ],
     "salary": 20.6
   },
@@ -37166,7 +37117,7 @@
       "per": 28
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 40
   },
@@ -37210,7 +37161,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 16.1
   },
@@ -37255,7 +37206,7 @@
       "per": 24.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 39.8
   },
@@ -37300,7 +37251,7 @@
       "per": 10
     },
     "playstyle": [
-      "Defensive Big"
+      "Rim Protector"
     ],
     "salary": 18.1
   },
@@ -37347,7 +37298,7 @@
       "per": 18
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 29.2
   },
@@ -37391,7 +37342,7 @@
       "per": 28
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 40
   },
@@ -37435,7 +37386,7 @@
       "per": 8
     },
     "playstyle": [
-      "Offensive Hub"
+      "Stretch Big"
     ],
     "salary": 18
   },
@@ -37481,8 +37432,8 @@
       "per": 18.5
     },
     "playstyle": [
-      "Stretch Big",
-      "Point Forward"
+      "Defensive Big",
+      "Glass Cleaner"
     ],
     "salary": 31.7
   },
@@ -37530,7 +37481,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 21.7
   },
@@ -37574,7 +37525,7 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Playmaker"
     ],
     "salary": 30.1
   },
@@ -37618,8 +37569,7 @@
       "per": 25
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 39.4
   },
@@ -37668,7 +37618,7 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Spark Plug"
     ],
     "salary": 25.1
   },
@@ -37716,7 +37666,7 @@
       "per": 22
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 33.3
   },
@@ -37766,7 +37716,7 @@
       "per": 28
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 40
   },
@@ -37814,7 +37764,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -37858,7 +37808,8 @@
       "per": 18.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator",
+      "Reliable Starter"
     ],
     "salary": 27.6
   },
@@ -37906,7 +37857,8 @@
       "per": 24
     },
     "playstyle": [
-      "Offensive Hub"
+      "Offensive Hub",
+      "Shot Creator"
     ],
     "salary": 39.3
   },
@@ -37950,7 +37902,7 @@
       "per": 8
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 2.4
   },
@@ -37994,8 +37946,8 @@
       "per": 12
     },
     "playstyle": [
-      "Point Forward",
-      "Stretch Big"
+      "Reliable Starter",
+      "Hustle Rebounder"
     ],
     "salary": 20.1
   },
@@ -38039,7 +37991,6 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
       "Slasher"
     ],
     "salary": 3
@@ -38084,8 +38035,8 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Spark Plug",
+      "Reliable Starter"
     ],
     "salary": 25.4
   },
@@ -38132,7 +38083,8 @@
       "per": 20
     },
     "playstyle": [
-      "Point Forward"
+      "Swiss Army Knife",
+      "Hustle Rebounder"
     ],
     "salary": 31.1
   },
@@ -38176,7 +38128,7 @@
       "per": 8
     },
     "playstyle": [
-      "Offensive Hub"
+      "Playmaker"
     ],
     "salary": 2
   },
@@ -38222,7 +38174,7 @@
     },
     "playstyle": [
       "Point Forward",
-      "Offensive Hub"
+      "Playmaker"
     ],
     "salary": 3.9
   },
@@ -38267,7 +38219,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -38313,7 +38265,8 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "3-and-D Wing"
     ],
     "salary": 3
   },
@@ -38360,7 +38313,8 @@
       "per": 18.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Shot Creator"
     ],
     "salary": 27.8
   },
@@ -38404,7 +38358,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Rim Protector"
     ],
     "salary": 1.2
   },
@@ -38448,7 +38402,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -38494,7 +38448,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -38538,7 +38492,7 @@
       "per": 8
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -38582,7 +38536,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -38627,7 +38581,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -38671,7 +38625,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -38715,7 +38669,7 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 30.3
   },
@@ -38761,7 +38715,8 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Stretch Big"
     ],
     "salary": 1.8
   },
@@ -38806,7 +38761,8 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter",
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -38851,8 +38807,7 @@
       "per": 10
     },
     "playstyle": [
-      "Stretch Big",
-      "Point Forward"
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -38897,7 +38852,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Rim Protector"
     ],
     "salary": 1.5
   },
@@ -38952,7 +38907,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 23.7
   },
@@ -38997,7 +38952,8 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Point Forward",
+      "Stretch Big"
     ],
     "salary": 3
   },
@@ -39041,7 +38997,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -39085,7 +39041,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -39130,8 +39086,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -39177,8 +39132,8 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Spark Plug",
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -39222,7 +39177,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Slasher"
     ],
     "salary": 3
   },
@@ -39267,7 +39222,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -39361,7 +39316,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 2.6
   },
@@ -39406,8 +39361,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -39451,7 +39405,8 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Point Forward",
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -39495,7 +39450,7 @@
       "per": 18.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Double-Double Threat"
     ],
     "salary": 25.7
   },
@@ -39539,7 +39494,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Go-To Scorer"
     ],
     "salary": 1.9
   },
@@ -39585,7 +39540,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Sharpshooter"
     ],
     "salary": 4
   },
@@ -39629,7 +39584,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Playmaker"
     ],
     "salary": 2.4
   },
@@ -39673,7 +39628,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -39723,7 +39678,7 @@
       "per": 12
     },
     "playstyle": [
-      "Offensive Hub"
+      "Point Forward"
     ],
     "salary": 21
   },
@@ -39770,7 +39725,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -39815,7 +39770,7 @@
       "per": 18
     },
     "playstyle": [
-      "Offensive Hub"
+      "Playmaker"
     ],
     "salary": 23.8
   },
@@ -39865,7 +39820,8 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Offensive Hub",
+      "Playmaker"
     ],
     "salary": 29.9
   },
@@ -39914,8 +39870,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 35.9
   },
@@ -39961,8 +39916,8 @@
       "per": 15
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter",
+      "Double-Double Threat"
     ],
     "salary": 22.3
   },
@@ -40006,7 +39961,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Sharpshooter"
     ],
     "salary": 3
   },
@@ -40052,8 +40007,7 @@
       "per": 18.5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Go-To Scorer"
     ],
     "salary": 25.7
   },
@@ -40098,7 +40052,8 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub"
+      "Offensive Hub",
+      "Playmaker"
     ],
     "salary": 32
   },
@@ -40143,7 +40098,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -40187,8 +40142,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Go-To Scorer"
     ],
     "salary": 1.6
   },
@@ -40232,7 +40186,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Stretch Big"
     ],
     "salary": 3
   },
@@ -40276,8 +40230,8 @@
       "per": 22
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter",
+      "Playmaker"
     ],
     "salary": 31.6
   },
@@ -40321,7 +40275,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Stretch Big"
     ],
     "salary": 3
   },
@@ -40366,7 +40320,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Go-To Scorer"
     ],
     "salary": 1
   },
@@ -40411,7 +40365,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -40457,7 +40411,7 @@
       "per": 12
     },
     "playstyle": [
-      "Point Forward"
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -40501,7 +40455,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -40546,7 +40500,7 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Playmaker"
     ],
     "salary": 30.6
   },
@@ -40595,7 +40549,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -40639,8 +40593,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -40686,7 +40639,6 @@
       "per": 10
     },
     "playstyle": [
-      "Stretch Big",
       "Point Forward"
     ],
     "salary": 3
@@ -40732,8 +40684,8 @@
       "per": 18.5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter",
+      "Shot Creator"
     ],
     "salary": 28.4
   },
@@ -40778,8 +40730,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -40824,7 +40775,8 @@
       "per": 18
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter",
+      "Double-Double Threat"
     ],
     "salary": 25.3
   },
@@ -40869,7 +40821,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -40916,7 +40868,8 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator",
+      "Reliable Starter"
     ],
     "salary": 32.3
   },
@@ -40961,7 +40914,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Slasher"
     ],
     "salary": 3
   },
@@ -41008,8 +40961,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -41054,7 +41006,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 37.7
   },
@@ -41102,8 +41054,7 @@
       "per": 28
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 40
   },
@@ -41151,8 +41102,7 @@
       "per": 25
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 40
   },
@@ -41200,7 +41150,7 @@
       "per": 25
     },
     "playstyle": [
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 40
   },
@@ -41244,7 +41194,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 24.1
   },
@@ -41289,7 +41239,7 @@
       "per": 28
     },
     "playstyle": [
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 40
   },
@@ -41334,8 +41284,7 @@
       "per": 25
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 40
   },
@@ -41383,8 +41332,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Slasher"
     ],
     "salary": 19.4
   },
@@ -41435,7 +41383,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 18.4
   },
@@ -41483,8 +41431,8 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Stretch Big"
+      "Defensive Big",
+      "Swiss Army Knife"
     ],
     "salary": 19.6
   },
@@ -41532,7 +41480,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 20.5
   },
@@ -41580,7 +41528,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 18.6
   },
@@ -41625,7 +41573,8 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Offensive Hub",
+      "Playmaker"
     ],
     "salary": 28.8
   },
@@ -41670,7 +41619,7 @@
       "per": 22
     },
     "playstyle": [
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 32.9
   },
@@ -41715,7 +41664,8 @@
       "per": 20
     },
     "playstyle": [
-      "Point Forward"
+      "Hustle Rebounder",
+      "Double-Double Threat"
     ],
     "salary": 28.8
   },
@@ -41760,7 +41710,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Go-To Scorer"
     ],
     "salary": 2
   },
@@ -41807,8 +41757,7 @@
       "per": 24
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 37.8
   },
@@ -41853,7 +41802,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -41902,7 +41851,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 37.3
   },
@@ -41951,7 +41900,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -41999,7 +41948,7 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 28.9
   },
@@ -42044,7 +41993,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 36.6
   },
@@ -42092,7 +42041,8 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Stretch Big",
+      "Point Forward"
     ],
     "salary": 3
   },
@@ -42136,7 +42086,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 22.7
   },
@@ -42181,8 +42131,8 @@
       "per": 18
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter",
+      "Double-Double Threat"
     ],
     "salary": 27.4
   },
@@ -42230,7 +42180,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -42278,7 +42228,8 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub"
+      "Playmaker",
+      "Reliable Starter"
     ],
     "salary": 28.4
   },
@@ -42325,7 +42276,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 37.3
   },
@@ -42369,8 +42320,7 @@
       "per": 8
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -42414,7 +42364,8 @@
       "per": 19
     },
     "playstyle": [
-      "Point Forward"
+      "Go-To Scorer",
+      "Reliable Starter"
     ],
     "salary": 23.9
   },
@@ -42460,7 +42411,8 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Stretch Big",
+      "Reliable Starter"
     ],
     "salary": 1.4
   },
@@ -42506,7 +42458,7 @@
       "per": 12
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 18.1
   },
@@ -42595,8 +42547,7 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 30.7
   },
@@ -42640,7 +42591,8 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Spark Plug"
     ],
     "salary": 3
   },
@@ -42685,7 +42637,8 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Spark Plug",
+      "Reliable Starter"
     ],
     "salary": 22.5
   },
@@ -42730,7 +42683,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 34.4
   },
@@ -42774,7 +42727,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -42818,7 +42771,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -42862,7 +42815,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -42906,7 +42859,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -42951,7 +42904,7 @@
       "per": 8
     },
     "playstyle": [
-      "Offensive Hub"
+      "Stretch Big"
     ],
     "salary": 2
   },
@@ -42996,7 +42949,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Stretch Big"
     ],
     "salary": 3
   },
@@ -43041,7 +42994,7 @@
       "per": 12
     },
     "playstyle": [
-      "Offensive Hub"
+      "Point Forward"
     ],
     "salary": 3
   },
@@ -43088,8 +43041,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -43133,7 +43085,8 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Point Forward",
+      "Defensive Big"
     ],
     "salary": 3
   },
@@ -43177,7 +43130,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -43221,7 +43174,8 @@
       "per": 18
     },
     "playstyle": [
-      "Defensive Big"
+      "Hustle Rebounder",
+      "Glass Cleaner"
     ],
     "salary": 28
   },
@@ -43265,7 +43219,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 6
   },
@@ -43359,8 +43313,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 36.6
   },
@@ -43404,7 +43357,7 @@
       "per": 8
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 2.3
   },
@@ -43448,8 +43401,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -43494,7 +43446,8 @@
       "per": 8
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Slasher"
     ],
     "salary": 3
   },
@@ -43539,7 +43492,8 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Slasher"
     ],
     "salary": 3
   },
@@ -43583,8 +43537,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -43630,8 +43583,8 @@
       "per": 18.5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Shot Creator",
+      "Reliable Starter"
     ],
     "salary": 25.9
   },
@@ -43676,7 +43629,8 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Slasher"
     ],
     "salary": 4
   },
@@ -43723,7 +43677,7 @@
       "per": 22
     },
     "playstyle": [
-      "Offensive Hub"
+      "Playmaker"
     ],
     "salary": 33.3
   },
@@ -43768,8 +43722,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Go-To Scorer"
     ],
     "salary": 1.4
   },
@@ -43814,8 +43767,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -43860,7 +43812,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -43905,8 +43857,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 24.7
   },
@@ -43950,7 +43901,8 @@
       "per": 20
     },
     "playstyle": [
-      "Point Forward"
+      "Swiss Army Knife",
+      "Hustle Rebounder"
     ],
     "salary": 27.6
   },
@@ -43994,7 +43946,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -44039,7 +43991,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 23.6
   },
@@ -44083,8 +44035,7 @@
       "per": 8
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Stretch Big"
     ],
     "salary": 2.2
   },
@@ -44129,7 +44080,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Stretch Big"
     ],
     "salary": 3
   },
@@ -44173,7 +44124,7 @@
       "per": 8
     },
     "playstyle": [
-      "Offensive Hub"
+      "Slasher"
     ],
     "salary": 3
   },
@@ -44217,7 +44168,7 @@
       "per": 22
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 33.7
   },
@@ -44267,7 +44218,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -44315,7 +44266,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 23
   },
@@ -44362,7 +44313,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 33.6
   },
@@ -44406,7 +44357,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Slasher"
     ],
     "salary": 3
   },
@@ -44450,8 +44401,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Slasher"
     ],
     "salary": 3
   },
@@ -44496,8 +44446,7 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 31.3
   },
@@ -44541,8 +44490,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -44586,8 +44534,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -44632,7 +44579,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -44677,7 +44624,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -44722,7 +44669,7 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 30.8
   },
@@ -44772,7 +44719,7 @@
       "per": 12
     },
     "playstyle": [
-      "Point Forward"
+      "Swiss Army Knife"
     ],
     "salary": 20.2
   },
@@ -44817,7 +44764,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -44862,7 +44809,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -44906,7 +44853,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 2.6
   },
@@ -44950,7 +44897,8 @@
       "per": 19
     },
     "playstyle": [
-      "Point Forward"
+      "Go-To Scorer",
+      "Reliable Starter"
     ],
     "salary": 24.2
   },
@@ -44995,8 +44943,7 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 30
   },
@@ -45040,7 +44987,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -45084,7 +45031,7 @@
       "per": 18
     },
     "playstyle": [
-      "Point Forward"
+      "Hustle Rebounder"
     ],
     "salary": 25.5
   },
@@ -45129,7 +45076,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -45175,8 +45122,8 @@
       "per": 10
     },
     "playstyle": [
-      "Stretch Big",
-      "Point Forward"
+      "Defensive Big",
+      "Swiss Army Knife"
     ],
     "salary": 3
   },
@@ -45223,7 +45170,8 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Stretch Big"
     ],
     "salary": 3
   },
@@ -45268,7 +45216,8 @@
       "per": 19
     },
     "playstyle": [
-      "Point Forward"
+      "Shot Creator",
+      "Go-To Scorer"
     ],
     "salary": 24.4
   },
@@ -45313,7 +45262,6 @@
       "per": 10
     },
     "playstyle": [
-      "Stretch Big",
       "Point Forward"
     ],
     "salary": 3
@@ -45364,7 +45312,8 @@
       "per": 20
     },
     "playstyle": [
-      "Offensive Hub"
+      "Offensive Hub",
+      "Reliable Starter"
     ],
     "salary": 30.7
   },
@@ -45408,8 +45357,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -45458,7 +45406,7 @@
       "per": 20.5
     },
     "playstyle": [
-      "Point Forward"
+      "Double-Double Threat"
     ],
     "salary": 29.6
   },
@@ -45503,7 +45451,8 @@
       "per": 20
     },
     "playstyle": [
-      "Point Forward"
+      "Hustle Rebounder",
+      "Double-Double Threat"
     ],
     "salary": 31.5
   },
@@ -45548,8 +45497,7 @@
       "per": 20.5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 31.7
   },
@@ -45594,8 +45542,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -45640,7 +45587,8 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Slasher",
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -45685,8 +45633,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 36.7
   },
@@ -45731,6 +45678,7 @@
       "per": 22.5
     },
     "playstyle": [
+      "Shot Creator",
       "Offensive Hub"
     ],
     "salary": 37
@@ -45778,8 +45726,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -45824,7 +45771,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -45872,7 +45819,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Point Forward"
+      "Double-Double Threat"
     ],
     "salary": 34
   },
@@ -45922,7 +45869,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 37.4
   },
@@ -45969,7 +45916,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -46016,7 +45963,7 @@
       "per": 20
     },
     "playstyle": [
-      "Point Forward"
+      "Double-Double Threat"
     ],
     "salary": 29.2
   },
@@ -46063,7 +46010,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 3
   },
@@ -46108,8 +46055,8 @@
       "per": 18.5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter",
+      "Shot Creator"
     ],
     "salary": 24.5
   },
@@ -46154,7 +46101,7 @@
       "per": 24.5
     },
     "playstyle": [
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 38.9
   },
@@ -46198,7 +46145,7 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Point Forward"
     ],
     "salary": 1.5
   },
@@ -46288,8 +46235,7 @@
       "per": 15
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Reliable Starter"
     ],
     "salary": 20.5
   },
@@ -46334,7 +46280,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 38.8
   },
@@ -46379,7 +46325,7 @@
       "per": 10
     },
     "playstyle": [
-      "Point Forward"
+      "Swiss Army Knife"
     ],
     "salary": 20.1
   },
@@ -46428,7 +46374,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 16.5
   },
@@ -46473,7 +46419,7 @@
       "per": 28
     },
     "playstyle": [
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 40
   },
@@ -46518,7 +46464,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 37.1
   },
@@ -46567,7 +46513,7 @@
       "per": 28
     },
     "playstyle": [
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 40
   },
@@ -46614,8 +46560,7 @@
       "per": 28
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 40
   },
@@ -46660,7 +46605,7 @@
       "per": 25
     },
     "playstyle": [
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 39.5
   },
@@ -46710,8 +46655,7 @@
       "per": 25
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 38.7
   },
@@ -46756,7 +46700,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter"
     ],
     "salary": 4
   },
@@ -46801,7 +46745,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Playmaker"
     ],
     "salary": 2.6
   },
@@ -46846,7 +46790,8 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub"
+      "Reliable Starter",
+      "Stretch Big"
     ],
     "salary": 4
   },
@@ -46896,7 +46841,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 36
   },
@@ -46946,7 +46891,8 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Offensive Hub",
+      "Shot Creator"
     ],
     "salary": 34.1
   },
@@ -46996,8 +46942,8 @@
       "per": 20.5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator",
+      "Reliable Starter"
     ],
     "salary": 34.1
   },
@@ -47045,8 +46991,7 @@
       "per": 22.5
     },
     "playstyle": [
-      "Offensive Hub",
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 38.2
   },
@@ -47093,7 +47038,8 @@
       "per": 25
     },
     "playstyle": [
-      "Offensive Hub"
+      "Offensive Hub",
+      "Shot Creator"
     ],
     "salary": 39.7
   },
@@ -47138,7 +47084,7 @@
       "per": 10
     },
     "playstyle": [
-      "Offensive Hub",
+      "Reliable Starter",
       "Point Forward"
     ],
     "salary": 3
@@ -47188,7 +47134,7 @@
       "per": 24
     },
     "playstyle": [
-      "Point Forward"
+      "Shot Creator"
     ],
     "salary": 39
   },
@@ -47288,8 +47234,7 @@
       "per": 25
     },
     "playstyle": [
-      "Point Forward",
-      "Offensive Hub"
+      "Shot Creator"
     ],
     "salary": 38.5
   },
@@ -47339,6 +47284,7 @@
       "per": 22.5
     },
     "playstyle": [
+      "Shot Creator",
       "Offensive Hub"
     ],
     "salary": 37
@@ -47383,7 +47329,8 @@
       "per": 5
     },
     "playstyle": [
-      "Offensive Hub"
+      "Stretch Big",
+      "Reliable Starter"
     ],
     "salary": 16
   },
@@ -47434,7 +47381,7 @@
       "per": 5
     },
     "playstyle": [
-      "Point Forward"
+      "Stretch Big"
     ],
     "salary": 18
   }

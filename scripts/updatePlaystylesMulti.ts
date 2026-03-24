@@ -333,20 +333,143 @@ function definePlayStyles(pokemon: Pokemon): string[] {
   const scoring = (s.attack + s.specialAttack + mobility + b.ppg * 4 + b.per * 2) / 5;
   const motor = (p.stamina + p.speedAndAgility + b.mpg) / 3;
 
+  // Design rules (composite variable ranges from real data):
+  //   scoring: p50=47.6, p75=61.8, max=108.6
+  //   creation: p50=49.6, p75=63, max=105.8
+  //   interiorDefense: p50=36.9, p75=49.3, max=89.4
+  //   perimeterDefense: p50=42.5, p75=53.8, max=77.5
+  //   rebounding: p50=34.5, p75=51.3, max=91.3
+  //   motor: p50=40, p75=51.7, max=72.3
+  //   size: p50=57.5, max=115.8  |  skill: p50=56.7, max=113
+  //   mobility: p50=51, max=110.3
+  //
+  // DESIGN: "Reliable Starter" is the default at p50≈103.5.
+  // All other archetypes score BELOW 103.5 at median stats but clearly ABOVE
+  // for Pokémon that are strong in their specialist dimension.
+  //
+  // p50 stat values:
+  //   scoring=47.6, creation=49.6, skill=56.7, mobility=51, motor=40
+  //   interiorDefense=36.9, perimeterDefense=42.5, rebounding=34.5
+  //   size=57.5 | ppg=2, rpg=1, apg=1, spg=0.2, bpg=0.2, mpg=10
   const archetypes = [
-    { name: "Point Forward",    score: size * 0.8 + creation * 1.4 + scoring * 1.25 + mobility * 1.0 },
-    { name: "Offensive Hub",    score: creation * 1.45 + scoring * 1.15 + skill * 1.1 + mobility * 0.85 },
-    { name: "Shot Creator",     score: scoring * 1.35 + creation * 0.95 + skill * 1.1 + mobility * 0.95 },
-    { name: "Floor General",    score: creation * 1.5 + skill * 1.15 + mobility * 0.9 - size * 0.1 },
-    { name: "Primary Scorer",   score: scoring * 1.5 + skill * 0.9 + mobility * 0.85 - creation * 0.2 },
-    { name: "Slasher",          score: mobility * 1.35 + scoring * 1.0 + p.jumpingAbility * 0.8 + s.attack * 0.3 },
-    { name: "3-and-D Wing",     score: perimeterDefense * 1.2 + mobility * 1.0 + skill * 0.7 },
-    { name: "Perimeter Stopper",score: perimeterDefense * 1.35 + mobility * 1.05 + p.balance * 0.5 },
-    { name: "Stretch Big",      score: size * 0.95 + skill * 1.1 + scoring * 0.95 + rebounding * 0.35 },
-    { name: "Defensive Big",    score: size * 1.1 + interiorDefense * 1.3 + rebounding * 0.7 - creation * 0.3 },
-    { name: "Rim Protector",    score: size * 1.2 + interiorDefense * 1.35 - creation * 0.45 - mobility * 0.25 },
-    { name: "Glass Cleaner",    score: size * 1.1 + rebounding * 1.35 + interiorDefense * 0.45 - creation * 0.3 },
-    { name: "Glue Guy",         score: motor * 1.2 + perimeterDefense * 0.75 + creation * 0.55 + rebounding * 0.35 },
+    // ── DEFAULT: wins for all-around average Pokémon ──────────────────────
+    { name: "Reliable Starter",
+      score: motor * 1.2 + (creation + scoring) * 0.5 + rebounding * 0.2 },
+    // p50≈103.5. Replaces skill with rebounding so defensive specialists can escape this bucket.
+
+    // ── Versatile elite (need high creation+scoring+ppg together) ─────────
+    { name: "Offensive Hub",
+      score: (creation * scoring) / 60 + b.apg * 4 + b.ppg * 4 },
+    // p50≈57. Product gate (divisor 60): wins when BOTH creation AND scoring ≥70.
+
+    { name: "Point Forward",
+      score: creation * 1.6 + size * 0.5 - mobility * 1.2 + rebounding * 0.4 },
+    // p50≈61. Wins for large-bodied playmakers; strong mobility penalty blocks fast players.
+
+    { name: "Shot Creator",
+      score: (scoring * mobility) / 60 + b.ppg * 5 + skill * 0.1 },
+    // p50≈58. Tighter product gate: wins when scoring≥65 AND mobility≥65 AND ppg≥10.
+
+    { name: "Swiss Army Knife",
+      score: perimeterDefense * 1.5 + interiorDefense * 1.5 + rebounding * 1.0
+             - creation * 0.8 - scoring * 0.7 - motor * 0.3 },
+    // p50≈69. Wins when perimDef+intDef BOTH ≥60 — the all-defense no-offense player.
+
+    // ── Scoring specialists (need scoring ≥ p75 OR high ppg) ──────────────
+    { name: "Scoring Machine",
+      score: scoring * 2.0 + b.ppg * 6 - creation * 1.0 - mobility * 0.8 },
+    // p50≈-16. Wins for dominant scorers with high ppg AND low creation/mobility.
+
+    { name: "Go-To Scorer",
+      score: scoring * 2.0 + mobility * 0.5 - creation * 1.2 + b.ppg * 3 },
+    // p50≈67. Wins for mobile-first scorers (scoring≥65 and ppg≥12).
+
+    { name: "Primary Scorer",
+      score: scoring * 1.4 + b.ppg * 5 - rebounding * 0.5 - creation * 0.3 },
+    // p50≈44. Wins for volume scorers with low rebounding.
+
+    { name: "Sharpshooter",
+      score: skill * 1.5 + scoring * 0.5 - size * 0.8 - rebounding * 0.4 + b.ppg * 2 },
+    // p50≈53. Wins for small skilled Pokémon who score but don't rebound.
+
+    // ── PG / Creation specialists (need creation ≥ p75 + high apg) ────────
+    { name: "Playmaker",
+      score: b.apg * 30 + scoring * 0.5 - motor * 0.3 },
+    // p50≈42. APG-first: wins for apg≥4 scorer-playmakers; motor penalty blocks high-energy players.
+
+    { name: "Floor General",
+      score: b.apg * 40 - scoring * 0.5 - motor * 0.5 },
+    // p50≈-4. Wins for apg≥5 pure passers with low scoring and low motor (chess-move player).
+
+    // ── Wing / versatile (need perimDef or mobility above p75) ───────────
+    { name: "Two-Way Star",
+      score: perimeterDefense * 1.2 + scoring * 0.7 + b.spg * 10 },
+    // p50≈86. Wins for scoring-defensive wings (perimDef≥58 + spg≥1.0 + decent scoring).
+
+    { name: "3-and-D Wing",
+      score: perimeterDefense * 1.2 + skill * 0.7 + b.spg * 8 - size * 0.5 + b.ppg * 1.5 },
+    // p50≈67. Wins for skilled perimeter defenders (not big bodies).
+
+    { name: "Slasher",
+      score: mobility * 1.5 - size * 0.5 - rebounding * 0.3 + scoring * 0.5 + b.ppg * 1.5 },
+    // p50≈64. Wins for fast, small, mobile Pokémon.
+
+    // ── Perimeter defense specialists (need perimDef ≥ p75 + spg) ─────────
+    { name: "Lockdown Defender",
+      score: perimeterDefense * 2.0 - scoring * 0.8 + b.spg * 12 - creation * 0.5 },
+    // p50≈25. Wins for elite perimeter defenders who sacrifice offense.
+
+    { name: "Perimeter Stopper",
+      score: perimeterDefense * 1.5 + mobility * 0.4 + b.spg * 10 - scoring * 0.5 - creation * 0.3 },
+    // p50≈48. Wins for mobile defenders with good spg; not locked to pure offense.
+
+    // ── Energy / bench (need motor ≥ p75 + low offense) ──────────────────
+    { name: "Glue Guy",
+      score: motor * 1.8 + perimeterDefense * 0.5 + rebounding * 0.4 - scoring * 0.4 - creation * 0.3 },
+    // p50≈73. Wins for high-motor, below-average-offense connective players.
+
+    { name: "Energy Guy",
+      score: motor * 3.0 - scoring * 1.0 - rebounding * 0.8 + b.spg * 10 - creation * 0.5 },
+    // p50≈22. High-motor, non-rebounding defenders; rebounding penalty separates from Glue Guy.
+
+    { name: "Spark Plug",
+      score: motor * 1.5 + scoring * 0.6 + mobility * 0.3 - size * 0.5 + b.ppg * 2 },
+    // p50≈79. Wins for mobile bench scorers with high motor.
+
+    // ── Rebounders (need rebounding ≥ p75 + rpg) ──────────────────────────
+    { name: "Hustle Rebounder",
+      score: rebounding * 1.6 + motor * 0.7 + b.rpg * 6 - scoring * 0.4 - creation * 0.4 },
+    // p50≈50. Wins for active rebounders (rebounding≥50, rpg≥5).
+
+    { name: "Glass Cleaner",
+      score: rebounding * 2.0 + size * 0.5 - creation * 0.8 - scoring * 0.6 + b.rpg * 4 },
+    // p50≈34. Wins for dominant big rebounders with low creation/scoring.
+
+    { name: "Double-Double Threat",
+      score: rebounding * 1.2 + scoring * 0.6 + b.rpg * 4 + b.ppg * 2 - creation * 0.5 },
+    // p50≈53. Wins for true scorer+rebounder combos with both ppg and rpg high.
+
+    // ── Big forward (need size + skill, not interior D) ────────────────────
+    { name: "Stretch Big",
+      score: size * 0.6 + skill * 0.8 + scoring * 0.5 - interiorDefense * 0.5 - rebounding * 0.3 },
+    // p50≈75. Wins for skilled scorers with size but without interior D focus.
+
+    // ── Interior defense specialists (need interiorDef ≥ p75 + bpg) ───────
+    { name: "Defensive Anchor",
+      score: interiorDefense * 1.8 + size * 0.5 + rebounding * 0.3 - creation * 0.8 - scoring * 0.5 + b.bpg * 8 },
+    // p50≈36. Wins for elite shot-blocking bigs with very low offense.
+
+    { name: "Defensive Big",
+      score: interiorDefense * 1.2 + size * 0.5 + rebounding * 0.7 - creation * 0.8 + b.bpg * 5 },
+    // p50≈60. Harder threshold: requires intDef+rebounding both clearly above avg.
+
+    { name: "Rim Protector",
+      score: interiorDefense * 2.0 + size * 0.4 - creation * 0.8 - mobility * 0.5 + b.bpg * 8 },
+    // p50≈33. Wins for immobile shot-blocking bigs.
+
+    { name: "Shot Blocker",
+      score: interiorDefense * 2.5 - creation * 0.8 - scoring * 0.5 + b.bpg * 12 },
+    // p50≈31. Wins for extreme bpg specialists (bpg≥2.5 + very high intDef).
   ];
 
   archetypes.sort((a, b) => b.score - a.score);
