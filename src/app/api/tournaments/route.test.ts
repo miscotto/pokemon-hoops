@@ -114,6 +114,14 @@ describe("POST /api/tournaments", () => {
     });
   });
 
+  it("returns 400 when maxTeams is missing", async () => {
+    mockGetSession.mockResolvedValue({ user: { id: "u1" } });
+    const res = await POST(makeRequest({ name: "Test Cup" }));
+    expect(res.status).toBe(400);
+    const body = await res.json();
+    expect(body).toEqual({ error: "Team size must be 2, 4, 8, 16, or 32" });
+  });
+
   it("accepts all valid maxTeams values", async () => {
     mockGetSession.mockResolvedValue({ user: { id: "u1" } });
     for (const size of [2, 4, 8, 16, 32]) {
