@@ -15,7 +15,12 @@ export async function POST(req: NextRequest) {
   const user = session?.user ?? null;
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const body = await req.json();
+  let body: { name?: unknown; maxTeams?: unknown };
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
+  }
   const { name, maxTeams } = body;
 
   const trimmedName = typeof name === "string" ? name.trim() : "";
