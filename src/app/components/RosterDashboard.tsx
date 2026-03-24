@@ -34,6 +34,12 @@ export default function RosterDashboard({
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [error, setError] = useState("");
 
+  const [showCreateTournamentForm, setShowCreateTournamentForm] = useState(false);
+  const [newTournamentName, setNewTournamentName] = useState("");
+  const [newTournamentMaxTeams, setNewTournamentMaxTeams] = useState(8);
+  const [creatingTournament, setCreatingTournament] = useState(false);
+  const [tournamentCreateError, setTournamentCreateError] = useState("");
+
   // Season join state
   const [showSeasonPicker, setShowSeasonPicker] = useState(false);
   const [openSeasons, setOpenSeasons] = useState<{ id: string; name: string; teamCount: number; maxTeams: number }[]>([]);
@@ -138,6 +144,33 @@ export default function RosterDashboard({
       }
     } catch {
       console.error("Failed to unset tournament roster");
+    }
+  };
+
+  const handleCreateTournament = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newTournamentName.trim()) return;
+    setCreatingTournament(true);
+    setTournamentCreateError("");
+
+    try {
+      const res = await fetch("/api/tournaments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: newTournamentName.trim(), maxTeams: newTournamentMaxTeams }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        onJoinLiveTournament(data.id);
+      } else {
+        const data = await res.json();
+        setTournamentCreateError(data.error || "Failed to create tournament");
+      }
+    } catch {
+      setTournamentCreateError("Failed to create tournament");
+    } finally {
+      setCreatingTournament(false);
     }
   };
 
@@ -446,6 +479,86 @@ export default function RosterDashboard({
                 </div>
               </PokeCard>
             ))}
+          </div>
+        )}
+      </div>
+
+      {/* Create Tournament Section */}
+      <div className="max-w-4xl mx-auto px-3 sm:px-4 py-4 sm:py-8">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h2 className="font-pixel text-[9px]" style={{ color: "var(--color-text)" }}>
+              TOURNAMENTS
+            </h2>
+          </div>
+          {!showCreateTournamentForm && (
+            <PokeButton
+              variant="primary"
+              size="sm"
+              onClick={() => {
+                setShowCreateTournamentForm(true);
+                setTournamentCreateError("");
+              }}
+            >
+              + NEW TOURNAMENT
+            </PokeButton>
+          )}
+        </div>
+
+        {showCreateTournamentForm && (
+          <div
+            className="mb-6 p-4 border-3 border-[var(--color-border)]"
+            style={{ backgroundColor: "var(--color-surface)", boxShadow: "4px 4px 0 var(--color-shadow)" }}
+          >
+            <form onSubmit={handleCreateTournament} className="flex flex-col gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
+                <PokeInput
+                  type="text"
+                  value={newTournamentName}
+                  onChange={(e) => setNewTournamentName(e.target.value)}
+                  placeholder="Tournament name"
+                  autoFocus
+                />
+                <select
+                  value={newTournamentMaxTeams}
+                  onChange={(e) => setNewTournamentMaxTeams(Number(e.target.value))}
+                  className="font-pixel text-[7px] px-2 py-1 border-2 border-[var(--color-border)]"
+                  style={{ backgroundColor: "var(--color-surface)", color: "var(--color-text)" }}
+                >
+                  {[2, 4, 8, 16, 32].map((n) => (
+                    <option key={n} value={n}>{n} TEAMS</option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex gap-2">
+                <PokeButton
+                  type="submit"
+                  variant="primary"
+                  size="md"
+                  disabled={creatingTournament || !newTournamentName.trim()}
+                >
+                  {creatingTournament ? "CREATING..." : "CREATE"}
+                </PokeButton>
+                <PokeButton
+                  type="button"
+                  variant="ghost"
+                  size="md"
+                  onClick={() => {
+                    setShowCreateTournamentForm(false);
+                    setNewTournamentName("");
+                    setNewTournamentMaxTeams(8);
+                    setTournamentCreateError("");
+                  }}
+                >
+                  CANCEL
+                </PokeButton>
+              </div>
+            </form>
+            {tournamentCreateError && (
+              <p className="font-pixel text-[6px] mt-2" style={{ color: "var(--color-danger)" }}>
+                {tournamentCreateError}
+              </p>
+            )}
           </div>
         )}
       </div>
