@@ -56,9 +56,11 @@ export async function joinTournament(
   userId: string,
   rosterId: string,
   teamName: string,
-  rosterData: unknown
+  rosterData: unknown,
+  tx?: Parameters<Parameters<typeof db.transaction>[0]>[0]
 ): Promise<void> {
-  await db
+  const executor = tx ?? db;
+  await executor
     .insert(liveTournamentTeams)
     .values({ tournamentId, userId, rosterId, teamName, rosterData, result: "waiting" })
     .onConflictDoNothing();
@@ -105,6 +107,7 @@ export async function getTournament(tournamentId: string): Promise<{
   created_at: Date;
   started_at: Date | null;
   bracket_data: unknown;
+  created_by: string | null;
 } | null> {
   const rows = await db
     .select()
@@ -120,6 +123,7 @@ export async function getTournament(tournamentId: string): Promise<{
     created_at: r.createdAt,
     started_at: r.startedAt ?? null,
     bracket_data: r.bracketData,
+    created_by: r.createdBy ?? null,
   };
 }
 
