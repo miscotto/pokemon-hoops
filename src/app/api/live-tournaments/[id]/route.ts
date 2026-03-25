@@ -25,6 +25,29 @@ export async function GET(
   // Waiting state: return lobby info
   if (tournament.status === "waiting") {
     const teams = await getTournamentTeams(id);
+
+    // Optional session lookup for isCreator + userTeamName
+    let isCreator = false;
+    let userTeamName: string | null = null;
+    try {
+      const session = await auth.api.getSession({ headers: await headers() });
+      if (session?.user) {
+        isCreator = tournament.created_by === session.user.id;
+        const rows = await db
+          .select({ teamName: liveTournamentTeams.teamName })
+          .from(liveTournamentTeams)
+          .where(
+            and(
+              eq(liveTournamentTeams.tournamentId, id),
+              eq(liveTournamentTeams.userId, session.user.id)
+            )
+          );
+        userTeamName = rows[0]?.teamName ?? null;
+      }
+    } catch {
+      // Not authenticated — that's fine, page is public
+    }
+
     return NextResponse.json({
       id: tournament.id,
       name: tournament.name,
@@ -36,6 +59,8 @@ export async function GET(
         userId: t.user_id,
         joinedAt: t.joined_at,
       })),
+      userTeamName,
+      isCreator,
     });
   }
 
@@ -68,6 +93,7 @@ export async function GET(
 
   // Determine calling user's team name (optional — only if session present)
   let userTeamName: string | null = null;
+  let isCreator = false;
   try {
     const session = await auth.api.getSession({ headers: await headers() });
     if (session?.user) {
@@ -81,6 +107,7 @@ export async function GET(
           )
         );
       userTeamName = rows[0]?.teamName ?? null;
+      isCreator = tournament.created_by === session.user.id;
     }
   } catch {
     // Not authenticated — that's fine, page is public
@@ -94,6 +121,7 @@ export async function GET(
     totalRounds: bracketData.totalRounds,
     matchups,
     userTeamName,
+    isCreator,
     startedAt: tournament.started_at?.toISOString() ?? null,
   });
 }
