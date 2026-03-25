@@ -126,9 +126,10 @@ export async function POST(
     );
 
     // Re-check status + count atomically inside the lock
-    const [row] = await tx.execute(
+    const recheck = await tx.execute(
       sql`SELECT status, (SELECT COUNT(*)::int FROM live_tournament_teams WHERE tournament_id = ${tournamentId}) AS count FROM live_tournaments WHERE id = ${tournamentId}`
-    ) as unknown as [{ status: string; count: number }];
+    );
+    const row = recheck.rows[0] as { status: string; count: number } | undefined;
 
     if (!row || row.status !== "waiting" || row.count >= tournament.max_teams) {
       aborted = true;

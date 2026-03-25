@@ -113,8 +113,8 @@ function setupTransactionMock({
   mockDbTransaction.mockImplementation(
     async (cb: (tx: { execute: ReturnType<typeof vi.fn> }) => Promise<unknown>) => {
       const mockExecute = vi.fn()
-        .mockResolvedValueOnce([]) // advisory lock — no rows needed
-        .mockResolvedValueOnce([{ count: liveCount, status: liveStatus }]); // count+status check
+        .mockResolvedValueOnce({ rows: [] }) // advisory lock — no rows needed
+        .mockResolvedValueOnce({ rows: [{ count: liveCount, status: liveStatus }] }); // count+status check
       return cb({ execute: mockExecute });
     }
   );
