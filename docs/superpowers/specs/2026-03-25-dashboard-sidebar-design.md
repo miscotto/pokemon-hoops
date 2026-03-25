@@ -148,7 +148,7 @@ Copy `src/app/tournaments/page.tsx` verbatim, then:
 - `var(--color-surface)` for sidebar background
 - `var(--color-bg)` for `<main>` background
 - `font-pixel` for all text
-- Use standard Tailwind z-indices where available (`z-40`, `z-50`); use arbitrary `z-[60]` only for the sidebar drawer since `z-60` is not a Tailwind preset
+- Use standard Tailwind z-indices: `z-40`, `z-50`, `z-60` (all available in Tailwind v4)
 - Pixel-art borders consistent with existing UI
 
 ---
