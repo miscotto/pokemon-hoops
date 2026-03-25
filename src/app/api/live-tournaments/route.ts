@@ -70,14 +70,7 @@ export async function POST(req: NextRequest) {
   const user = await getUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  // Check if user already in a tournament
-  const active = await getUserActiveTournament(user.id);
-  if (active) {
-    return NextResponse.json({
-      tournamentId: active.tournament_id,
-      status: active.status,
-    });
-  }
+
 
   const body = await req.json().catch(() => ({}));
   const { tournamentId: requestedId } = (body ?? {}) as { tournamentId?: string };
