@@ -12,6 +12,7 @@ import {
   startTournament,
 } from "@/lib/tournament-db";
 import { loadPokemonPool } from "@/lib/pokemon-pool";
+// Using relative import — vitest config lacks @/ alias resolution
 import { toTournamentPokemon } from "../../../../utils/tournamentEngine";
 
 // ─── Bot name data ────────────────────────────────────────────────────────────
@@ -117,7 +118,6 @@ export async function POST(
 
   // ── Transaction: advisory lock + re-check + bot inserts ───────────────────
   let aborted = false;
-  const botTeams: Array<{ userId: string; teamName: string; rosterData: ReturnType<typeof generateBotRoster> }> = [];
 
   await db.transaction(async (tx) => {
     // Advisory transaction lock — blocks concurrent fill-bots for the same tournament
@@ -141,7 +141,7 @@ export async function POST(
     for (let i = 0; i < remaining; i++) {
       const botUserId = `bot_${crypto.randomUUID()}`;
       const rosterData = generateBotRoster(pool);
-      botTeams.push({ userId: botUserId, teamName: names[i], rosterData });
+      // Bots have no real roster row — use botUserId for both userId and rosterId
       await joinTournament(tournamentId, botUserId, botUserId, names[i], rosterData, tx);
     }
   });
@@ -151,26 +151,8 @@ export async function POST(
   }
 
   // ── Seed and start (outside transaction) ──────────────────────────────────
-  const existingTeams = await getTournamentTeams(tournamentId);
-
-  // Combine real teams with bot teams (bot teams may not be visible yet if mocked in tests)
-  const botUserIds = new Set(botTeams.map((b) => b.userId));
-  const realTeams = existingTeams.filter((t) => !botUserIds.has(t.user_id));
-  const allTeamEntries = [
-    ...realTeams.map((t) => ({
-      user_id: t.user_id,
-      team_name: t.team_name,
-      roster_data: t.roster_data,
-    })),
-    ...existingTeams
-      .filter((t) => botUserIds.has(t.user_id))
-      .map((t) => ({ user_id: t.user_id, team_name: t.team_name, roster_data: t.roster_data })),
-    ...botTeams
-      .filter((b) => !existingTeams.some((t) => t.user_id === b.userId))
-      .map((b) => ({ user_id: b.userId, team_name: b.teamName, roster_data: b.rosterData })),
-  ];
-
-  const rankedTeams = allTeamEntries
+  const teams = await getTournamentTeams(tournamentId);
+  const rankedTeams = teams
     .map((t) => {
       const roster = (t.roster_data as Parameters<typeof toTournamentPokemon>[0][]).map(
         toTournamentPokemon

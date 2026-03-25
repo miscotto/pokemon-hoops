@@ -188,7 +188,12 @@ describe("POST /api/live-tournaments/[id]/fill-bots", () => {
     mockGetSession.mockResolvedValue({ user: { id: "user-1" } });
     mockGetTournament.mockResolvedValue(WAITING_TOURNAMENT); // max_teams: 4
     mockGetTournamentTeamCount.mockResolvedValue(2); // 2 real players, need 2 bots
-    mockGetTournamentTeams.mockResolvedValue(MOCK_TEAMS);
+    // Return all 4 teams (2 real + 2 bots) so seeding produces 2 matchups
+    mockGetTournamentTeams.mockResolvedValue([
+      ...MOCK_TEAMS,
+      { id: "tt3", user_id: "bot_aaa", roster_id: "bot_aaa", team_name: "Pallet Charizards", roster_data: makeMockRoster(), joined_at: new Date() },
+      { id: "tt4", user_id: "bot_bbb", roster_id: "bot_bbb", team_name: "Cerulean Arcanines", roster_data: makeMockRoster(), joined_at: new Date() },
+    ]);
     setupTransactionMock({ liveCount: 2, liveStatus: "waiting" });
 
     const { POST } = await import("./route");
