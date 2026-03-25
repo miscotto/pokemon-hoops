@@ -33,6 +33,7 @@ interface TournamentState {
   teams?: { teamName: string; userId: string; joinedAt: string }[];
   matchups?: MatchupState[];
   userTeamName?: string | null;
+  isCreator?: boolean;
   startedAt?: string | null;
 }
 
@@ -656,6 +657,7 @@ export default function TournamentPage() {
   const [error, setError] = useState("");
   const [viewingGame, setViewingGame] = useState<ViewingGame | null>(null);
   const [leaving, setLeaving] = useState(false);
+  const [fillingBots, setFillingBots] = useState(false);
 
   const fetchTournament = useCallback(async () => {
     try {
@@ -710,6 +712,24 @@ export default function TournamentPage() {
       setError("Failed to leave tournament");
     } finally {
       setLeaving(false);
+    }
+  };
+
+  const handleFillBots = async () => {
+    setFillingBots(true);
+    setError("");
+    try {
+      const res = await fetch(`/api/live-tournaments/${id}/fill-bots`, { method: "POST" });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error ?? "Failed to fill with bots");
+        return;
+      }
+      await fetchTournament();
+    } catch {
+      setError("Failed to fill with bots");
+    } finally {
+      setFillingBots(false);
     }
   };
 
@@ -844,6 +864,17 @@ export default function TournamentPage() {
                 className="mb-4"
               >
                 {leaving ? "LEAVING..." : "LEAVE TOURNAMENT"}
+              </PokeButton>
+            )}
+            {tournament.isCreator && (tournament.teamCount ?? 0) < tournament.maxTeams && (
+              <PokeButton
+                variant="primary"
+                size="md"
+                onClick={handleFillBots}
+                disabled={fillingBots}
+                className="mb-4"
+              >
+                {fillingBots ? "FILLING..." : "⚡ FILL WITH BOTS"}
               </PokeButton>
             )}
             <div className="space-y-2">
