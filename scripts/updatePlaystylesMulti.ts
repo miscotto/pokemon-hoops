@@ -429,8 +429,8 @@ function definePlayStyles(pokemon: Pokemon): string[] {
     // p50≈73. Wins for high-motor, below-average-offense connective players.
 
     { name: "Energy Guy",
-      score: motor * 3.0 - scoring * 1.0 - rebounding * 0.8 + b.spg * 10 - creation * 0.5 },
-    // p50≈22. High-motor, non-rebounding defenders; rebounding penalty separates from Glue Guy.
+      score: motor * motor / 15 - b.ppg * 8 - creation * 0.8 },
+    // p50≈22. Quadratic motor gate: only wins when motor≥51+ AND ppg≤3 (truly high-endurance, low-offense).
 
     { name: "Spark Plug",
       score: motor * 1.5 + scoring * 0.6 + mobility * 0.3 - size * 0.5 + b.ppg * 2 },
@@ -468,8 +468,8 @@ function definePlayStyles(pokemon: Pokemon): string[] {
     // p50≈33. Wins for immobile shot-blocking bigs.
 
     { name: "Shot Blocker",
-      score: interiorDefense * 2.5 - creation * 0.8 - scoring * 0.5 + b.bpg * 12 },
-    // p50≈31. Wins for extreme bpg specialists (bpg≥2.5 + very high intDef).
+      score: interiorDefense * 2.5 - creation * 0.8 - scoring * 0.5 + b.bpg * 15 },
+    // p50≈35. Wins for extreme bpg specialists (bpg≥2.5 + very high intDef).
   ];
 
   archetypes.sort((a, b) => b.score - a.score);

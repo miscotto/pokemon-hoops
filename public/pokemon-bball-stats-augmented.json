@@ -855,7 +855,7 @@
       "per": 10
     },
     "playstyle": [
-      "Reliable Starter"
+      "Energy Guy"
     ],
     "salary": 3
   },
@@ -1044,7 +1044,7 @@
       "per": 8
     },
     "playstyle": [
-      "Reliable Starter"
+      "Energy Guy"
     ],
     "salary": 3
   },
@@ -1977,7 +1977,7 @@
       "per": 10
     },
     "playstyle": [
-      "Reliable Starter"
+      "Energy Guy"
     ],
     "salary": 3
   },
@@ -3622,7 +3622,7 @@
       "per": 5
     },
     "playstyle": [
-      "Reliable Starter"
+      "Energy Guy"
     ],
     "salary": 3
   },
@@ -3945,7 +3945,7 @@
       "per": 12
     },
     "playstyle": [
-      "Reliable Starter"
+      "Energy Guy"
     ],
     "salary": 3
   },
@@ -5696,7 +5696,7 @@
       "per": 10
     },
     "playstyle": [
-      "Reliable Starter"
+      "Energy Guy"
     ],
     "salary": 3
   },
@@ -5931,7 +5931,7 @@
       "per": 10
     },
     "playstyle": [
-      "Reliable Starter"
+      "Energy Guy"
     ],
     "salary": 3
   },
@@ -6026,7 +6026,7 @@
       "per": 10
     },
     "playstyle": [
-      "Reliable Starter"
+      "Energy Guy"
     ],
     "salary": 3
   },
@@ -6597,7 +6597,7 @@
       "per": 10
     },
     "playstyle": [
-      "Reliable Starter"
+      "Energy Guy"
     ],
     "salary": 3
   },
@@ -7542,7 +7542,7 @@
       "per": 5
     },
     "playstyle": [
-      "Reliable Starter"
+      "Energy Guy"
     ],
     "salary": 3
   },
@@ -7858,7 +7858,7 @@
       "per": 10
     },
     "playstyle": [
-      "Reliable Starter"
+      "Energy Guy"
     ],
     "salary": 3
   },
@@ -8765,7 +8765,7 @@
       "per": 10
     },
     "playstyle": [
-      "Reliable Starter"
+      "Energy Guy"
     ],
     "salary": 4
   },
@@ -12247,7 +12247,7 @@
       "per": 5
     },
     "playstyle": [
-      "Reliable Starter"
+      "Energy Guy"
     ],
     "salary": 3
   },
@@ -13381,8 +13381,7 @@
       "per": 20.5
     },
     "playstyle": [
-      "Reliable Starter",
-      "Spark Plug"
+      "Energy Guy"
     ],
     "salary": 30.2
   },
@@ -14193,8 +14192,8 @@
       "per": 18.5
     },
     "playstyle": [
-      "Defensive Anchor",
-      "Defensive Big"
+      "Shot Blocker",
+      "Defensive Anchor"
     ],
     "salary": 29
   },
@@ -16180,7 +16179,8 @@
       "per": 12
     },
     "playstyle": [
-      "Reliable Starter"
+      "Reliable Starter",
+      "Energy Guy"
     ],
     "salary": 3
   },
@@ -18433,7 +18433,7 @@
       "per": 10
     },
     "playstyle": [
-      "Reliable Starter"
+      "Energy Guy"
     ],
     "salary": 3
   },
@@ -21718,7 +21718,7 @@
       "per": 10
     },
     "playstyle": [
-      "Reliable Starter"
+      "Energy Guy"
     ],
     "salary": 3
   },
@@ -22092,7 +22092,8 @@
       "per": 18
     },
     "playstyle": [
-      "Defensive Big"
+      "Defensive Big",
+      "Shot Blocker"
     ],
     "salary": 24.8
   },
@@ -23028,7 +23029,7 @@
       "per": 10
     },
     "playstyle": [
-      "Reliable Starter"
+      "Energy Guy"
     ],
     "salary": 3
   },
@@ -24220,6 +24221,7 @@
       "per": 10
     },
     "playstyle": [
+      "Energy Guy",
       "Reliable Starter"
     ],
     "salary": 3
@@ -27099,7 +27101,7 @@
       "per": 10
     },
     "playstyle": [
-      "Reliable Starter"
+      "Energy Guy"
     ],
     "salary": 3
   },
@@ -30679,8 +30681,7 @@
       "per": 10
     },
     "playstyle": [
-      "Slasher",
-      "Reliable Starter"
+      "Energy Guy"
     ],
     "salary": 3
   },
@@ -40961,7 +40962,8 @@
       "per": 10
     },
     "playstyle": [
-      "Reliable Starter"
+      "Reliable Starter",
+      "Energy Guy"
     ],
     "salary": 3
   },
@@ -41480,7 +41482,7 @@
       "per": 5
     },
     "playstyle": [
-      "Reliable Starter"
+      "Energy Guy"
     ],
     "salary": 20.5
   },
@@ -43041,7 +43043,7 @@
       "per": 10
     },
     "playstyle": [
-      "Reliable Starter"
+      "Energy Guy"
     ],
     "salary": 3
   },
@@ -44490,7 +44492,8 @@
       "per": 5
     },
     "playstyle": [
-      "Reliable Starter"
+      "Reliable Starter",
+      "Energy Guy"
     ],
     "salary": 3
   },
@@ -44534,6 +44537,7 @@
       "per": 10
     },
     "playstyle": [
+      "Energy Guy",
       "Reliable Starter"
     ],
     "salary": 3
@@ -45497,7 +45501,8 @@
       "per": 20.5
     },
     "playstyle": [
-      "Reliable Starter"
+      "Reliable Starter",
+      "Energy Guy"
     ],
     "salary": 31.7
   },
