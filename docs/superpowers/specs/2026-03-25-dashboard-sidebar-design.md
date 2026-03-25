@@ -30,8 +30,8 @@ A `src/app/dashboard/layout.tsx` wraps all dashboard routes with `DashboardShell
 
 | File | Change |
 |------|--------|
-| `src/app/components/RosterDashboard.tsx` | Remove `{/* Header */}` comment + `<header>` block (lines 231–257). Remove the outermost `<div className="min-h-screen" ...>` wrapper (line 228) and its closing tag — the shell `<main>` provides background and height. |
-| `src/app/dashboard/page.tsx` | Update loading state: replace the full-screen spinner div (`min-h-screen bg-slate-900`) with a simple centered spinner that works inside the shell's `<main>` — e.g. `<div className="flex h-full items-center justify-center">`. Update `AuthForm` render: wrap in `<div className="flex h-full items-center justify-center">` so it centers in `<main>`. No other changes. |
+| `src/app/components/RosterDashboard.tsx` | Remove `{/* Header */}` comment + `<header>` block (lines 231–257). Remove the outermost `<div className="min-h-screen" ...>` wrapper (line 228) and its closing tag (line 760 — the outermost closing `</div>`). After removal the component has two sibling root `<div className="max-w-4xl ...">` blocks — wrap them in a React Fragment `<>...</>` to satisfy single-root requirement. |
+| `src/app/dashboard/page.tsx` | Keep `"use client"` directive. Update loading state: replace the full-screen spinner div (`min-h-screen bg-slate-900`) with `<div className="flex h-full items-center justify-center">`. Update `AuthForm` render: wrap in `<div className="flex h-full items-center justify-center">`. No other changes. |
 | `src/app/seasons/page.tsx` | Replace entire file contents with a redirect to `/dashboard/seasons` |
 | `src/app/tournaments/page.tsx` | Replace entire file contents with a redirect to `/dashboard/tournaments` |
 | `src/app/profile/page.tsx` | Replace entire file contents with a redirect to `/dashboard/profile` |
