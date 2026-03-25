@@ -4,8 +4,7 @@ import { db } from "@/lib/db";
 import { rosters, rosterPokemon } from "@/lib/schema";
 import { headers } from "next/headers";
 import { eq, and, asc } from "drizzle-orm";
-import { readFileSync } from "fs";
-import { join } from "path";
+import { loadPokemonPool } from "@/lib/pokemon-pool";
 import {
   findOpenTournament,
   createTournament,
@@ -22,20 +21,6 @@ import { toTournamentPokemon } from "../../utils/tournamentEngine";
 async function getUser() {
   const session = await auth.api.getSession({ headers: await headers() });
   return session?.user ?? null;
-}
-
-// Cache the augmented pokemon pool in memory
-let cachedPool: Record<number, Record<string, unknown>> | null = null;
-
-function loadPokemonPool(): Record<number, Record<string, unknown>> {
-  if (cachedPool) return cachedPool;
-  const filePath = join(process.cwd(), "public", "pokemon-bball-stats-augmented.json");
-  const data: Record<string, unknown>[] = JSON.parse(readFileSync(filePath, "utf-8"));
-  cachedPool = {};
-  for (const p of data) {
-    cachedPool[p.id as number] = p;
-  }
-  return cachedPool;
 }
 
 // GET /api/live-tournaments — Check if user is in a tournament, or list open tournaments
@@ -154,7 +139,7 @@ export async function POST(req: NextRequest) {
     tournamentId = requestedId;
   } else {
     const found = await findOpenTournament();
-    tournamentId = found ?? await createTournament();
+    tournamentId = found ?? await createTournament({ createdBy: user.id });
   }
 
   await joinTournament(tournamentId, user.id, rosterId, teamName, rosterData);
