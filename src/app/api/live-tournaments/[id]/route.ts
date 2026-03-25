@@ -11,6 +11,30 @@ import {
   BracketStructure,
 } from "@/lib/tournament-db";
 
+async function resolveCallerContext(tournamentId: string, createdBy: string | null) {
+  let isCreator = false;
+  let userTeamName: string | null = null;
+  try {
+    const session = await auth.api.getSession({ headers: await headers() });
+    if (session?.user) {
+      isCreator = !!createdBy && createdBy === session.user.id;
+      const rows = await db
+        .select({ teamName: liveTournamentTeams.teamName })
+        .from(liveTournamentTeams)
+        .where(
+          and(
+            eq(liveTournamentTeams.tournamentId, tournamentId),
+            eq(liveTournamentTeams.userId, session.user.id)
+          )
+        );
+      userTeamName = rows[0]?.teamName ?? null;
+    }
+  } catch {
+    // Not authenticated — that's fine, page is public
+  }
+  return { isCreator, userTeamName };
+}
+
 // Public endpoint — no auth required for GET
 export async function GET(
   _req: NextRequest,
@@ -26,27 +50,7 @@ export async function GET(
   if (tournament.status === "waiting") {
     const teams = await getTournamentTeams(id);
 
-    // Optional session lookup for isCreator + userTeamName
-    let isCreator = false;
-    let userTeamName: string | null = null;
-    try {
-      const session = await auth.api.getSession({ headers: await headers() });
-      if (session?.user) {
-        isCreator = tournament.created_by === session.user.id;
-        const rows = await db
-          .select({ teamName: liveTournamentTeams.teamName })
-          .from(liveTournamentTeams)
-          .where(
-            and(
-              eq(liveTournamentTeams.tournamentId, id),
-              eq(liveTournamentTeams.userId, session.user.id)
-            )
-          );
-        userTeamName = rows[0]?.teamName ?? null;
-      }
-    } catch {
-      // Not authenticated — that's fine, page is public
-    }
+    const { isCreator, userTeamName } = await resolveCallerContext(id, tournament.created_by);
 
     return NextResponse.json({
       id: tournament.id,
@@ -91,27 +95,7 @@ export async function GET(
     };
   });
 
-  // Determine calling user's team name (optional — only if session present)
-  let userTeamName: string | null = null;
-  let isCreator = false;
-  try {
-    const session = await auth.api.getSession({ headers: await headers() });
-    if (session?.user) {
-      const rows = await db
-        .select({ teamName: liveTournamentTeams.teamName })
-        .from(liveTournamentTeams)
-        .where(
-          and(
-            eq(liveTournamentTeams.tournamentId, id),
-            eq(liveTournamentTeams.userId, session.user.id)
-          )
-        );
-      userTeamName = rows[0]?.teamName ?? null;
-      isCreator = tournament.created_by === session.user.id;
-    }
-  } catch {
-    // Not authenticated — that's fine, page is public
-  }
+  const { isCreator, userTeamName } = await resolveCallerContext(id, tournament.created_by);
 
   return NextResponse.json({
     id: tournament.id,
