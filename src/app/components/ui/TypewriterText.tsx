@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, memo } from "react";
 
 interface TypewriterTextProps {
   text: string | string[];
@@ -9,7 +9,7 @@ interface TypewriterTextProps {
   className?: string;
 }
 
-export function TypewriterText({
+function TypewriterTextR({
   text,
   speed = 40,
   onDone,
@@ -72,3 +72,5 @@ export function TypewriterText({
     </span>
   );
 }
+
+export const TypewriterText = memo(TypewriterTextR);
