@@ -32,7 +32,7 @@ describe("GET /api/seasons/locked-pokemon", () => {
     expect(body).toEqual({ lockedPokemonIds: [] });
   });
 
-  it("returns deduplicated pokemon IDs as numbers", async () => {
+  it("returns pokemon IDs as an array of numbers", async () => {
     setupDbMock([{ pokemonId: 6 }, { pokemonId: 25 }, { pokemonId: 150 }]);
     const { GET } = await import("./route");
     const res = await GET();
