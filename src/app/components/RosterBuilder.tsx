@@ -82,8 +82,19 @@ export default function RosterBuilder({
   );
   const [loadingRoster, setLoadingRoster] = useState(true);
   const [mobileRosterOpen, setMobileRosterOpen] = useState(false);
+  const [lockedPokemonIds, setLockedPokemonIds] = useState<Set<number>>(new Set());
 
   const gridRef = useRef<HTMLDivElement>(null);
+
+  // Fetch Pokemon locked in active seasons league-wide (fire-and-forget)
+  useEffect(() => {
+    fetch("/api/seasons/locked-pokemon")
+      .then((res) => res.json())
+      .then((data: { lockedPokemonIds: number[] }) => {
+        setLockedPokemonIds(new Set(data.lockedPokemonIds));
+      })
+      .catch(() => {});
+  }, []);
 
   // Load existing roster data from DB
   useEffect(() => {
@@ -1279,6 +1290,7 @@ export default function RosterBuilder({
                   rosterPokemonNames.size > 0 &&
                   !!pokemon.rivals?.some((r) => rosterPokemonNames.has(r))
                 }
+                isLockedInSeason={lockedPokemonIds.has(pokemon.id)}
               />
             ))}
           </div>
