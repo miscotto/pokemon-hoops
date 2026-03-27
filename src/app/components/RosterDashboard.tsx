@@ -1,9 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import Link from "next/link";
-import { signOut } from "@/lib/auth-client";
-import { PokeButton, PokeCard, PokeInput, ThemeToggle } from "./ui";
+import { PokeButton, PokeCard, PokeInput } from "./ui";
 
 interface RosterSummary {
   id: string;
@@ -16,13 +14,11 @@ interface RosterSummary {
 }
 
 interface RosterDashboardProps {
-  userName: string;
   onEditRoster: (rosterId: string) => void;
   onJoinLiveTournament: (tournamentId?: string) => void;
 }
 
 export default function RosterDashboard({
-  userName,
   onEditRoster,
   onJoinLiveTournament,
 }: RosterDashboardProps) {
