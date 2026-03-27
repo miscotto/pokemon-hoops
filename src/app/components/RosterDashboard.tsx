@@ -224,38 +224,7 @@ export default function RosterDashboard({
   const tournamentRoster = rosters.find((r) => r.is_tournament_roster);
 
   return (
-    <div
-      className="min-h-screen"
-      style={{ backgroundColor: "var(--color-bg)" }}
-    >
-      {/* Header */}
-      <header
-        className="sticky top-0 z-50 border-b-3 border-[var(--color-shadow)] px-3 sm:px-4 py-2 sm:py-3"
-        style={{ backgroundColor: "var(--color-primary)" }}
-      >
-        <div className="max-w-4xl mx-auto flex items-center justify-between">
-          <span
-            className="font-pixel text-[9px] sm:text-[11px]"
-            style={{ color: "var(--color-primary-text)" }}
-          >
-            ⚡ POKEMON HOOPS
-          </span>
-          <div className="flex items-center gap-2">
-            <Link
-              href="/profile"
-              className="font-pixel text-[6px] hidden sm:block hover:underline"
-              style={{ color: "var(--color-primary-text)" }}
-            >
-              {userName}
-            </Link>
-            <ThemeToggle />
-            <PokeButton variant="ghost" size="sm" onClick={() => signOut()}>
-              SIGN OUT
-            </PokeButton>
-          </div>
-        </div>
-      </header>
-
+    <>
       <div className="max-w-4xl mx-auto px-3 sm:px-4 py-4 sm:py-8">
         {/* Tournament Roster Banner */}
         {tournamentRoster && (
@@ -757,6 +726,6 @@ export default function RosterDashboard({
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 }
