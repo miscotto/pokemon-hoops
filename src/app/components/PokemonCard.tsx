@@ -23,6 +23,7 @@ interface PokemonCardProps {
   disabled: boolean;
   allyBonus?: boolean;
   rivalDebuff?: boolean;
+  isLockedInSeason?: boolean;
 }
 
 function AbilityBadge({ ability }: { ability: string }) {
@@ -71,6 +72,7 @@ export default function PokemonCard({
   disabled,
   allyBonus = false,
   rivalDebuff = false,
+  isLockedInSeason = false,
 }: PokemonCardProps) {
   const avg = toBballAverages(pokemon);
   const playstyle = getPlaystyle(avg, pokemon);
@@ -138,6 +140,19 @@ export default function PokemonCard({
           }}
         >
           ⚔ RIVAL
+        </div>
+      )}
+
+      {isLockedInSeason && !isSelected && (
+        <div
+          className="absolute -bottom-2 -right-2 px-1 flex items-center justify-center border-2 font-pixel text-[5px] whitespace-nowrap"
+          style={{
+            backgroundColor: "#2563eb",
+            borderColor: "#1e40af",
+            color: "#dbeafe",
+          }}
+        >
+          IN SEASON
         </div>
       )}
 
