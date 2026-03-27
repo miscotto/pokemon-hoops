@@ -13,14 +13,21 @@ export default function DashboardPage() {
 
   if (isPending) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-900">
-        <div className="inline-block w-8 h-8 border-2 border-amber-400 border-t-transparent rounded-full animate-spin" />
+      <div className="flex h-full items-center justify-center">
+        <div
+          className="inline-block w-8 h-8 border-2 border-t-transparent rounded-full animate-spin"
+          style={{ borderColor: "var(--color-primary)", borderTopColor: "transparent" }}
+        />
       </div>
     );
   }
 
   if (!session?.user) {
-    return <AuthForm />;
+    return (
+      <div className="flex h-full items-center justify-center">
+        <AuthForm />
+      </div>
+    );
   }
 
   return (
