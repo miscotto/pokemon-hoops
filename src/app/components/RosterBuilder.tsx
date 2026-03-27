@@ -89,9 +89,14 @@ export default function RosterBuilder({
   // Fetch Pokemon locked in active seasons league-wide (fire-and-forget)
   useEffect(() => {
     fetch("/api/seasons/locked-pokemon")
-      .then((res) => res.json())
-      .then((data: { lockedPokemonIds: number[] }) => {
-        setLockedPokemonIds(new Set(data.lockedPokemonIds));
+      .then((res) => {
+        if (!res.ok) return;
+        return res.json();
+      })
+      .then((data?: { lockedPokemonIds: number[] }) => {
+        if (data?.lockedPokemonIds) {
+          setLockedPokemonIds(new Set(data.lockedPokemonIds));
+        }
       })
       .catch(() => {});
   }, []);
