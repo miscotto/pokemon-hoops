@@ -6,11 +6,31 @@ import {
   seasonLockedPokemon,
   seasonGames,
   seasonGameEvents,
+  seasonPlayoffSeries,
 } from "./schema";
 import { generateSeasonSchedule } from "./season-schedule";
 import { computeStandings, seedPlayoffBracket } from "./season-standings";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
+
+/**
+ * Returned by writeSeasonGameResult for playoff games.
+ * Carries all info the caller needs to schedule the next game or advance the round.
+ */
+export interface SeriesResult {
+  seriesId: string;
+  round: number;
+  matchupIndex: number;
+  team1UserId: string;
+  team1Name: string;
+  team2UserId: string;
+  team2Name: string;
+  team1Wins: number;
+  team2Wins: number;
+  winnerId: string | null;
+  /** The next game number to schedule, or null if the series is over. */
+  nextGameNumber: number | null;
+}
 
 export interface SeasonSummary {
   id: string;
@@ -324,7 +344,9 @@ export async function writeSeasonGameResult(
   team2Score: number,
   winnerId: string,
   loserId: string
-): Promise<void> {
+): Promise<SeriesResult | null> {
+  let seriesResult: SeriesResult | null = null;
+
   await db.transaction(async (tx) => {
     // Write final score
     await tx
@@ -332,7 +354,6 @@ export async function writeSeasonGameResult(
       .set({ team1Score, team2Score, winnerId, status: "completed", completedAt: new Date() })
       .where(eq(seasonGames.id, gameId));
 
-    // Derive each team's actual score from winnerId
     const winnerScore = winnerId === team1UserId ? team1Score : team2Score;
     const loserScore = winnerId === team1UserId ? team2Score : team1Score;
 
@@ -355,7 +376,62 @@ export async function writeSeasonGameResult(
         pointsAgainst: sql`${seasonTeams.pointsAgainst} + ${winnerScore}`,
       })
       .where(and(eq(seasonTeams.seasonId, seasonId), eq(seasonTeams.userId, loserId)));
+
+    // ── Series tracking (playoff games only) ──────────────────────────────────
+    const gameRows = await tx
+      .select({
+        seriesId: seasonGames.seriesId,
+        gameNumberInSeries: seasonGames.gameNumberInSeries,
+        round: seasonGames.round,
+      })
+      .from(seasonGames)
+      .where(eq(seasonGames.id, gameId));
+
+    const game = gameRows[0];
+    if (!game?.seriesId) return; // regular season game — no series tracking
+
+    const seriesRows = await tx
+      .select()
+      .from(seasonPlayoffSeries)
+      .where(eq(seasonPlayoffSeries.id, game.seriesId));
+
+    const series = seriesRows[0];
+    if (!series) return;
+
+    const isTeam1Winner = winnerId === series.team1UserId;
+    const newTeam1Wins = series.team1Wins + (isTeam1Winner ? 1 : 0);
+    const newTeam2Wins = series.team2Wins + (isTeam1Winner ? 0 : 1);
+    const seriesWinnerId =
+      newTeam1Wins === 4 ? series.team1UserId :
+      newTeam2Wins === 4 ? series.team2UserId :
+      null;
+
+    await tx
+      .update(seasonPlayoffSeries)
+      .set({
+        team1Wins: newTeam1Wins,
+        team2Wins: newTeam2Wins,
+        ...(seriesWinnerId ? { winnerId: seriesWinnerId, status: "completed" } : {}),
+      })
+      .where(eq(seasonPlayoffSeries.id, game.seriesId));
+
+    // Populate result for caller (closure capture — committed when tx resolves)
+    seriesResult = {
+      seriesId: game.seriesId,
+      round: game.round ?? 1,
+      matchupIndex: series.matchupIndex,
+      team1UserId: series.team1UserId,
+      team1Name: series.team1Name,
+      team2UserId: series.team2UserId,
+      team2Name: series.team2Name,
+      team1Wins: newTeam1Wins,
+      team2Wins: newTeam2Wins,
+      winnerId: seriesWinnerId,
+      nextGameNumber: seriesWinnerId ? null : (game.gameNumberInSeries ?? 1) + 1,
+    };
   });
+
+  return seriesResult;
 }
 
 // ─── Playoff Transition ───────────────────────────────────────────────────────
@@ -416,11 +492,6 @@ export async function tryStartPlayoffs(seasonId: string): Promise<boolean> {
     const standings = computeStandings(teams, seasonId);
     const bracket = seedPlayoffBracket(standings);
 
-    // Distribute QF games across first third of playoff window
-    const windowMs = latestSeason.playoffEnd.getTime() - latestSeason.playoffStart.getTime();
-    const qfWindowEnd = new Date(latestSeason.playoffStart.getTime() + windowMs / 3);
-    const qfInterval = (qfWindowEnd.getTime() - latestSeason.playoffStart.getTime()) / 4;
-
     // Mark non-qualifiers
     const qualifiedIds = standings.slice(0, 8).map((t) => t.userId);
     await tx
@@ -433,9 +504,28 @@ export async function tryStartPlayoffs(seasonId: string): Promise<boolean> {
         )
       );
 
-    // Insert QF games
+    // Insert QF series + game 1 of each series
     for (let i = 0; i < bracket.length; i++) {
       const m = bracket[i];
+
+      // Create the series record first
+      const seriesRows = await tx
+        .insert(seasonPlayoffSeries)
+        .values({
+          seasonId,
+          round: 1,
+          matchupIndex: m.matchupIndex,
+          team1UserId: m.team1UserId,
+          team1Name: m.team1Name,
+          team2UserId: m.team2UserId,
+          team2Name: m.team2Name,
+          status: "active",
+        })
+        .returning({ id: seasonPlayoffSeries.id });
+
+      const seriesId = seriesRows[0].id;
+
+      // Schedule game 1; stagger by 30s per matchup to avoid cron batch collision
       await tx.insert(seasonGames).values({
         seasonId,
         gameType: "playoff",
@@ -443,9 +533,11 @@ export async function tryStartPlayoffs(seasonId: string): Promise<boolean> {
         team1Name: m.team1Name,
         team2UserId: m.team2UserId,
         team2Name: m.team2Name,
-        scheduledAt: new Date(latestSeason.playoffStart.getTime() + i * qfInterval),
+        scheduledAt: new Date(Date.now() + i * 30_000),
         round: 1,
         matchupIndex: m.matchupIndex,
+        seriesId,
+        gameNumberInSeries: 1,
         status: "pending",
       });
     }
@@ -471,77 +563,115 @@ export async function tryAdvancePlayoffRound(seasonId: string, completedRound: n
     const season = seasonRows[0];
     if (!season || season.status !== "playoffs") return;
 
-    // Check all games in completed round are done
-    const incomplete = await tx
-      .select({ count: sql<number>`COUNT(*)::int` })
-      .from(seasonGames)
+    // Fetch all series for the completed round — authoritative source for round completion
+    const seriesInRound = await tx
+      .select()
+      .from(seasonPlayoffSeries)
       .where(
         and(
-          eq(seasonGames.seasonId, seasonId),
-          eq(seasonGames.gameType, "playoff"),
-          eq(seasonGames.round, completedRound),
-          ne(seasonGames.status, "completed")
+          eq(seasonPlayoffSeries.seasonId, seasonId),
+          eq(seasonPlayoffSeries.round, completedRound)
         )
-      );
+      )
+      .orderBy(asc(seasonPlayoffSeries.matchupIndex));
 
-    if (incomplete[0].count > 0) return;
+    if (seriesInRound.length === 0) return; // no series yet for this round
+    if (seriesInRound.some((s) => s.status !== "completed")) return;
 
     if (completedRound === 3) {
-      // Finals done — mark champion/finalist
-      const finalsGames = await tx
-        .select()
-        .from(seasonGames)
-        .where(and(eq(seasonGames.seasonId, seasonId), eq(seasonGames.gameType, "playoff"), eq(seasonGames.round, 3)));
-      const finals = finalsGames[0];
-      if (!finals?.winnerId) return;
-      const loserId = finals.winnerId === finals.team1UserId ? finals.team2UserId : finals.team1UserId;
-      await tx.update(seasonTeams).set({ result: "champion" }).where(and(eq(seasonTeams.seasonId, seasonId), eq(seasonTeams.userId, finals.winnerId!)));
-      await tx.update(seasonTeams).set({ result: "finalist" }).where(and(eq(seasonTeams.seasonId, seasonId), eq(seasonTeams.userId, loserId)));
-      await tx.update(seasons).set({ status: "completed" }).where(eq(seasons.id, seasonId));
+      // Read winner from the Finals series row (not from a seasonGames row)
+      const finalsSeries = seriesInRound[0];
+      if (!finalsSeries?.winnerId) return;
+      const loserId =
+        finalsSeries.winnerId === finalsSeries.team1UserId
+          ? finalsSeries.team2UserId
+          : finalsSeries.team1UserId;
+      await tx.update(seasonTeams)
+        .set({ result: "champion" })
+        .where(and(eq(seasonTeams.seasonId, seasonId), eq(seasonTeams.userId, finalsSeries.winnerId)));
+      await tx.update(seasonTeams)
+        .set({ result: "finalist" })
+        .where(and(eq(seasonTeams.seasonId, seasonId), eq(seasonTeams.userId, loserId)));
+      await tx.update(seasons)
+        .set({ status: "completed" })
+        .where(eq(seasons.id, seasonId));
       return;
     }
 
-    // Pair winners for next round
-    const completedGames = await tx
-      .select()
-      .from(seasonGames)
-      .where(and(eq(seasonGames.seasonId, seasonId), eq(seasonGames.gameType, "playoff"), eq(seasonGames.round, completedRound)))
-      .orderBy(asc(seasonGames.matchupIndex));
-
+    // Pair series winners for next round
     const nextRound = completedRound + 1;
-    const windowMs = season.playoffEnd.getTime() - season.playoffStart.getTime();
-    const thirdMs = windowMs / 3;
-    const nextWindowStart = new Date(season.playoffStart.getTime() + (nextRound - 1) * thirdMs);
-    const nextMatchups: Array<{ team1UserId: string; team1Name: string; team2UserId: string; team2Name: string; matchupIndex: number }> = [];
+    const nextMatchups: Array<{
+      team1UserId: string; team1Name: string;
+      team2UserId: string; team2Name: string;
+      matchupIndex: number;
+    }> = [];
 
-    for (let i = 0; i < completedGames.length; i += 2) {
-      const g1 = completedGames[i];
-      const g2 = completedGames[i + 1];
-      if (!g1 || !g2 || !g1.winnerId || !g2.winnerId) return;
-      const w1Name = g1.winnerId === g1.team1UserId ? g1.team1Name : g1.team2Name;
-      const w2Name = g2.winnerId === g2.team1UserId ? g2.team1Name : g2.team2Name;
-      nextMatchups.push({ team1UserId: g1.winnerId, team1Name: w1Name, team2UserId: g2.winnerId, team2Name: w2Name, matchupIndex: i / 2 });
-    }
-
-    const interval = thirdMs / nextMatchups.length;
-    for (let i = 0; i < nextMatchups.length; i++) {
-      const m = nextMatchups[i];
-      await tx.insert(seasonGames).values({
-        seasonId, gameType: "playoff",
-        team1UserId: m.team1UserId, team1Name: m.team1Name,
-        team2UserId: m.team2UserId, team2Name: m.team2Name,
-        scheduledAt: new Date(nextWindowStart.getTime() + i * interval),
-        round: nextRound, matchupIndex: m.matchupIndex, status: "pending",
+    for (let i = 0; i < seriesInRound.length; i += 2) {
+      const s1 = seriesInRound[i];
+      const s2 = seriesInRound[i + 1];
+      if (!s1 || !s2 || !s1.winnerId || !s2.winnerId) return;
+      const w1Name = s1.winnerId === s1.team1UserId ? s1.team1Name : s1.team2Name;
+      const w2Name = s2.winnerId === s2.team1UserId ? s2.team1Name : s2.team2Name;
+      nextMatchups.push({
+        team1UserId: s1.winnerId,
+        team1Name: w1Name,
+        team2UserId: s2.winnerId,
+        team2Name: w2Name,
+        matchupIndex: i / 2,
       });
     }
 
-    // Mark eliminated teams from this round
-    for (const g of completedGames) {
-      if (!g.winnerId) continue;
-      const loserId = g.winnerId === g.team1UserId ? g.team2UserId : g.team1UserId;
-      await tx.update(seasonTeams).set({ result: "eliminated" }).where(and(eq(seasonTeams.seasonId, seasonId), eq(seasonTeams.userId, loserId)));
+    // Create next-round series + game 1 for each
+    for (let i = 0; i < nextMatchups.length; i++) {
+      const m = nextMatchups[i];
+      const newSeriesRows = await tx
+        .insert(seasonPlayoffSeries)
+        .values({
+          seasonId,
+          round: nextRound,
+          matchupIndex: m.matchupIndex,
+          team1UserId: m.team1UserId,
+          team1Name: m.team1Name,
+          team2UserId: m.team2UserId,
+          team2Name: m.team2Name,
+          status: "active",
+        })
+        .returning({ id: seasonPlayoffSeries.id });
+
+      await tx.insert(seasonGames).values({
+        seasonId,
+        gameType: "playoff",
+        team1UserId: m.team1UserId,
+        team1Name: m.team1Name,
+        team2UserId: m.team2UserId,
+        team2Name: m.team2Name,
+        scheduledAt: new Date(Date.now() + i * 30_000),
+        round: nextRound,
+        matchupIndex: m.matchupIndex,
+        seriesId: newSeriesRows[0].id,
+        gameNumberInSeries: 1,
+        status: "pending",
+      });
+    }
+
+    // Mark eliminated teams (loser of each completed series in this round)
+    for (const s of seriesInRound) {
+      if (!s.winnerId) continue;
+      const loserId = s.winnerId === s.team1UserId ? s.team2UserId : s.team1UserId;
+      await tx.update(seasonTeams)
+        .set({ result: "eliminated" })
+        .where(and(eq(seasonTeams.seasonId, seasonId), eq(seasonTeams.userId, loserId)));
     }
   });
+}
+
+/** Returns all playoff series for a season, ordered by round then matchupIndex. */
+export async function getSeasonPlayoffSeries(seasonId: string) {
+  return db
+    .select()
+    .from(seasonPlayoffSeries)
+    .where(eq(seasonPlayoffSeries.seasonId, seasonId))
+    .orderBy(asc(seasonPlayoffSeries.round), asc(seasonPlayoffSeries.matchupIndex));
 }
 
 // ─── Game Queries ─────────────────────────────────────────────────────────────
