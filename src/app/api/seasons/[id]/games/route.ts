@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { getSeasonGames } from "@/lib/season-db";
+import { getSeasonGamesFiltered } from "@/lib/season-db";
+
+const STATUS_MAP: Record<string, string> = {
+  live: "in_progress",
+  upcoming: "pending",
+  completed: "completed",
+};
 
 export async function GET(
   req: NextRequest,
@@ -12,10 +18,15 @@ export async function GET(
 
   const { id: seasonId } = await params;
   const { searchParams } = new URL(req.url);
-  const gameType = searchParams.get("gameType") ?? undefined;
-  const roundParam = searchParams.get("round");
-  const round = roundParam != null ? (Number.isFinite(Number(roundParam)) ? Number(roundParam) : undefined) : undefined;
 
-  const games = await getSeasonGames(seasonId, { gameType, round });
+  const statusParam = searchParams.get("status") ?? undefined;
+  const status = statusParam ? (STATUS_MAP[statusParam] ?? undefined) : undefined;
+  const userId = searchParams.get("userId") ?? undefined;
+  const limitRaw = Number(searchParams.get("limit") ?? "50");
+  const offsetRaw = Number(searchParams.get("offset") ?? "0");
+  const limit = Number.isFinite(limitRaw) ? limitRaw : 50;
+  const offset = Number.isFinite(offsetRaw) ? offsetRaw : 0;
+
+  const games = await getSeasonGamesFiltered(seasonId, { status, userId, limit, offset });
   return NextResponse.json(games);
 }

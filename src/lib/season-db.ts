@@ -1,4 +1,4 @@
-import { eq, and, lt, sql, asc, desc, ne, inArray, not, isNull, isNotNull } from "drizzle-orm";
+import { eq, and, or, lt, sql, asc, desc, ne, inArray, not, isNull, isNotNull } from "drizzle-orm";
 import { db } from "./db";
 import {
   seasons,
@@ -706,4 +706,42 @@ export async function getSeasonGames(seasonId: string, opts?: { gameType?: strin
   if (opts?.gameType) conditions.push(eq(seasonGames.gameType, opts.gameType));
   if (opts?.round != null) conditions.push(eq(seasonGames.round, opts.round));
   return await db.select().from(seasonGames).where(and(...conditions)).orderBy(asc(seasonGames.scheduledAt));
+}
+
+export interface SeasonGamesFilter {
+  status?: string;   // 'pending' | 'in_progress' | 'completed'
+  userId?: string;   // games involving this user (team1 or team2)
+  gameType?: string; // 'regular' | 'playoff'
+  limit?: number;    // default 50, max 200
+  offset?: number;   // default 0
+}
+
+export async function getSeasonGamesFiltered(
+  seasonId: string,
+  opts: SeasonGamesFilter = {}
+) {
+  const { status, userId, gameType, limit = 50, offset = 0 } = opts;
+
+  const conditions = [eq(seasonGames.seasonId, seasonId)];
+  if (status) conditions.push(eq(seasonGames.status, status));
+  if (gameType) conditions.push(eq(seasonGames.gameType, gameType));
+  if (userId) {
+    conditions.push(
+      or(
+        eq(seasonGames.team1UserId, userId),
+        eq(seasonGames.team2UserId, userId)
+      )!
+    );
+  }
+
+  const sortOrder =
+    status === "pending" ? asc(seasonGames.scheduledAt) : desc(seasonGames.scheduledAt);
+
+  return db
+    .select()
+    .from(seasonGames)
+    .where(and(...conditions))
+    .orderBy(sortOrder)
+    .limit(Math.min(limit, 200))
+    .offset(offset);
 }
