@@ -52,6 +52,16 @@ export interface TeamSeasonStats {
 
 const SCORING_TYPES = new Set(["score_2pt", "score_3pt", "dunk", "layup", "clutch"]);
 
+const PERIOD_EVENT_TYPES = new Set([
+  "game_start", "game_end", "quarter_start", "quarter_end", "halftime",
+]);
+
+export function shouldSkipGameEvent(type: string, name: string | undefined | null): boolean {
+  if (PERIOD_EVENT_TYPES.has(type)) return true;
+  if (!name || name === "Tip-off" || name === "Final") return true;
+  return false;
+}
+
 export async function getTeamSeasonStats(
   seasonId: string,
   userId: string
@@ -135,8 +145,8 @@ export async function getTeamSeasonStats(
     // Only count events by our team
     if (data.team !== ourSide) continue;
 
-    const name = data.pokemonName;
-    if (!name || name === "Tip-off" || name === "Final") continue;
+    if (shouldSkipGameEvent(ev.type, data.pokemonName)) continue;
+    const name = data.pokemonName!;
 
     if (!playerStats.has(name)) {
       playerStats.set(name, {
