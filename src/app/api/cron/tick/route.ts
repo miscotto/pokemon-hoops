@@ -114,7 +114,11 @@ export async function GET(req: NextRequest) {
     const allPlayoffGames = await getSeasonGames(season.id, { gameType: "playoff" });
     const rounds = [...new Set(allPlayoffGames.map((g) => g.round).filter(Boolean))].sort();
     for (const round of rounds) {
-      await tryAdvancePlayoffRound(season.id, round!);
+      try {
+        await tryAdvancePlayoffRound(season.id, round!);
+      } catch (err) {
+        console.error(`[cron/tick] tryAdvancePlayoffRound failed for season ${season.id} round ${round}:`, err);
+      }
     }
   }
 
