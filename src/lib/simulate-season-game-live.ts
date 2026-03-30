@@ -79,10 +79,34 @@ export async function simulateSeasonGameLive(gameId: string): Promise<void> {
   const winnerId = team1Score > team2Score ? game.team1UserId : game.team2UserId;
   const loserId = winnerId === game.team1UserId ? game.team2UserId : game.team1UserId;
 
-  await writeSeasonGameResult(gameId, seasonId, game.team1UserId, team1Score, team2Score, winnerId, loserId);
+  const seriesResult = await writeSeasonGameResult(
+    gameId, seasonId, game.team1UserId, team1Score, team2Score, winnerId, loserId
+  );
 
-  // For playoff games, try to advance the round
-  if (game.gameType === "playoff" && game.round != null) {
+  if (seriesResult) {
+    if (seriesResult.nextGameNumber !== null) {
+      // Series continues — schedule the next game in this series
+      await db.insert(seasonGames).values({
+        seasonId,
+        gameType: "playoff",
+        team1UserId: seriesResult.team1UserId,
+        team1Name: seriesResult.team1Name,
+        team2UserId: seriesResult.team2UserId,
+        team2Name: seriesResult.team2Name,
+        scheduledAt: new Date(Date.now() + 5 * 60 * 1000), // 5 minutes from now
+        round: seriesResult.round,
+        matchupIndex: seriesResult.matchupIndex,
+        seriesId: seriesResult.seriesId,
+        gameNumberInSeries: seriesResult.nextGameNumber,
+        status: "pending",
+      });
+    } else {
+      // Series clinched — advance the playoff round (opens its own tx with advisory lock)
+      await tryAdvancePlayoffRound(seasonId, seriesResult.round);
+    }
+  } else if (game.gameType === "playoff" && game.round != null && !game.seriesId) {
+    // Legacy: in-flight playoff games from before the migration have no seriesId.
+    // Fall back to the old round-advancement path so they complete cleanly.
     await tryAdvancePlayoffRound(seasonId, game.round);
   }
 }
