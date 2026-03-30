@@ -22,11 +22,12 @@ export async function GET(
   const statusParam = searchParams.get("status") ?? undefined;
   const status = statusParam ? (STATUS_MAP[statusParam] ?? undefined) : undefined;
   const userId = searchParams.get("userId") ?? undefined;
+  const gameType = searchParams.get("gameType") ?? undefined;
   const limitRaw = Number(searchParams.get("limit") ?? "50");
   const offsetRaw = Number(searchParams.get("offset") ?? "0");
   const limit = Number.isFinite(limitRaw) ? limitRaw : 50;
   const offset = Number.isFinite(offsetRaw) ? offsetRaw : 0;
 
-  const games = await getSeasonGamesFiltered(seasonId, { status, userId, limit, offset });
+  const games = await getSeasonGamesFiltered(seasonId, { status, userId, gameType, limit, offset });
   return NextResponse.json(games);
 }
