@@ -398,22 +398,40 @@ export async function writeSeasonGameResult(
     const series = seriesRows[0];
     if (!series) return;
 
+    // Atomic win increment — avoids read-modify-write race condition
     const isTeam1Winner = winnerId === series.team1UserId;
-    const newTeam1Wins = series.team1Wins + (isTeam1Winner ? 1 : 0);
-    const newTeam2Wins = series.team2Wins + (isTeam1Winner ? 0 : 1);
+    const updatedSeriesRows = await tx
+      .update(seasonPlayoffSeries)
+      .set({
+        team1Wins: isTeam1Winner
+          ? sql`${seasonPlayoffSeries.team1Wins} + 1`
+          : seasonPlayoffSeries.team1Wins,
+        team2Wins: isTeam1Winner
+          ? seasonPlayoffSeries.team2Wins
+          : sql`${seasonPlayoffSeries.team2Wins} + 1`,
+      })
+      .where(eq(seasonPlayoffSeries.id, game.seriesId))
+      .returning({
+        team1Wins: seasonPlayoffSeries.team1Wins,
+        team2Wins: seasonPlayoffSeries.team2Wins,
+      });
+
+    const updated = updatedSeriesRows[0];
+    if (!updated) return;
+
+    const newTeam1Wins = updated.team1Wins;
+    const newTeam2Wins = updated.team2Wins;
     const seriesWinnerId =
       newTeam1Wins === 4 ? series.team1UserId :
       newTeam2Wins === 4 ? series.team2UserId :
       null;
 
-    await tx
-      .update(seasonPlayoffSeries)
-      .set({
-        team1Wins: newTeam1Wins,
-        team2Wins: newTeam2Wins,
-        ...(seriesWinnerId ? { winnerId: seriesWinnerId, status: "completed" } : {}),
-      })
-      .where(eq(seasonPlayoffSeries.id, game.seriesId));
+    if (seriesWinnerId) {
+      await tx
+        .update(seasonPlayoffSeries)
+        .set({ winnerId: seriesWinnerId, status: "completed" })
+        .where(eq(seasonPlayoffSeries.id, game.seriesId));
+    }
 
     // Populate result for caller (closure capture — committed when tx resolves)
     seriesResult = {
@@ -427,7 +445,7 @@ export async function writeSeasonGameResult(
       team1Wins: newTeam1Wins,
       team2Wins: newTeam2Wins,
       winnerId: seriesWinnerId,
-      nextGameNumber: seriesWinnerId ? null : (game.gameNumberInSeries ?? 1) + 1,
+      nextGameNumber: seriesWinnerId ? null : Math.min((game.gameNumberInSeries ?? 1) + 1, 7),
     };
   });
 
@@ -609,7 +627,9 @@ export async function tryAdvancePlayoffRound(seasonId: string, completedRound: n
     for (let i = 0; i < seriesInRound.length; i += 2) {
       const s1 = seriesInRound[i];
       const s2 = seriesInRound[i + 1];
-      if (!s1 || !s2 || !s1.winnerId || !s2.winnerId) return;
+      if (!s1 || !s2 || !s1.winnerId || !s2.winnerId) {
+        throw new Error(`[tryAdvancePlayoffRound] Unexpected missing winner in round ${completedRound} series pairing (season ${seasonId})`);
+      }
       const w1Name = s1.winnerId === s1.team1UserId ? s1.team1Name : s1.team2Name;
       const w2Name = s2.winnerId === s2.team1UserId ? s2.team1Name : s2.team2Name;
       nextMatchups.push({
