@@ -165,6 +165,32 @@ export const seasonLockedPokemon = pgTable(
   (t) => [primaryKey({ columns: [t.seasonId, t.pokemonId] })]
 );
 
+export const seasonPlayoffSeries = pgTable(
+  "season_playoff_series",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    seasonId: uuid("season_id")
+      .notNull()
+      .references(() => seasons.id, { onDelete: "cascade" }),
+    round: integer("round").notNull(), // 1=QF, 2=SF, 3=Finals
+    matchupIndex: integer("matchup_index").notNull(), // 0–3 QF, 0–1 SF, 0 Finals
+    team1UserId: text("team1_user_id").notNull(),
+    team1Name: text("team1_name").notNull(),
+    team2UserId: text("team2_user_id").notNull(),
+    team2Name: text("team2_name").notNull(),
+    team1Wins: integer("team1_wins").notNull().default(0),
+    team2Wins: integer("team2_wins").notNull().default(0),
+    winnerId: text("winner_id"),
+    // 'active' | 'completed'
+    status: text("status").notNull().default("active"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [
+    index("season_playoff_series_season_id_idx").on(t.seasonId),
+    index("season_playoff_series_season_round_idx").on(t.seasonId, t.round),
+  ]
+);
+
 export const seasonGames = pgTable(
   "season_games",
   {
@@ -188,6 +214,8 @@ export const seasonGames = pgTable(
     sweepNumber: integer("sweep_number"), // 1–7 for regular season; null for playoffs
     round: integer("round"), // playoffs: 1=QF, 2=SF, 3=Finals; null for regular
     matchupIndex: integer("matchup_index"), // playoffs only
+    seriesId: uuid("series_id").references(() => seasonPlayoffSeries.id, { onDelete: "set null" }),
+    gameNumberInSeries: integer("game_number_in_series"), // 1–7; null for regular season
   },
   (t) => [
     index("season_games_season_id_idx").on(t.seasonId),
