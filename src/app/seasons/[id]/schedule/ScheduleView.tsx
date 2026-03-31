@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 
 type Tab = "live" | "upcoming" | "completed";
@@ -60,17 +60,22 @@ export default function ScheduleView({ seasonId, teams, defaultTab, initialGames
   );
 
   // Re-fetch when tab or team filter changes (skip on first render — initialGames already set)
-  const isFirstRender = useState(true);
+  const isFirstRender = useRef(true);
   useEffect(() => {
-    if (isFirstRender[0]) { isFirstRender[1](false); return; }
+    if (isFirstRender.current) { isFirstRender.current = false; return; }
     setOffset(0);
     fetchGames(tab, userId, 0, false);
-  }, [tab, userId]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [tab, userId, fetchGames]);
 
-  // Auto-refresh live tab every 30 seconds
+  // Auto-refresh live tab every 30 seconds (only when not paginated past first page)
   useEffect(() => {
     if (tab !== "live") return;
-    const id = setInterval(() => fetchGames("live", userId, 0, false), 30_000);
+    const id = setInterval(() => {
+      setOffset((currentOffset) => {
+        if (currentOffset <= 50) fetchGames("live", userId, 0, false);
+        return currentOffset;
+      });
+    }, 30_000);
     return () => clearInterval(id);
   }, [tab, userId, fetchGames]);
 
