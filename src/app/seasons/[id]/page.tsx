@@ -3,8 +3,9 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { getSeason, getSeasonTeams, getSeasonGames, getUserSeasonTeam } from "@/lib/season-db";
+import { getSeason, getSeasonTeams, getSeasonGames, getUserSeasonTeam, getSeasonPlayoffSeries } from "@/lib/season-db";
 import { computeStandings } from "@/lib/season-standings";
+import PlayoffBracket from "./components/PlayoffBracket";
 
 export default async function SeasonDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -32,7 +33,9 @@ export default async function SeasonDetailPage({ params }: { params: Promise<{ i
 
   const recentGames = await getSeasonGames(id, { gameType: "regular" });
   const completedGames = recentGames.filter((g) => g.status === "completed").slice(-10).reverse();
-  const playoffGames = (season.status === "playoffs" || season.status === "completed")
+  const isPlayoffs = season.status === "playoffs" || season.status === "completed";
+  const playoffSeries = isPlayoffs ? await getSeasonPlayoffSeries(id) : [];
+  const playoffGames = playoffSeries.length > 0
     ? await getSeasonGames(id, { gameType: "playoff" })
     : [];
 
@@ -121,18 +124,11 @@ export default async function SeasonDetailPage({ params }: { params: Promise<{ i
         {season.status === "active" && <p className="text-xs text-gray-400 mt-1">Top 8 (blue) advance to playoffs</p>}
       </section>
 
-      {/* Playoff bracket (if in playoffs) */}
-      {playoffGames.length > 0 && (
+      {/* Playoff bracket */}
+      {isPlayoffs && playoffSeries.length > 0 && (
         <section>
           <h2 className="text-lg font-semibold mb-3">Playoffs</h2>
-          <div className="flex flex-col gap-2">
-            {playoffGames.map((g) => (
-              <Link key={g.id} href={`/seasons/${id}/games/${g.id}`} className="flex items-center justify-between border rounded p-3 hover:bg-gray-50">
-                <span className="text-sm">{g.team1Name} vs {g.team2Name}</span>
-                <span className="text-sm font-mono">{g.status === "completed" ? `${g.team1Score}–${g.team2Score}` : g.status}</span>
-              </Link>
-            ))}
-          </div>
+          <PlayoffBracket seasonId={id} series={playoffSeries} games={playoffGames} />
         </section>
       )}
 
