@@ -42,6 +42,9 @@ export default async function SeasonDetailPage({ params }: { params: Promise<{ i
         <div>
           <Link href="/seasons" className="text-sm text-gray-500 hover:underline">← Seasons</Link>
           <h1 className="text-2xl font-bold mt-1">{season.name}</h1>
+          <Link href={`/seasons/${id}/schedule`} className="text-sm text-blue-600 hover:underline mt-1 inline-block">
+            View Full Schedule →
+          </Link>
           <p className="text-gray-500 text-sm capitalize">{season.status.replace("_", " ")}</p>
         </div>
         <div className="flex gap-2">
