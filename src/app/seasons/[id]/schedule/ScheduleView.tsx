@@ -12,7 +12,7 @@ interface Game {
   team1Score: number | null;
   team2Score: number | null;
   status: string;
-  scheduledAt: string;
+  scheduledAt: Date | string;
   gameType: string;
   round: number | null;
 }
